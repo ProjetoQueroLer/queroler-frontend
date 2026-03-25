@@ -27,7 +27,7 @@ A plataforma Quero Ler é uma aplicação social dedicada a usuários que deseja
 - **Administrador**: Incluir documentos e excluir usuários
 - **Moderador**: Excluir comentários que não estão de acordo com as diretrizes
 
-## �🚀 Tecnologias
+## 🚀 Tecnologias
 
 - **Next.js** 16.2.1 - Framework React com SSR e otimizações
 - **React** 19.2.4 - Biblioteca UI
