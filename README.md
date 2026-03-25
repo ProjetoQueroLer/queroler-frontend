@@ -35,6 +35,7 @@ A plataforma Quero Ler é uma aplicação social dedicada a usuários que deseja
 - **Tailwind CSS** 4 - Utility-first CSS framework
 - **Jest** 30.3.0 - Framework de testes
 - **Testing Library** 16.3.2 - Testes de componentes React
+- **Cypress** 15.13.0 - Testes end-to-end (E2E)
 - **ESLint** 9 - Análise estática de código
 - **Prettier** 3.8.1 - Formatação de código
 - **CommitLint** 20.5.0 - Validação de mensagens de commit
@@ -90,6 +91,8 @@ npm run typecheck  # Verifica tipos TypeScript
 ```bash
 npm test           # Executa testes com Jest
 npm run test:coverage  # Executa testes com coverage
+npm run test:e2e   # Executa testes E2E em modo headless
+npm run test:e2e:open  # Abre Cypress em modo interativo
 ```
 
 ## 📁 Estrutura do Projeto
@@ -114,6 +117,14 @@ src/
 │   └── globals.css      # Estilos globais
 └── tests/               # Testes de exemplo
     └── exemple.spec.tsx
+
+e2e/
+└── example.cy.ts         # Primeiro teste E2E de exemplo
+
+cypress/
+└── support/
+  ├── e2e.ts            # Setup global dos testes E2E
+  └── commands.ts       # Comandos customizados do Cypress
 ```
 
 ## ⚙️ Configurações
@@ -146,6 +157,12 @@ src/
 - Module mapping: `@/*` resolvido via `<rootDir>/src/*`
 - Coverage ignora: node_modules, .next, e componentes UI
 
+### Cypress (`cypress.config.ts`)
+
+- `baseUrl`: `http://localhost:3000`
+- `specPattern`: `e2e/**/*.cy.{js,jsx,ts,tsx}`
+- `supportFile`: `cypress/support/e2e.ts`
+
 ## 🪝 Git Hooks (Lefthook)
 
 Configurado automaticamente ao instalar dependências:
@@ -171,6 +188,32 @@ Configurado automaticamente ao instalar dependências:
 - Testes unitários junto aos componentes (`.spec.tsx`)
 - Setup customizado via `src/lib/test-utils.tsx`
 - Imports utilizando `@/lib/test-utils` em vez de `@testing-library/react`
+- Testes E2E na raiz em `e2e/**/*.cy.ts`
+
+### Testes E2E (Cypress)
+
+1. Inicie a aplicação local:
+
+```bash
+npm run dev
+```
+
+2. Em outro terminal, execute os testes E2E:
+
+```bash
+npm run test:e2e
+```
+
+Ou abra a interface do Cypress:
+
+```bash
+npm run test:e2e:open
+```
+
+### Exemplo E2E
+
+- Arquivo: `e2e/example.cy.ts`
+- Cenário atual: acessa `/` e valida o título `Login`
 
 ### Exemplo
 
