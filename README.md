@@ -298,4 +298,22 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 - [Tailwind CSS](https://tailwindcss.com)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs)
 - [Jest Documentation](https://jestjs.io)
-- [Testing Library](https://testing-library.com)
+
+## 📑 Padrão de nomes de branch
+
+Para garantir organização e rastreabilidade, utilize o seguinte padrão ao criar branches:
+
+- `feat/nome-da-tarefa` – novas funcionalidades
+- `fix/nome-da-tarefa` – correções de bugs
+- `chore/nome-da-tarefa` – tarefas de manutenção
+- `refactor/nome-da-tarefa` – refatorações
+- `test/nome-da-tarefa` – testes
+- `docs/nome-da-tarefa` – documentação
+- `ci/nome-da-tarefa` – integração contínua
+- `build/nome-da-tarefa` – ajustes de build
+- `perf/nome-da-tarefa` – melhorias de performance
+- `style/nome-da-tarefa` – ajustes de formatação/estilo
+
+Exemplo válido: `feat/login-form`
+
+Commits e pushes serão bloqueados caso o nome da branch não siga esse padrão.
