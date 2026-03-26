@@ -1,1 +1,70 @@
-@import '../app/globals.css';
+@import 'tailwindcss';
+
+:root {
+  /* Cores principais do layout */
+  --color-background: #0c0a15;
+  --color-foreground: #ffffff;
+  --color-brand: #e41b6f;
+
+  /* Cores de texto */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94a3b8;
+
+  /* Cores de status/badges */
+  --color-desired: #ffa47c;
+  --color-active: #eab308;
+  --color-consulting: #108981;
+  --color-pause: #3b82f6;
+
+  /* Cores de seções */
+  --color-dark-purple: #25213d;
+  --color-card-bg: #0d0b16;
+  --color-border: #2d293d;
+  --color-secondary-bg: #110f1a;
+
+  /* Cores neutras */
+  --color-white: #ffffff;
+  --color-black: #0c0a15;
+  --color-gray: #687280;
+
+  --color-input-bg: #0e0d17;
+  --color-placeholder: #3a3744;
+  --color-border-default: #1d1a29;
+  --color-border-hover: #3a3845;
+
+  /* Button colors for design system */
+  --color-primary-button: #26223e;
+  --color-secondary-button: #201e32;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-background-secondary: var(--color-secondary-bg);
+  --color-background-input: var(--color-input-bg);
+  --color-placeholder: var(--color-placeholder);
+  --color-primary-button: var(--color-primary-button);
+  --color-secondary-button: var(--color-secondary-button);
+  --color-border-default: var(--color-border-default);
+  --color-brand: var(--color-brand);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-desired: var(--color-desired);
+  --color-active: var(--color-active);
+  --color-consulting: var(--color-consulting);
+  --color-pause: var(--color-pause);
+  --color-dark-purple: var(--color-dark-purple);
+  --color-card-bg: var(--color-card-bg);
+  --color-border: var(--color-border);
+  --color-border-hover: var(--color-border-hover);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+}
+
+body {
+  color: var(--color-foreground);
+  font-family: 'Plus Jakarta Sans', var(--font-layout-display), sans-serif;
+}
