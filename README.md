@@ -278,10 +278,26 @@ git push origin feat/minha-feature
 
 - ✅ Use alias `@/` para imports (ESLint valida)
 - ✅ Escreva testes para novos componentes
+- ✅ Sempre utilize o atributo `data-testid` em elementos interativos (inputs, botões, links, etc) para facilitar a seleção em testes unitários e E2E. Padronize nomes como `data-testid="input-email"`, `data-testid="login-submit-button"` etc.
 - ✅ Mantenha TypeScript strict mode habilitado
 - ✅ Formate código com Prettier antes de commitar
 - ✅ Siga Conventional Commits para mensagens
 - ✅ Evite `console.log` desnecessários (ESLint valida)
+
+### Fluxo recomendado de atualização de branch
+
+1. Sempre atualize sua branch a partir da master antes de subir alterações:
+
+```bash
+git checkout master
+git pull origin master
+git checkout sua-branch
+git rebase master
+# Resolva conflitos se houver
+git push --f
+```
+
+2. Isso garante que seu código está atualizado com a base principal e evita conflitos no Pull Request.
 
 ## 🔍 Variáveis de Ambiente
 
@@ -298,6 +314,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 - [Tailwind CSS](https://tailwindcss.com)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs)
 - [Jest Documentation](https://jestjs.io)
+- [Figma do projeto](https://www.figma.com/design/uudHwRWGRUEJ3rFkvBB6Sm/Sem-t%C3%ADtulo?node-id=0-1&p=f&t=fOdXlUWC83veuFl8-0)
 
 ## 📑 Padrão de nomes de branch
 
