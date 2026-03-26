@@ -1,4 +1,4 @@
-import { render, screen } from '@/lib/test-utils';
+import { render, screen } from '@/presentation/shared/lib/test-utils';
 
 describe('Example test', () => {
   it('should pass', () => {

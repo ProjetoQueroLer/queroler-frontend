@@ -1,6 +1,6 @@
 describe('Home page', () => {
-  it('should render login heading', () => {
+  it('deve exibir o heading de boas-vindas', () => {
     cy.visit('/');
-    cy.contains('h1', 'Login').should('be.visible');
+    cy.contains('h1', 'Bem-vindo').should('be.visible');
   });
 });
