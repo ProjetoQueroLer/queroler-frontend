@@ -1,5 +1,5 @@
-import { Login } from '@/presentation/pages/login';
+import { AuthStep } from '@/presentation/pages/authStep/AuthStep';
 
 export default function Home() {
-  return <Login />;
+  return <AuthStep />;
 }
