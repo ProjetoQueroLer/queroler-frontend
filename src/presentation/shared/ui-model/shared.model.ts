@@ -10,3 +10,8 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   iconLeft?: React.ReactNode;
   dataTestId?: string;
 };
+
+export interface FieldErrorProps {
+  message?: string;
+  className?: string;
+}
