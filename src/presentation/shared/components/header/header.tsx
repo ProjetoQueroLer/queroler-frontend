@@ -1,49 +1,74 @@
 'use client';
 
-import { Bell, ChevronDown, LogOut, User } from 'lucide-react';
-import { useState } from 'react';
+import { Bell, BookOpen, ChevronDown, LogOut } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { LogoHeader } from '@/presentation/shared/components/logoHeader/LogoHeader';
+import { useState } from 'react';
 
 export function Header() {
-  const [menuOpen, setIsMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   function handleLogout() {
-    router.push('/login');
+    router.push('/');
   }
 
   return (
-    <header className="w-full flex items-center justify-between px-8 py-4 bg-dark-purple border-b border-border">
-      <LogoHeader />
-      <div className="flex items-center gap-6">
+    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+      {/* Logo na esquerda */}
+      <Image
+        src="/logo-small.svg"
+        alt="Quero Ler"
+        width={120}
+        height={36}
+        priority
+        className="h-auto w-auto"
+      />
+
+      {/* Ícones e Usuário na direita */}
+      <div className="flex items-center gap-3 lg:gap-6">
+        {/* Ícone livro desabilitado */}
+        <BookOpen size={20} className="text-color-text-primary" />
+
+        {/* Sino desabilitado */}
         <Bell
           data-testid="bell-icon"
-          className="text-text-secondary opacity-40 cursor-not-allowed"
-          size={22}
+          size={20}
+          className="text-text-secondary opacity-40"
         />
 
-        <div className="relative">
+        {/* Separador vertical */}
+        <div className="w-px h-5 bg-border" />
+
+        {/* Dropdown */}
+        <div className="relative min-w-fit">
           <button
             data-testid="user-menu-trigger"
-            onClick={() => setIsMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
-              <User size={16} className="text-white" />
-            </div>
-            <span className="text-text-primary text-sm">Nome do usuário</span>
-            <ChevronDown size={16} className="text-text-secondary" />
+            <span className="text-text-primary text-sm font-medium hidden lg:block">
+              Nome do Usuário
+            </span>
+            <ChevronDown size={14} className="text-text-secondary" />
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-2 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50">
+            <div className="absolute right-0 mt-2 w-full min-w-[120px] bg-card-bg border border-border rounded-lg shadow-lg z-50 flex flex-col p-1">
+              <button
+                data-testid="profile-button"
+                onClick={() => router.push('/')}
+                className="w-full flex items-center px-4 py-2 text-sm text-color-text-primary hover:opacity-80 rounded-lg"
+              >
+                Perfil
+              </button>
+
               <button
                 data-testid="logout-button"
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg"
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-brand hover:opacity-80 rounded-lg"
               >
-                <LogOut size={14} />
+                <LogOut size={14} className="text-brand" />
                 Sair
               </button>
             </div>
