@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/presentation/shared/components';
 import { AuthFields } from '@/presentation/shared/components/AuthFields';
 import { ArrowRight } from 'lucide-react';
@@ -53,7 +55,16 @@ export function LoginForm() {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <AuthFields register={register} errors={errors} />
+        <AuthFields
+          register={{
+            email: register('email'),
+            password: register('password'),
+          }}
+          errors={{
+            email: errors.email,
+            password: errors.password,
+          }}
+        />
 
         <div className="flex justify-end mb-2">
           <Link

@@ -1,7 +1,10 @@
+import { UseFormRegisterReturn } from 'react-hook-form';
+
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   icon?: React.ReactNode;
   dataTestId?: string;
+  registerWithMaskConfig?: Partial<UseFormRegisterReturn>;
 }
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -13,5 +16,12 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export interface FieldErrorProps {
   message?: string;
+  className?: string;
+}
+
+export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  id: string;
+  error?: boolean;
   className?: string;
 }

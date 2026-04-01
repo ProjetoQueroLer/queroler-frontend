@@ -6,6 +6,7 @@ export const Input = ({
   icon,
   id,
   dataTestId,
+  registerWithMaskConfig,
   ...props
 }: InputProps) => {
   return (
@@ -31,6 +32,7 @@ export const Input = ({
           aria-label={!label ? props.placeholder : undefined}
           data-testid={dataTestId}
           {...props}
+          {...(registerWithMaskConfig || {})}
           className={cn(
             'flex-1 h-11 outline-none text-zinc-100 placeholder:text-placeholder text-base md:text-sm',
             icon ? 'pl-0' : 'pl-1',

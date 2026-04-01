@@ -2,7 +2,7 @@ import { render, screen } from '@/presentation/shared/lib/test-utils';
 import { Login } from '@/presentation/pages/login';
 
 describe('Login page', () => {
-  it('should render the welcome heading', () => {
+  it('deve renderizar o heading de boas-vindas', () => {
     render(<Login />);
 
     expect(
