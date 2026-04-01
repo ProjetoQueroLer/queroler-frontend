@@ -1,13 +1,20 @@
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import {
+  UseFormRegisterReturn,
+  FieldError as RHFFieldError,
+} from 'react-hook-form';
 import { Mail, Lock } from 'lucide-react';
 import { Input } from '@/presentation/shared/components/input/Input';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 
-type AuthFieldsValues = { email: string; password: string };
-
 interface AuthFieldsProps {
-  register: UseFormRegister<AuthFieldsValues>;
-  errors: FieldErrors<AuthFieldsValues>;
+  register: {
+    email: UseFormRegisterReturn;
+    password: UseFormRegisterReturn;
+  };
+  errors: {
+    email?: RHFFieldError;
+    password?: RHFFieldError;
+  };
 }
 
 export function AuthFields({ register, errors }: AuthFieldsProps) {
@@ -23,24 +30,24 @@ export function AuthFields({ register, errors }: AuthFieldsProps) {
           dataTestId="input-email"
           autoComplete="email"
           maxLength={256}
-          {...register('email')}
-          aria-invalid={!!errors['email']}
+          {...register.email}
+          aria-invalid={!!errors.email}
         />
-        <FieldError message={errors['email']?.message as string} />
+        <FieldError message={errors.email?.message as string} />
       </div>
       <div>
         <Input
           label="Senha"
           type="password"
-          id="password"
+          id="senha"
           placeholder="Sua senha"
           icon={<Lock size={18} />}
-          dataTestId="input-password"
+          dataTestId="input-senha"
           autoComplete="current-password"
-          {...register('password')}
-          aria-invalid={!!errors['password']}
+          {...register.password}
+          aria-invalid={!!errors.password}
         />
-        <FieldError message={errors['password']?.message as string} />
+        <FieldError message={errors.password?.message as string} />
       </div>
     </>
   );
