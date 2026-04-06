@@ -28,14 +28,24 @@ export function Header() {
       {/* Ícones e Usuário na direita */}
       <div className="flex items-center gap-3 lg:gap-6">
         {/* Ícone livro desabilitado */}
-        <BookOpen size={20} className="text-color-text-primary" />
+        <div className="relative group">
+          <BookOpen size={20} className="text-color-text-primary" />
+          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Leitura
+          </span>
+        </div>
 
         {/* Sino desabilitado */}
-        <Bell
-          data-testid="bell-icon"
-          size={20}
-          className="text-text-secondary opacity-40"
-        />
+        <div className="relative group">
+          <Bell
+            data-testid="bell-icon"
+            size={20}
+            className="text-text-secondary opacity-40"
+          />
+          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Notificação
+          </span>
+        </div>
 
         {/* Separador vertical */}
         <div className="w-px h-5 bg-border" />
