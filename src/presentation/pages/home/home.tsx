@@ -1,5 +1,7 @@
-import { Header } from '@/presentation/shared/components/header/header';
-import { SearchBar } from '@/presentation/shared/components/search-bar/search-bar';
+import { Header } from '@/presentation/shared/components/header/Header';
+import { SearchBar } from '@/presentation/shared/components/searchBar/SearchBar';
+import { BookOpen, BookMarked, CheckCircle, MinusCircle } from 'lucide-react';
+import { BookSection } from '@/presentation/shared/components/bookSection/BookSection';
 
 export const Home = () => {
   return (
@@ -13,6 +15,33 @@ export const Home = () => {
           Organize sua jornada literária e acompanhe seu progresso.
         </p>
         <SearchBar />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <BookSection
+            title="Livros que Quero Ler"
+            tag="DESEJOS"
+            tagColor="bg-desired/15 text-desired"
+            icon={<BookMarked size={18} className="text-desired" />}
+          />
+          <BookSection
+            title="Livros que estou lendo"
+            tag="ATIVO"
+            tagColor="bg-active/15 text-active"
+            icon={<BookOpen size={18} className="text-active" />}
+          />
+          <BookSection
+            title="Livros lidos"
+            tag="CONCLUÍDO"
+            tagColor="bg-completed/15 text-completed"
+            icon={<CheckCircle size={18} className="text-completed" />}
+          />
+          <BookSection
+            title="Livros abandonados"
+            tag="PAUSA"
+            tagColor="bg-pause/15 text-pause"
+            icon={<MinusCircle size={18} className="text-pause" />}
+          />
+        </div>
       </main>
     </div>
   );
