@@ -3,7 +3,8 @@
 import { Bell, ChevronDown, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogoHeader } from '@/presentation/shared/components/logoHeader/LogoHeader';
+import Image from 'next/image';
+import { BookOpen } from 'lucide-react';
 
 export function Header() {
   const [menuOpen, setIsMenuOpen] = useState(false);
@@ -14,14 +15,38 @@ export function Header() {
   }
 
   return (
-    <header className="w-full flex items-center justify-between px-8 py-4 bg-dark-purple border-b border-border">
-      <LogoHeader />
-      <div className="flex items-center gap-6">
-        <Bell
-          data-testid="bell-icon"
-          className="text-text-secondary opacity-40 cursor-not-allowed"
-          size={22}
-        />
+    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+      {/* Logo na esquerda */}
+      <Image
+        src="/logo-small.svg"
+        alt="Quero Ler"
+        width={120}
+        height={36}
+        priority
+        className="h-auto w-auto"
+      />
+
+      {/* Ícones e Usuário na direita */}
+      <div className="flex items-center gap-3 lg:gap-6">
+        {/* Ícone livro desabilitado */}
+        <div className="relative group">
+          <BookOpen size={20} className="text-color-text-primary" />
+          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Leitura
+          </span>
+        </div>
+
+        {/* Sino desabilitado */}
+        <div className="relative group">
+          <Bell
+            data-testid="bell-icon"
+            size={20}
+            className="text-text-secondary opacity-40"
+          />
+          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Notificação
+          </span>
+        </div>
 
         <div className="relative">
           <button

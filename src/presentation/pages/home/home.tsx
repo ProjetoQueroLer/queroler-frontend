@@ -1,7 +1,7 @@
-import { Header } from '@/presentation/shared/components/header/Header';
 import { SearchBar } from '@/presentation/shared/components/searchBar/SearchBar';
 import { BookOpen, BookMarked, CheckCircle, MinusCircle } from 'lucide-react';
 import { BookSection } from '@/presentation/shared/components/bookSection/BookSection';
+import { Header } from '@/presentation/shared/components/header/header';
 
 export const Home = () => {
   return (
