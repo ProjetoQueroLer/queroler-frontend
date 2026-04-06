@@ -1,34 +1,27 @@
 'use client';
 
-import { Button } from '@/presentation/shared/components';
-import { AuthFields } from '@/presentation/shared/components/AuthFields';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { HeaderForm } from '@/presentation/pages/login';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
 
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'E-mail obrigatório')
-    .max(256, 'Máximo de 256 caracteres')
-    .email({ message: 'E-mail inválido' }),
-  password: z
-    .string()
-    .min(6, 'Mínimo 6 caracteres')
-    .nonempty('Senha obrigatória'),
-});
-
-type LoginFormFields = z.infer<typeof loginSchema>;
+import { loginAction } from '@/app/actions/auth/login.actions';
+import { loginSchema, LoginDTO } from '@/core/application/auth/login.dto';
+import { Button } from '@/presentation/shared/components';
+import { AuthFields } from '@/presentation/shared/components/AuthFields';
+import { HeaderForm } from '@/presentation/pages/auth';
+import { useAuth } from '@/presentation/shared/lib/auth-context';
 
 export function LoginForm() {
+  const router = useRouter();
+  const { setAuthenticated } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<LoginFormFields>({
+  } = useForm<LoginDTO>({
     resolver: zodResolver(loginSchema),
     mode: 'onTouched',
     reValidateMode: 'onChange',
@@ -39,8 +32,18 @@ export function LoginForm() {
     criteriaMode: 'all',
   });
 
-  const onSubmit = (_data: LoginFormFields) => {
-    // TODO: Implementar autenticação
+  const onSubmit = async (data: LoginDTO) => {
+    const result = await loginAction(data);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    setAuthenticated(true);
+    toast.success(result.message);
+    router.refresh();
+    router.push('/');
   };
 
   return (

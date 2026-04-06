@@ -6,7 +6,7 @@ import { Mail, ArrowRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LogoHeader } from '@/presentation/pages/login';
+import { LogoHeader } from '@/presentation/pages/auth';
 
 const forgotSchema = z.object({
   email: z

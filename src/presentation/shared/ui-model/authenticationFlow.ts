@@ -1,5 +1,5 @@
 import { Home } from '@/presentation/pages/home/home';
-import { Login } from '@/presentation/pages/login';
+import { Login } from '@/presentation/pages/auth';
 
 export enum AuthStepEnum {
   LOGIN = 'LOGIN',
