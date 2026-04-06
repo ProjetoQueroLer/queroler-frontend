@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { cookies } from 'next/headers';
 
 import '@/styles/globals.css';
+import { Providers } from '@/app/providers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -26,11 +28,14 @@ export const metadata: Metadata = {
   description: 'Criando hábitos de leitura',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const initialIsAuthenticated = Boolean(cookieStore.get('jwt')?.value);
+
   return (
     <html
       lang="en"
@@ -38,7 +43,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <Providers initialIsAuthenticated={initialIsAuthenticated}>
+          {children}
+        </Providers>
         <ToastContainer position="top-right" />
       </body>
     </html>

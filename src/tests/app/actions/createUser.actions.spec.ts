@@ -23,7 +23,7 @@ describe('Server Actions: createUserAction', () => {
     const data = createUserPayload();
     const result = await createUserAction(data);
     expect(result.success).toBe(true);
-    expect(result.message).toBe('User created successfully.');
+    expect(result.message).toBe('Usuário criado com sucesso.');
   });
 
   it('deve validar os dados e retornar erros para dados inválidos', async () => {
@@ -37,7 +37,7 @@ describe('Server Actions: createUserAction', () => {
     const result = await createUserAction(data);
     expect(result.success).toBe(false);
     expect(result.message).toBe(
-      'Invalid data. Please check the form and try again.'
+      'Dados inválidos. Verifique o formulário e tente novamente.'
     );
     expect(result.errors).toBeDefined();
   });
@@ -47,8 +47,6 @@ describe('Server Actions: createUserAction', () => {
     const data = createUserPayload();
     const result = await createUserAction(data);
     expect(result.success).toBe(false);
-    expect(result.message).toBe(
-      'Failed to create user. Please try again later.'
-    );
+    expect(result.message).toBe('UNKNOWN_ERROR');
   });
 });

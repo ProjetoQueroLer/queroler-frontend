@@ -1,4 +1,4 @@
-import { LogoHeader, LoginForm } from '@/presentation/pages/login';
+import { LogoHeader, LoginForm } from '@/presentation/pages/auth';
 
 export const Login = () => {
   return (

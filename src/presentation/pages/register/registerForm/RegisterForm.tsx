@@ -11,7 +11,7 @@ import { ArrowRight } from 'lucide-react';
 import { useRegisterForm } from '@/presentation/pages/register/registerForm/useRegisterForm';
 import { useHookFormMask } from 'use-mask-input';
 import { HeaderRegisterForm } from '@/presentation/pages/register/headerForm/HeaderRegisterForm';
-import { LogoHeader } from '@/presentation/pages/login';
+import { LogoHeader } from '@/presentation/pages/auth';
 import { CreateUserDTO } from '@/core/application/user/create-user.dto';
 import { createUserAction } from '@/app/actions/createUser.actions';
 

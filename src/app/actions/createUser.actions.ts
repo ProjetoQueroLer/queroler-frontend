@@ -16,7 +16,7 @@ export async function createUserAction(data: CreateUserDTO) {
     const { fieldErrors } = z.flattenError(validated.error);
     return {
       success: false,
-      message: 'Invalid data. Please check the form and try again.',
+      message: 'Dados inválidos. Verifique o formulário e tente novamente.',
       errors: fieldErrors,
     };
   }
@@ -26,15 +26,17 @@ export async function createUserAction(data: CreateUserDTO) {
     const useCase = new CreateUserUseCase(repository);
     await useCase.execute(validated.data);
     revalidatePath('/', 'layout');
-  } catch {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return {
       success: false,
-      message: 'Failed to create user. Please try again later.',
+      message:
+        errorMessage || 'Falha ao criar usuário. Tente novamente mais tarde.',
     };
   }
 
   return {
     success: true,
-    message: 'User created successfully.',
+    message: 'Usuário criado com sucesso.',
   };
 }
