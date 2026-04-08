@@ -1,4 +1,7 @@
-import { LoginDTO } from '@/core/application/auth/login.dto';
+export interface LoginData {
+  email: string;
+  password: string;
+}
 
 export interface LoginResponse {
   accessToken?: string;
@@ -8,5 +11,5 @@ export interface LoginResponse {
 }
 
 export interface AuthRepository {
-  login(data: LoginDTO): Promise<LoginResponse>;
+  login(data: LoginData): Promise<LoginResponse>;
 }
