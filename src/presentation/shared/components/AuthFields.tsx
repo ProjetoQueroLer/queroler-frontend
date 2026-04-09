@@ -46,6 +46,7 @@ export function AuthFields({ register, errors }: AuthFieldsProps) {
           autoComplete="current-password"
           {...register.password}
           aria-invalid={!!errors.password}
+          showPasswordToggle
         />
         <FieldError message={errors.password?.message as string} />
       </div>

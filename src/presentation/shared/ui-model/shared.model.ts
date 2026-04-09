@@ -5,6 +5,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   icon?: React.ReactNode;
   dataTestId?: string;
   registerWithMaskConfig?: Partial<UseFormRegisterReturn>;
+  showPasswordToggle?: boolean;
 }
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
