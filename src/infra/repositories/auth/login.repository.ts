@@ -1,6 +1,6 @@
-import { LoginDTO } from '@/core/application/auth/login.dto';
 import {
   AuthRepository,
+  LoginData,
   LoginResponse,
 } from '@/core/domain/auth/auth.repository';
 import { AxiosInstance } from 'axios';
@@ -8,7 +8,7 @@ import { AxiosInstance } from 'axios';
 export class ApiAuthRepository implements AuthRepository {
   constructor(private readonly api: AxiosInstance) {}
 
-  async login(data: LoginDTO): Promise<LoginResponse> {
+  async login(data: LoginData): Promise<LoginResponse> {
     try {
       const payload = {
         user: data.email,

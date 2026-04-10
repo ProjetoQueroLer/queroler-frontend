@@ -99,33 +99,66 @@ npm run test:e2e:open  # Abre Cypress em modo interativo
 
 ```
 src/
-├── app/                    # Layout e página principal do Next.js
-│   ├── globals.css        # Estilos globais da aplicação
-│   ├── layout.tsx         # Layout raiz
-│   └── page.tsx           # Página home
-├── presentation/          # Componentes de apresentação
-│   ├── pages/            # Páginas da aplicação
-│   │   └── login/        # Página de login
-│   │       ├── login.tsx
-│   │       └── login.spec.tsx
-│   └── shared/           # Componentes reutilizáveis
-│       └── components/
-├── lib/                   # Utilitários e helpers
-│   ├── test-utils.tsx    # Setup customizado para testes
-│   └── utils.ts          # Funções auxiliares (cn, etc)
-├── styles/               # Estilos compartilhados
-│   └── globals.css      # Estilos globais
-└── tests/               # Testes de exemplo
-    └── exemple.spec.tsx
+├── app/                           # Camada de entrada do Next.js (rotas, layouts e server actions)
+│   ├── actions/                   # Actions server-side usadas pelos fluxos da UI
+│   ├── api/                       # Rotas de API do Next.js, quando necessário
+│   ├── layout.tsx                 # Layout raiz e providers globais
+│   └── page.tsx                   # Página inicial
+├── core/                          # Regras de negócio e contratos do domínio
+│   ├── application/               # Casos de uso e DTOs
+│   └── domain/                    # Entidades, enums e interfaces de repositório
+├── infra/                         # Implementações concretas de integração externa
+│   ├── http/                      # Cliente HTTP compartilhado
+│   └── repositories/              # Implementação dos repositórios que falam com o backend
+├── presentation/                  # Camada de UI
+│   ├── pages/                     # Páginas/fluxos de tela
+│   ├── shared/                    # Componentes, hooks, context e utilitários de UI
+│   └── ui-model/                  # Modelos usados pela apresentação
+├── styles/                        # Estilos globais
+└── tests/                         # Testes unitários e mocks
 
-e2e/
-└── example.cy.ts         # Primeiro teste E2E de exemplo
-
-cypress/
-└── support/
-  ├── e2e.ts            # Setup global dos testes E2E
-  └── commands.ts       # Comandos customizados do Cypress
+cypress/                           # Testes E2E com Cypress
+└── support/                       # Comandos e setup global
 ```
+
+## 🧱 Arquitetura e Integração com o Backend
+
+O projeto segue uma organização inspirada em Clean Architecture para separar responsabilidade e facilitar manutenção.
+
+### `app/`
+
+- Ponto de entrada do Next.js.
+- Contém layouts, páginas e server actions.
+- As server actions concentram chamadas que precisam rodar no servidor, como login e criação de usuário.
+
+### `core/`
+
+- Onde ficam as regras de negócio.
+- `application/` contém os casos de uso e os DTOs de entrada/saída.
+- `domain/` define contratos, entidades e tipos que não dependem de framework.
+
+### `infra/`
+
+- Implementa a comunicação com recursos externos.
+- `http/` centraliza o cliente Axios usado nas requisições ao backend.
+- `repositories/` contém as implementações concretas dos contratos definidos no domínio.
+- Exemplo: o login envia `user` e `senha` para o backend e lê o cookie `jwt` retornado em `Set-Cookie`.
+
+### `presentation/`
+
+- Responsável pela interface e pela experiência do usuário.
+- `pages/` organiza as telas por fluxo.
+- `shared/` concentra componentes reutilizáveis, contextos e utilitários visuais.
+- O estado de autenticação fica exposto via Context API para uso em qualquer componente client.
+
+### Fluxo de autenticação
+
+1. O usuário preenche o formulário de login na camada de apresentação.
+2. A action server-side chama o caso de uso em `core/application`.
+3. O repositório em `infra/repositories` faz a requisição para o backend.
+4. O backend responde com cookie `jwt` em `Set-Cookie`.
+5. A aplicação grava esse cookie HttpOnly e propaga o estado de autenticação no Context API.
+6. As próximas requisições server-side reutilizam o cookie para enviar o usuário autenticado.
 
 ## ⚙️ Configurações
 
@@ -304,7 +337,13 @@ git push --f
 O projeto suporta arquivo `.env.local` para variáveis de ambiente (exemplo):
 
 ```
-NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+Em produção, a variável deve apontar para o backend publicado, por exemplo:
+
+```bash
+NEXT_PUBLIC_API_URL=https://queroler-backend-production.up.railway.app
 ```
 
 ## 📚 Recursos

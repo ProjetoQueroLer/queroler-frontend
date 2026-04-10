@@ -87,6 +87,7 @@ export function RegisterForm() {
                   autoComplete="new-password"
                   {...register('confirmarSenha')}
                   aria-invalid={!!errors.confirmarSenha}
+                  showPasswordToggle
                 />
                 <FieldError
                   message={errors.confirmarSenha?.message as string}
