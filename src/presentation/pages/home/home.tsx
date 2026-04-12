@@ -18,13 +18,13 @@ export const Home = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection
-            title="Livros que Quero Ler"
+            title="Quero Ler"
             tag="DESEJOS"
             tagColor="bg-desired/15 text-desired"
             icon={<BookMarked size={18} className="text-desired" />}
           />
           <BookSection
-            title="Livros que estou lendo"
+            title="Estou lendo"
             tag="ATIVO"
             tagColor="bg-active/15 text-active"
             icon={<BookOpen size={18} className="text-active" />}
@@ -36,7 +36,7 @@ export const Home = () => {
             icon={<CheckCircle size={18} className="text-completed" />}
           />
           <BookSection
-            title="Livros abandonados"
+            title="Abandonados"
             tag="PAUSA"
             tagColor="bg-pause/15 text-pause"
             icon={<MinusCircle size={18} className="text-pause" />}

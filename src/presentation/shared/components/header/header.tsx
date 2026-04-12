@@ -48,6 +48,8 @@ export function Header() {
           </span>
         </div>
 
+        <div className="w-px h-5 bg-border hidden lg:block" />
+
         <div className="relative">
           <button
             data-testid="user-menu-trigger"
@@ -57,7 +59,9 @@ export function Header() {
             <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
               <User size={16} className="text-white" />
             </div>
-            <span className="text-text-primary text-sm">Nome do usuário</span>
+            <span className="text-text-primary text-sm hidden lg:block">
+              Nome do usuário
+            </span>
             <ChevronDown size={16} className="text-text-secondary" />
           </button>
 
