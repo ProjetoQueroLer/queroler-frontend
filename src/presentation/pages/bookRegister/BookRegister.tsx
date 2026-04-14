@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
+import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 
 export function BookRegister() {
   const router = useRouter();
@@ -101,7 +102,7 @@ export function BookRegister() {
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <label className="text-text-secondary text-xs uppercase tracking-widest">
-                ISBN
+                ISBN <span className="text-red-400">*</span>
               </label>
               <input
                 data-testid="input-isbn"
@@ -116,9 +117,7 @@ export function BookRegister() {
                 }}
                 className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
               />
-              {erro && (
-                <span className="text-red-400 text-xs mt-1">{erro}</span>
-              )}
+              <FieldError message={erro} />
 
               {carregando && (
                 <span className="text-text-secondary text-xs mt-1">
@@ -143,7 +142,7 @@ export function BookRegister() {
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Autor(a)(es)
+                  Autor(es)
                 </label>
                 <input
                   data-testid="input-autor"
@@ -170,7 +169,7 @@ export function BookRegister() {
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Ano de publicação
+                  Ano de Publicação
                 </label>
                 <input
                   data-testid="input-ano"
@@ -182,7 +181,7 @@ export function BookRegister() {
               </div>
               <div className="flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Número de páginas
+                  Número de Páginas
                 </label>
                 <input
                   data-testid="input-paginas"
@@ -196,7 +195,7 @@ export function BookRegister() {
 
             <div>
               <label className="text-text-secondary text-xs uppercase tracking-widest">
-                Idioma
+                Idioma <span className="text-red-400">*</span>
               </label>
               <select
                 data-testid="select-idioma"
@@ -211,7 +210,7 @@ export function BookRegister() {
 
             <div>
               <label className="text-text-secondary text-xs uppercase tracking-widest">
-                Sinopse
+                Sinopse <span className="text-red-400">*</span>
               </label>
               <textarea
                 data-testid="input-sinopse"
@@ -240,7 +239,7 @@ export function BookRegister() {
                 data-testid="btn-salvar"
                 disabled={!podeSalvar}
                 className={`px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white
-                                    ${!podeSalvar ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
+                  ${!podeSalvar ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
               >
                 Salvar dados
               </button>
