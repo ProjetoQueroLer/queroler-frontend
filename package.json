@@ -10,15 +10,23 @@
     "typecheck": "tsc --noEmit --skipLibCheck",
     "lint": "eslint",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "axios": "^1.14.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.6.0",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwind-merge": "^3.5.0"
+    "react-hook-form": "^7.72.0",
+    "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.5.0",
+    "use-mask-input": "^3.9.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
@@ -31,11 +39,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^15.13.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-no-relative-import-paths": "^1.6.1",
     "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "lefthook": "^2.1.4",
