@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   CircleStar,
   BookMarked,
@@ -30,23 +31,23 @@ export function DetailedBookCard({
   readers,
 }: DetailedBookCardProps) {
   return (
-    <div className="relative flex flex-row w-full my-6 w-[180px] lg:w-[280px] bg-card-bg border border-border rounded-xl shadow-xs flex-shrink-0">
-      <div className="relative pr-2.5 lg:w-2/5 shrink-0 overflow-hidden">
+    <div className="flex w-full bg-card-bg border border-border rounded-xl shadow-xs overflow-hidden">
+      <div className="w-[90px] lg:w-[110px] shrink-0">
         <a href={`/livros/${id}`}>
           {cover ? (
-            <img
+            <Image
               src={cover}
               alt={title}
-              className="w-[90px] h-[140px] lg:h-full lg:w-full object-cover rounded-md"
+              className="w-full h-full object-cover rounded-md"
             />
           ) : (
-            <div className="w-[90px] h-[140px] lg:h-full lg:w-full bg-border flex items-center justify-center text-xs text-text-secondary rounded-md text-center px-2">
+            <div className="w-full h-full bg-border flex items-center justify-center text-xs text-text-secondary text-center px-2">
               Sem capa
             </div>
           )}
         </a>
       </div>
-      <div className="flex flex-col justify-between f">
+      <div className="flex flex-col justify-between p-3 gap-2">
         <div>
           <h3 className="text-text-primary font-semibold text-sm leadind-tight">
             {title}
@@ -60,7 +61,7 @@ export function DetailedBookCard({
           )}
         </div>
 
-        <div className="flex flex-wrap gap-3 text-xs text-text-secondary mt-2">
+        <div className="flex flex-wrap gap-2 text-xs text-text-secondary">
           {publisher && (
             <span className="flex items-center gap-1">
               <BookA size={14} /> {publisher}

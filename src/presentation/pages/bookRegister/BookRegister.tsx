@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
+import Image from 'next/image';
 
 export function BookRegister() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export function BookRegister() {
 
     try {
       const resposta = await fetch(
-        `{substituir com o endereço base do .env.local}/livros/buscar/${valor}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/livros/buscar/${valor}`
       );
 
       if (!resposta.ok) {
@@ -81,7 +82,7 @@ export function BookRegister() {
             </span>
             <div className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80">
               {livro.capa ? (
-                <img
+                <Image
                   src={livro.capa}
                   alt="Capa do livro"
                   className="w-full h-full object-cover rounded-xs"
