@@ -1,11 +1,51 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { BookCard } from '@/presentation/shared/components/bookCard/BookCard';
+import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 
-interface PopularBooksProps {
-  total?: number;
+interface Livro {
+  id: string;
+  titulo: string;
+  autores: { nome: string }[];
+  capaUrl: string;
 }
 
-export function PopularBooks({ total }: PopularBooksProps) {
+interface RespostaBack {
+  content: Livro[];
+  totalElements: number;
+}
+
+export function PopularBooks() {
+  const [livros, setLivros] = useState<Livro[]>([]);
+  const [total, setTotal] = useState(0);
+  const [erro, setErro] = useState('');
+
+  useEffect(() => {
+    async function buscarPopulares() {
+      try {
+        const resposta = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/livros/populares`
+        );
+
+        if (!resposta.ok) return;
+
+        const dados: RespostaBack = await resposta.json();
+        setLivros(dados.content);
+        setTotal(dados.totalElements);
+      } catch (error) {
+        if (error instanceof Error) {
+          setErro(error.message);
+        } else {
+          setErro('Erro inesperado.');
+        }
+      }
+    }
+
+    buscarPopulares();
+  }, []);
+
   return (
     <div className="bg-card-bg border border-border rounded-xl px-4 py-3 lg:p-6 lg:py-6 mb-4">
       <div className="flex items-center justify-between mb-4">
@@ -21,20 +61,18 @@ export function PopularBooks({ total }: PopularBooksProps) {
         </span>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        <BookCard
-          title="Percy Jackson e os Olimpianos: O Ladrão de Raios"
-          author="Rick Riordan"
-          cover="https://m.media-amazon.com/images/I/81mfMi0ni+L._UF1000,1000_QL80_.jpg"
-          id="1"
-        />
+      <FieldError message={erro} />
 
-        <BookCard
-          title="O Pequeno Príncipe"
-          author="Antoine de Saint-Exupéry"
-          cover=""
-          id="2"
-        />
+      <div className="flex gap-4 overflow-x-auto pb-2">
+        {livros.map((livro) => (
+          <BookCard
+            key={livro.id}
+            id={livro.id}
+            title={livro.titulo}
+            author={livro.autores[0]?.nome || ''}
+            cover={livro.capaUrl || ''}
+          />
+        ))}
       </div>
     </div>
   );
