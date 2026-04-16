@@ -69,7 +69,7 @@ export function PopularBooks() {
             key={livro.id}
             id={livro.id}
             title={livro.titulo}
-            author={livro.autores[0]?.nome || ''}
+            author={livro.autores?.[0]?.nome || ''}
             cover={livro.capaUrl || ''}
           />
         ))}

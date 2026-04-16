@@ -9,6 +9,7 @@ import Image from 'next/image';
 export function BookRegister() {
   const router = useRouter();
   const [isbn, setIsbn] = useState('');
+  const [idioma, setIdioma] = useState('');
   const [sinopse, setSinopse] = useState('');
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
@@ -20,7 +21,7 @@ export function BookRegister() {
     paginas: '',
     capa: '',
   });
-  const podeSalvar = sinopse.length >= 50 && !!livro.titulo;
+  const podeSalvar = sinopse.length >= 50 && !!livro.titulo && !!idioma;
 
   async function buscarIsbn(valor: string) {
     if (valor.length < 10) return;
@@ -30,7 +31,7 @@ export function BookRegister() {
 
     try {
       const resposta = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/livros/buscar/${valor}`
+        `${process.env.NEXT_PUBLIC_API_URL}/livros/buscar/${valor}`
       );
 
       if (!resposta.ok) {
@@ -55,8 +56,51 @@ export function BookRegister() {
         paginas: dados.numeroDePaginas?.toString() || '',
         capa: dados.capaUrl || '',
       });
-    } catch {
-      setErro('Erro ao buscar o livro. Tente novamente.');
+    } catch (error) {
+      if (error instanceof Error) {
+        setErro(error.message);
+      } else {
+        setErro('Erro inesperado.');
+      }
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  async function salvarLivro() {
+    setCarregando(true);
+    setErro('');
+
+    try {
+      const resposta = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/livros`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            isbn,
+            titulo: livro.titulo,
+            autor: livro.autor,
+            editora: livro.editora,
+            ano: livro.ano,
+            capaUrl: livro.capa,
+            sinopse,
+            idioma: 'pt-br',
+          }),
+        }
+      );
+
+      if (!resposta.ok) return;
+
+      router.push('/');
+    } catch (error) {
+      if (error instanceof Error) {
+        setErro(error.message);
+      } else {
+        setErro('Erro inesperado.');
+      }
     } finally {
       setCarregando(false);
     }
@@ -199,6 +243,8 @@ export function BookRegister() {
                 Idioma <span className="text-red-400">*</span>
               </label>
               <select
+                value={idioma}
+                onChange={(e) => setIdioma(e.target.value)}
                 data-testid="select-idioma"
                 className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none cursor-pointer"
               >
@@ -228,6 +274,8 @@ export function BookRegister() {
               )}
             </div>
 
+            <FieldError message={erro} />
+
             <div className="flex justify-end gap-4 mt-2">
               <button
                 data-testid="btn-cancelar"
@@ -238,6 +286,7 @@ export function BookRegister() {
               </button>
               <button
                 data-testid="btn-salvar"
+                onClick={salvarLivro}
                 disabled={!podeSalvar}
                 className={`px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white
                   ${!podeSalvar ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
