@@ -33,3 +33,10 @@ jobs:
 
       - name: Gerar Build Final
         run: npm run build
+
+      - name: Criar cypress.env.json
+        run: |
+          echo '{
+            "user_name": "${{ secrets.CYPRESS_user_email }}",
+            "user_password": "${{ secrets.CYPRESS_user_senha }}"
+          }' > cypress.env.json
