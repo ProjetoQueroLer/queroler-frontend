@@ -37,7 +37,7 @@ export function LoginForm() {
 
     if (!result.success) {
       toast.error(result.message);
-      return;
+      //return;
     }
 
     setAuthenticated(true);

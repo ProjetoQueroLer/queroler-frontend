@@ -1,177 +1,164 @@
 'use client';
 
-import { DetailedBookCard } from '@/presentation/shared/components/detailedBookCard/DetailedBookCard';
-import { SearchBar } from '@/presentation/shared/components/searchBar/SearchBar';
-import { Header } from '@/presentation/shared/components/header/header';
-import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Modal } from '@/presentation/shared/components/modal/Modal';
-import { useRouter } from 'next/navigation';
-import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
-
-const ITENS_POR_PAGINA = 15;
+import { useState, useEffect } from 'react';
+import { BookCard } from '@/presentation/shared/components/bookCard/BookCard';
+import { mockSearchResults21 } from '@/presentation/shared/components/searchBar/mockSearchResults';
 
 interface Livro {
   id: string;
   titulo: string;
   autores: { nome: string }[];
-  editora: string;
+  editora?: string;
+  capaUrl: string | null;
   numeroDePaginas: number;
   anoDePublicacao: string;
-  capaUrl: string;
+}
+
+interface BookResultsProps {
+  query: string;
+  filtro: string;
 }
 
 interface RespostaBack {
   content: Livro[];
   totalElements: number;
-  totalPages: number;
-  number: number;
 }
 
-export const BooksResults = () => {
-  const searchParams = useSearchParams();
-  const busca = searchParams.get('busca') || '';
-  const filtro = searchParams.get('filtro') || 'titulo';
-  const router = useRouter();
-  const [erro, setErro] = useState('');
-
+export function BookResults({ query, filtro }: BookResultsProps) {
   const [livros, setLivros] = useState<Livro[]>([]);
-  const [total, setTotal] = useState(0);
-  const [totalPaginas, setTotalPaginas] = useState(0);
-  const [paginaAtual, setPaginaAtual] = useState(0);
-  const [carregando, setCarregando] = useState(false);
-  const [modalAberto, setModalAberto] = useState(false);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [erro, setErro] = useState('');
+  const itensPorPagina = 15;
 
-  const buscarLivros = useCallback(
-    async (pagina: number) => {
-      setCarregando(true);
+  useEffect(() => {
+    async function buscarLivros() {
       try {
-        const params = new URLSearchParams();
-        if (filtro === 'titulo') params.set('titulo', busca);
-        if (filtro === 'autor') params.set('autor', busca);
-        if (filtro === 'editora') params.set('editora', busca);
-
-        params.set('page', pagina.toString());
-        params.set('size', ITENS_POR_PAGINA.toString());
-        params.set('sort', 'dataDeCadastro,desc');
-
-        const resposta = await fetch(`/api/livros?${params.toString()}`);
-
-        if (!resposta.ok) return;
-
-        const dados: RespostaBack = await resposta.json();
-        setLivros(dados.content);
-        setTotal(dados.totalElements);
-        setTotalPaginas(dados.totalPages);
-
-        if (dados.totalElements === 0) {
-          setModalAberto(true);
+        if (!query.trim()) {
+          setLivros([]);
+          return;
         }
+
+        // const resposta = await fetch(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/livros/busca?query=${query}`
+        // );
+
+        // if (!resposta.ok) return;
+
+        // const dados: RespostaBack = await resposta.json();
+
+        const dados = mockSearchResults21;
+
+        const termo = query.toLowerCase();
+
+        const filtrados = dados.content
+          .filter((livro) => {
+            if (filtro === 'Título') {
+              return livro.titulo.toLowerCase().includes(termo);
+            }
+
+            if (filtro === 'Autor(a)') {
+              return livro.autores?.some((autor) =>
+                autor.nome.toLowerCase().includes(termo)
+              );
+            }
+
+            if (filtro === 'Editora') {
+              return livro.editora?.toLowerCase().includes(termo);
+            }
+
+            return false;
+          })
+          .sort((a, b) => Number(a.id) - Number(b.id));
+
+        setLivros(filtrados);
+        setPaginaAtual(1);
       } catch (error) {
         if (error instanceof Error) {
           setErro(error.message);
         } else {
           setErro('Erro inesperado.');
         }
-      } finally {
-        setCarregando(false);
       }
-    },
-    [busca, filtro]
-  );
+    }
 
-  useEffect(() => {
-    if (!busca) return;
-    buscarLivros(paginaAtual);
-  }, [busca, filtro, buscarLivros, paginaAtual]);
+    buscarLivros();
+  }, [query, filtro]);
 
-  const inicioDaExibicao = paginaAtual * ITENS_POR_PAGINA + 1;
-  const fimDaExibicao = Math.min((paginaAtual + 1) * ITENS_POR_PAGINA, total);
+  const totalPaginas = Math.ceil(livros.length / itensPorPagina);
+
+  const inicio = (paginaAtual - 1) * itensPorPagina;
+  const fim = inicio + itensPorPagina;
+
+  const livrosPaginados = livros.slice(inicio, fim);
+
+  function voltarPagina() {
+    window.history.back();
+  }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 px-4 py-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <SearchBar />
-        <FieldError message={erro} />
+    <div className="min-h-screen bg-background px-4 py-6 lg:px-8">
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={voltarPagina}
+          className="text-sm text-text-secondary hover:underline"
+        >
+          ← Voltar
+        </button>
 
-        {carregando ? (
-          <p className="text-center text-text-secondary mt-6">
-            Buscando livros...
-          </p>
-        ) : (
-          <>
-            {total > 0 && (
-              <div className="mt-4 mb-6">
-                <span className="text-sm text-text-primary font-medium">
-                  {total} encontrados
-                </span>
-                <span className="text-sm text-text-secondary font-thin ml-1">
-                  | exibindo {inicioDaExibicao} a {fimDaExibicao}
-                </span>
-              </div>
-            )}
+        <span className="text-text-primary text-lg font-semibold">
+          Resultados para "{query}"
+        </span>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {livros.map((livro) => (
-                <DetailedBookCard
-                  key={livro.id}
-                  id={livro.id}
-                  title={livro.titulo}
-                  author={livro.autores[0]?.nome || ''}
-                  cover={livro.capaUrl || ''}
-                  publisher={livro.editora}
-                  rating={4.5}
-                  pages={livro.numeroDePaginas}
-                  year={Number(livro.anoDePublicacao)}
-                />
-              ))}
-            </div>
+        <div />
+      </div>
 
-            {totalPaginas > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-8">
-                <button
-                  onClick={() => setPaginaAtual((p) => Math.max(p - 1, 0))}
-                  disabled={paginaAtual === 0}
-                  className="px-3 py-1 text-sm text-text-primary border border-border rounded-lg disabled:opacity-40 hover:opacity-80 cursor-pointer"
-                >
-                  Anterior
-                </button>
+      {livros.length === 0 && (
+        <div className="text-center text-text-secondary mt-10">
+          Nenhum livro encontrado
+        </div>
+      )}
 
-                {Array.from({ length: totalPaginas }, (_, i) => i).map((i) => (
+      {livros.length > 0 && (
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {livrosPaginados.map((livro) => (
+              <BookCard
+                key={livro.id}
+                id={livro.id}
+                title={livro.titulo}
+                author={livro.autores?.[0]?.nome || ''}
+                cover={livro.capaUrl || ''}
+                editora={livro.editora}
+                numeroDePaginas={livro.numeroDePaginas}
+                anoDePublicacao={livro.anoDePublicacao}
+              />
+            ))}
+          </div>
+
+          {totalPaginas > 1 && (
+            <div className="flex justify-center mt-8 gap-2 flex-wrap">
+              {Array.from({ length: totalPaginas }, (_, index) => {
+                const pagina = index + 1;
+
+                return (
                   <button
-                    key={i}
-                    onClick={() => setPaginaAtual(i)}
-                    className={`px-3 py-1 text-sm rounded-lg border cursor-pointer
+                    key={pagina}
+                    onClick={() => setPaginaAtual(pagina)}
+                    className={`px-3 py-1 rounded-md text-sm border
                       ${
-                        paginaAtual === i
+                        paginaAtual === pagina
                           ? 'bg-brand text-white border-brand'
-                          : 'text-text-primary border-border hover:opacity-80'
+                          : 'bg-card-bg text-text-primary border-border hover:bg-search-border'
                       }`}
                   >
-                    {i + 1}
+                    {pagina}
                   </button>
-                ))}
-
-                <button
-                  onClick={() =>
-                    setPaginaAtual((p) => Math.min(p + 1, totalPaginas - 1))
-                  }
-                  disabled={paginaAtual === totalPaginas - 1}
-                  className="px-3 py-1 text-sm text-text-primary border border-border rounded-lg disabled:opacity-40 hover:opacity-80 cursor-pointer"
-                >
-                  Próxima
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </main>
-      <Modal
-        isOpen={modalAberto}
-        onClose={() => setModalAberto(false)}
-        onConfirm={() => router.push('/cadastro-livro')}
-      />
+                );
+              })}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
-};
+}
