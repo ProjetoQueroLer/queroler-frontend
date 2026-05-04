@@ -1,3 +1,8 @@
+'use client';
+
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+
 import { cn } from '@/presentation/shared/lib/utils';
 import { InputProps } from '@/presentation/shared/ui-model/shared.model';
 
@@ -7,8 +12,14 @@ export const Input = ({
   id,
   dataTestId,
   registerWithMaskConfig,
+  showPasswordToggle = false,
+  type = 'text',
   ...props
 }: InputProps) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const canTogglePassword = showPasswordToggle && type === 'password';
+  const inputType = canTogglePassword && isPasswordVisible ? 'text' : type;
+
   return (
     <div className="w-full flex flex-col gap-2.5">
       {label && (
@@ -29,6 +40,7 @@ export const Input = ({
         {icon && <span className="text-zinc-500 text-lg">{icon}</span>}
         <input
           id={id}
+          type={inputType}
           aria-label={!label ? props.placeholder : undefined}
           data-testid={dataTestId}
           {...props}
@@ -39,6 +51,18 @@ export const Input = ({
             props.className
           )}
         />
+        {canTogglePassword && (
+          <button
+            type="button"
+            onClick={() => setIsPasswordVisible((current) => !current)}
+            aria-label={isPasswordVisible ? 'Ocultar senha' : 'Mostrar senha'}
+            aria-pressed={isPasswordVisible}
+            disabled={props.disabled}
+            className=" cursor-pointer inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-500 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isPasswordVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        )}
       </div>
     </div>
   );

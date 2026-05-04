@@ -50,4 +50,29 @@ describe('Input', () => {
     const input = screen.getByLabelText(/classe/i);
     expect(input).toHaveClass('classe-custom');
   });
+
+  it('deve alternar a visibilidade da senha quando habilitado', async () => {
+    const user = userEvent.setup();
+
+    makeSut({
+      label: 'Senha',
+      id: 'senha',
+      type: 'password',
+      showPasswordToggle: true,
+    });
+
+    const input = screen.getByLabelText(/senha/i, { selector: 'input' });
+    const toggleButton = screen.getByRole('button', {
+      name: /mostrar senha/i,
+    });
+
+    expect(input).toHaveAttribute('type', 'password');
+
+    await user.click(toggleButton);
+
+    expect(input).toHaveAttribute('type', 'text');
+    expect(
+      screen.getByRole('button', { name: /ocultar senha/i })
+    ).toBeInTheDocument();
+  });
 });
