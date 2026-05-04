@@ -1,110 +1,88 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 import Image from 'next/image';
+import { CreateBookDTO } from '@/core/application/book/create-book.dto';
+import { useBookRegisterForm } from '@/presentation/pages/bookRegister/useBookRegisterForm';
+import { toast } from 'react-toastify';
+import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
+import { createBookAction } from '@/app/actions/createBook.actions';
 
 export function BookRegister() {
   const router = useRouter();
-  const [isbn, setIsbn] = useState('');
-  const [idioma, setIdioma] = useState('');
-  const [sinopse, setSinopse] = useState('');
-  const [carregando, setCarregando] = useState(false);
-  const [erro, setErro] = useState('');
-  const [livro, setLivro] = useState({
-    titulo: '',
-    autor: '',
-    editora: '',
-    ano: '',
-    paginas: '',
-    capa: '',
-  });
-  const podeSalvar = sinopse.length >= 50 && !!livro.titulo && !!idioma;
+  // const [carregandoIsbn, setCarregandoIsbn] = useState(false);
 
-  async function buscarIsbn(valor: string) {
-    if (valor.length < 10) return;
+  const {
+    register,
+    handleSubmit,
+    // setValue,
+    formState: { errors, isSubmitting, isValid },
+  } = useBookRegisterForm();
 
-    setCarregando(true);
-    setErro('');
+  // const handleBlurIsbn = async (isbn: string) => {
+  //   const cleanIsbn = isbn.replace(/\D/g, '');
 
-    try {
-      const resposta = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/livros/buscar/${valor}`
-      );
+  //   if (cleanIsbn.length < 10) return;
 
-      if (!resposta.ok) {
-        setErro('Não há nenhum livro cadastrado com esse ISBN.');
-        setLivro({
-          titulo: '',
-          autor: '',
-          editora: '',
-          ano: '',
-          paginas: '',
-          capa: '',
-        });
-        return;
-      }
+  //   setCarregandoIsbn(true);
 
-      const dados = await resposta.json();
-      setLivro({
-        titulo: dados.titulo || '',
-        autor: dados.autores?.[0]?.nome || '',
-        editora: dados.editora || '',
-        ano: dados.anoDePublicacao || '',
-        paginas: dados.numeroDePaginas?.toString() || '',
-        capa: dados.capaUrl || '',
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        setErro(error.message);
-      } else {
-        setErro('Erro inesperado.');
-      }
-    } finally {
-      setCarregando(false);
+  //   try {
+  //     const response = await fetch(`/api/livros/isbn/${cleanIsbn}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const bookData = await response.json();
+
+  //       if (bookData) {
+  //         setValue('titulo', bookData.titulo || '', { shouldValidate: true });
+  //         setValue('autores', bookData.autores || '', { shouldValidate: true });
+  //         setValue('editora', bookData.editora || '', { shouldValidate: true });
+  //         setValue('anoDePublicacao', bookData.anoDePublicacao || '', {
+  //           shouldValidate: true,
+  //         });
+  //         setValue('numeroDePaginas', bookData.numeroDePaginas || '', {
+  //           shouldValidate: true,
+  //         });
+  //         setValue('idioma', bookData.idioma || '', { shouldValidate: true });
+  //         setValue('sinopse', bookData.sinopse || '', { shouldValidate: true });
+
+  //         toast.success('Livro encontrado! Dados preenchidos automaticamente.');
+  //       }
+  //     } else {
+  //       // Se a resposta não for OK (ex: 404), ignoramos o erro e mantemos o formulário limpo para preenchimento manual
+  //       console.log(
+  //         'Livro não encontrado no banco de dados. Pronto para cadastro manual.'
+  //       );
+  //     }
+  //   } catch (error) {
+  //     // Ignoramos o erro de conexão ou de not found e deixamos o formulário pronto para o preenchimento
+  //     console.warn(
+  //       'Falha na busca, mas o formulário pode ser preenchido manualmente.',
+  //       error
+  //     );
+  //   } finally {
+  //     setCarregandoIsbn(false);
+  //   }
+  // };
+
+  const submitData = async (data: CreateBookDTO) => {
+    const result = await createBookAction(data);
+    if (!result?.success) {
+      toast.error(result?.message);
+      return;
     }
-  }
-
-  async function salvarLivro() {
-    setCarregando(true);
-    setErro('');
-
-    try {
-      const resposta = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/livros`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            isbn,
-            titulo: livro.titulo,
-            autor: livro.autor,
-            editora: livro.editora,
-            ano: livro.ano,
-            capaUrl: livro.capa,
-            sinopse,
-            idioma: 'pt-br',
-          }),
-        }
-      );
-
-      if (!resposta.ok) return;
-
-      router.push('/');
-    } catch (error) {
-      if (error instanceof Error) {
-        setErro(error.message);
-      } else {
-        setErro('Erro inesperado.');
-      }
-    } finally {
-      setCarregando(false);
-    }
-  }
+    toast.success(
+      'Livro criado com sucesso! Redirecionando para tela inicial...'
+    );
+    router.push('/');
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -119,182 +97,188 @@ export function BookRegister() {
           adicionarem na sua lista de leitura.
         </p>
 
-        <div className="flex flex-col lg:flex-row gap-6">
-          <div className="flex flex-col gap-3 w-full lg:w-[220px]">
-            <span className="text-brand text-xs uppercase tracking-widest">
-              Capa do livro
-            </span>
-            <div className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80">
-              {livro.capa ? (
-                <Image
-                  src={livro.capa}
-                  alt="Capa do livro"
-                  className="w-full h-full object-cover rounded-xs"
+        <div>
+          <form
+            className="flex flex-col lg:flex-row gap-6"
+            onSubmit={handleSubmit(submitData)}
+            noValidate
+            data-testid="book-register-form"
+          >
+            <div className="flex flex-col gap-3 w-full lg:w-[220px]">
+              <span className="text-brand text-xs uppercase tracking-widest">
+                Capa do livro
+              </span>
+              <div className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80">
+                {false ? (
+                  <Image
+                    src={''}
+                    alt="Capa do livro"
+                    className="w-full h-full object-cover rounded-xs"
+                  />
+                ) : (
+                  <>
+                    <span className="text-text-secondary text-xs text-center px-4">
+                      JPG, PNG ou JPEG
+                    </span>
+                    <span className="text-text-secondary text-xs text-center px-4">
+                      Tamanho máximo 10MB
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-text-secondary text-xs uppercase tracking-widest">
+                  ISBN <span className="text-red-400">*</span>
+                </label>
+                <input
+                  data-testid="input-isbn"
+                  inputMode="numeric"
+                  placeholder="Ex: 978-3-16-148410-0"
+                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
+                  id="isbn"
+                  maxLength={17}
+                  {...register('isbn')}
+                  aria-invalid={!!errors.isbn}
+                  // onBlur={(e) => {}}
                 />
-              ) : (
-                <>
-                  <span className="text-text-secondary text-xs text-center px-4">
-                    JPG, PNG ou JPEG
+                <FieldError message={errors.isbn?.message as string} />
+                {/* {carregando && (
+                  <span className="text-text-secondary text-xs mt-1">
+                    Buscando livro...
                   </span>
-                  <span className="text-text-secondary text-xs text-center px-4">
-                    Tamanho máximo 10MB
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="flex-1 flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-text-secondary text-xs uppercase tracking-widest">
-                ISBN <span className="text-red-400">*</span>
-              </label>
-              <input
-                data-testid="input-isbn"
-                type="text"
-                inputMode="numeric"
-                placeholder="Ex: 978-3-16-148410-0"
-                value={isbn}
-                onChange={(e) => {
-                  const valor = e.target.value.replace(/\D/g, '');
-                  setIsbn(valor);
-                  buscarIsbn(valor);
-                }}
-                className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
-              />
-              <FieldError message={erro} />
-
-              {carregando && (
-                <span className="text-text-secondary text-xs mt-1">
-                  Buscando livro...
-                </span>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-text-secondary text-xs uppercase tracking-widest">
-                Título do livro
-              </label>
-              <input
-                data-testid="input-titulo"
-                type="text"
-                disabled
-                value={livro.titulo}
-                className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
-              />
-            </div>
-
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="flex-1 flex flex-col gap-1">
+                )} */}
+              </div>
+              <div className="flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Autor(es)
+                  Título do livro <span className="text-red-400">*</span>
                 </label>
                 <input
-                  data-testid="input-autor"
-                  type="text"
-                  disabled
-                  value={livro.autor}
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                  data-testid="input-titulo"
+                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                  id="titulo"
+                  {...register('titulo')}
+                  aria-invalid={!!errors.titulo}
                 />
+                <FieldError message={errors.titulo?.message as string} />
               </div>
-              <div className="flex-1 flex flex-col gap-1">
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex-1 flex flex-col gap-1">
+                  <label className="text-text-secondary text-xs uppercase tracking-widest">
+                    Autor(es) <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    data-testid="input-autor"
+                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    id="autores"
+                    {...register('autores')}
+                    aria-invalid={!!errors.autores}
+                  />
+                  <FieldError message={errors.autores?.message as string} />
+                </div>
+                <div className="flex-1 flex flex-col gap-1">
+                  <label className="text-text-secondary text-xs uppercase tracking-widest">
+                    Editora <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    data-testid="input-editora"
+                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    id="titulo"
+                    {...register('editora')}
+                    aria-invalid={!!errors.editora}
+                  />
+                  <FieldError message={errors.editora?.message as string} />
+                </div>
+              </div>
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex-1 flex flex-col gap-1">
+                  <label className="text-text-secondary text-xs uppercase tracking-widest">
+                    Ano de Publicação <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    data-testid="input-ano"
+                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    id="ano-de-publicacao"
+                    {...register('anoDePublicacao')}
+                    aria-invalid={!!errors.anoDePublicacao}
+                  />
+                  <FieldError
+                    message={errors.anoDePublicacao?.message as string}
+                  />
+                </div>
+                <div className="flex-1 flex flex-col gap-1">
+                  <label className="text-text-secondary text-xs uppercase tracking-widest">
+                    Número de Páginas <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    data-testid="input-paginas"
+                    type="number"
+                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    id="numero-de-paginas"
+                    {...register('numeroDePaginas')}
+                    aria-invalid={!!errors.numeroDePaginas}
+                  />
+                  <FieldError
+                    message={errors.numeroDePaginas?.message as string}
+                  />
+                </div>
+              </div>
+              <div>
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Editora
+                  Idioma <span className="text-red-400">*</span>
                 </label>
-                <input
-                  data-testid="input-editora"
-                  type="text"
-                  disabled
-                  value={livro.editora}
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
-                />
+                <select
+                  data-testid="select-idioma"
+                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none cursor-pointer"
+                  id="idioma"
+                  {...register('idioma')}
+                  aria-invalid={!!errors.idioma}
+                >
+                  <option value="">Selecione um idioma</option>
+                  {LIVRO_IDIOMA_OPCOES.map((item) => (
+                    <option key={item.label} value={item.valorEnum}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="flex-1 flex flex-col gap-1">
+              <div>
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Ano de Publicação
+                  Sinopse <span className="text-red-400">*</span>
                 </label>
-                <input
-                  data-testid="input-ano"
-                  type="text"
-                  disabled
-                  value={livro.ano}
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                <textarea
+                  data-testid="input-sinopse"
+                  placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
+                  rows={4}
+                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none"
+                  id="ano-de-publicacao"
+                  {...register('sinopse')}
+                  aria-invalid={!!errors.sinopse}
                 />
+                <FieldError message={errors.sinopse?.message as string} />
               </div>
-              <div className="flex-1 flex flex-col gap-1">
-                <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Número de Páginas
-                </label>
-                <input
-                  data-testid="input-paginas"
-                  type="text"
-                  disabled
-                  value={livro.paginas}
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
-                />
+              <div className="flex justify-end gap-4 mt-2">
+                <button
+                  type="button"
+                  data-testid="btn-cancelar"
+                  onClick={() => router.back()}
+                  className="px-6 py-3 text-sm text-text-secondary hover:opacity-80 cursor-pointer uppercase font-bold"
+                >
+                  Cancelar
+                </button>
+                <button
+                  data-testid="btn-salvar"
+                  type="submit"
+                  disabled={isSubmitting || !isValid}
+                  className={`px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white
+                    ${isSubmitting || !isValid ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
+                >
+                  Salvar dados
+                </button>
               </div>
             </div>
-
-            <div>
-              <label className="text-text-secondary text-xs uppercase tracking-widest">
-                Idioma <span className="text-red-400">*</span>
-              </label>
-              <select
-                value={idioma}
-                onChange={(e) => setIdioma(e.target.value)}
-                data-testid="select-idioma"
-                className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none cursor-pointer"
-              >
-                <option value="">Selecione um idioma</option>
-                <option value="pt-br">Português</option>
-                <option value="en">Inglês</option>
-                <option value="es">Espanhol</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-text-secondary text-xs uppercase tracking-widest">
-                Sinopse <span className="text-red-400">*</span>
-              </label>
-              <textarea
-                data-testid="input-sinopse"
-                placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
-                rows={4}
-                value={sinopse}
-                onChange={(e) => setSinopse(e.target.value)}
-                className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none"
-              />
-              {sinopse.length < 50 && (
-                <span className="text-xs mt-1 text-text-secondary">
-                  {sinopse.length}/50 caracteres
-                </span>
-              )}
-            </div>
-
-            <FieldError message={erro} />
-
-            <div className="flex justify-end gap-4 mt-2">
-              <button
-                data-testid="btn-cancelar"
-                onClick={() => router.back()}
-                className="px-6 py-3 text-sm text-text-secondary hover:opacity-80 cursor-pointer uppercase font-bold"
-              >
-                Cancelar
-              </button>
-              <button
-                data-testid="btn-salvar"
-                onClick={salvarLivro}
-                disabled={!podeSalvar}
-                className={`px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white
-                  ${!podeSalvar ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
-              >
-                Salvar dados
-              </button>
-            </div>
-          </div>
+          </form>
         </div>
       </main>
     </div>
