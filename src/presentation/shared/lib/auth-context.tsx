@@ -26,8 +26,9 @@ export function AuthProvider({
   const [_isPending, startTransition] = useTransition();
 
   const logout = () => {
-    toast.success('Logout realizado com sucesso!');
+    toast.success('Realizando logout...', { autoClose: 2000 });
     startTransition(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await deleteAuthCookieAction();
       setAuthenticated(false);
     });
