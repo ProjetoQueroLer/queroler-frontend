@@ -1,9 +1,9 @@
 name: CI (Integração Contínua)
 on:
   pull_request:
-    branches: [master, dev]
+    branches: [master, develop]
   push:
-    branches: [master, dev]
+    branches: [master, develop]
 
 jobs:
   build:
