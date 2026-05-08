@@ -40,3 +40,6 @@ jobs:
             "user_name": "${{ secrets.CYPRESS_user_email }}",
             "user_password": "${{ secrets.CYPRESS_user_senha }}"
           }' > cypress.env.json
+      
+      - name: Rodar testes Cypress
+        run: npm run test:e2e
