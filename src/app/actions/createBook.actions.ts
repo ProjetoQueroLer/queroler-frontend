@@ -35,7 +35,7 @@ export async function createBookAction(data: CreateBookDTO) {
   try {
     const repository = new ApiBookRepository(api);
     const useCase = new CreateBookUseCase(repository);
-    await useCase.execute(JSON.stringify(payload));
+    await useCase.execute(JSON.stringify(payload), data.imagem);
     return {
       success: true,
       message: 'Livro criado com sucesso.',

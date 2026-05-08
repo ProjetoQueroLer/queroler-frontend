@@ -1,6 +1,6 @@
 'use client';
 
-// import { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
@@ -10,17 +10,37 @@ import { useBookRegisterForm } from '@/presentation/pages/bookRegister/useBookRe
 import { toast } from 'react-toastify';
 import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
 import { createBookAction } from '@/app/actions/createBook.actions';
+import { useRef } from 'react';
 
 export function BookRegister() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   // const [carregandoIsbn, setCarregandoIsbn] = useState(false);
 
   const {
     register,
     handleSubmit,
-    // setValue,
+    setValue,
     formState: { errors, isSubmitting, isValid },
   } = useBookRegisterForm();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue('imagem', file, { shouldValidate: true });
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
   // const handleBlurIsbn = async (isbn: string) => {
   //   const cleanIsbn = isbn.replace(/\D/g, '');
@@ -108,13 +128,27 @@ export function BookRegister() {
               <span className="text-brand text-xs uppercase tracking-widest">
                 Capa do livro
               </span>
-              <div className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80">
-                {false ? (
-                  <Image
-                    src={''}
-                    alt="Capa do livro"
-                    className="w-full h-full object-cover rounded-xs"
-                  />
+              <div
+                onClick={triggerFileInput}
+                className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80 relative overflow-hidden"
+              >
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+                {previewImage ? (
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={previewImage}
+                      alt="Capa do livro"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100px, 200px"
+                    />
+                  </div>
                 ) : (
                   <>
                     <span className="text-text-secondary text-xs text-center px-4">
@@ -126,6 +160,7 @@ export function BookRegister() {
                   </>
                 )}
               </div>
+              <FieldError message={errors.imagem?.message as string} />
             </div>
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex flex-col gap-1">
@@ -141,7 +176,7 @@ export function BookRegister() {
                   maxLength={17}
                   {...register('isbn')}
                   aria-invalid={!!errors.isbn}
-                  // onBlur={(e) => {}}
+                  // onBlur={() => {}}
                 />
                 <FieldError message={errors.isbn?.message as string} />
                 {/* {carregando && (

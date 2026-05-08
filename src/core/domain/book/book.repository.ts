@@ -1,3 +1,5 @@
+import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
+
 export interface CreateBookData {
   titulo: string;
   isbn: string;
@@ -11,4 +13,5 @@ export interface CreateBookData {
 
 export interface BookRepository {
   create(dados: string, imagem?: string): Promise<void>;
+  buscarPeloIsbn(isbn: string): Promise<FindBookByIsbnResponseDTO>;
 }

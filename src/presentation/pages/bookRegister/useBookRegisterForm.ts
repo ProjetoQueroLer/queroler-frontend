@@ -14,6 +14,7 @@ export const INITIAL_BOOK_REGISTER_DEFAULT_VALUES: Partial<CreateBookDTO> = {
   idioma: undefined,
   sinopse: '',
   autores: '',
+  imagem: undefined,
 };
 
 export function useBookRegisterForm(): Pick<

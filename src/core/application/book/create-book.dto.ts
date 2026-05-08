@@ -1,6 +1,9 @@
 import { IdiomaEnum } from '@/core/domain/book/language.enum';
 import z from 'zod';
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+
 export const createBookSchema = z.object({
   titulo: z.string().min(1, 'Título obrigatório'),
   isbn: z
@@ -32,6 +35,33 @@ export const createBookSchema = z.object({
       })
     )
   ),
+  imagem: z
+    .any()
+    .optional()
+    .refine((file) => {
+      if (file && file instanceof File) {
+        return file.size <= MAX_FILE_SIZE;
+      }
+      return true;
+    }, 'Tamanho máximo de 10MB permitido')
+    .refine((file) => {
+      if (file && file instanceof File) {
+        return ACCEPTED_IMAGE_TYPES.includes(file.type);
+      }
+      return true;
+    }, 'Apenas formatos .jpg, .jpeg, e .png são suportados'),
+});
+
+export const findBookByIsbnSchema = createBookSchema.omit({
+  titulo: true,
+  editora: true,
+  anoDePublicacao: true,
+  numeroDePaginas: true,
+  idioma: true,
+  sinopse: true,
+  autores: true,
+  imagem: true,
 });
 
 export type CreateBookDTO = z.infer<typeof createBookSchema>;
+export type FindBookByIsbnDTO = z.infer<typeof findBookByIsbnSchema>;
