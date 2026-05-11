@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BookCard } from '@/presentation/shared/components/bookCard/BookCard';
 import { mockSearchResults21 } from '@/presentation/shared/components/searchBar/mockSearchResults';
+import { Header } from '@/presentation/shared/components/header/header';
 
 interface Livro {
   id: string;
@@ -97,6 +98,7 @@ export function BookResults({ query, filtro }: BookResultsProps) {
 
   return (
     <div className="min-h-screen bg-background px-4 py-6 lg:px-8">
+      <Header />
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={voltarPagina}
