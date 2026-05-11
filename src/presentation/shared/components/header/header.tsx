@@ -2,17 +2,13 @@
 
 import { Bell, ChevronDown, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BookOpen } from 'lucide-react';
+import { useAuth } from '@/presentation/shared/lib/auth-context';
 
 export function Header() {
+  const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
-
-  function handleLogout() {
-    router.push('/login');
-  }
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
@@ -69,8 +65,8 @@ export function Header() {
             <div className="absolute right-0 mt-2 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50">
               <button
                 data-testid="logout-button"
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg"
+                onClick={logout}
+                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg cursor-pointer"
               >
                 <LogOut size={14} />
                 Sair
