@@ -1,4 +1,4 @@
-import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
+import { IAxiosResponse } from '@/infra/http/api-response.interface';
 
 export interface CreateBookData {
   titulo: string;
@@ -13,5 +13,8 @@ export interface CreateBookData {
 
 export interface BookRepository {
   create(dados: string, imagem?: string): Promise<void>;
-  buscarPeloIsbn(isbn: string): Promise<FindBookByIsbnResponseDTO>;
+  buscarPeloIsbn(
+    isbn: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<IAxiosResponse<any, any, any, any>>;
 }

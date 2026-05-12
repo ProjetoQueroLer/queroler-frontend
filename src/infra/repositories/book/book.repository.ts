@@ -1,5 +1,5 @@
-import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
 import { BookRepository } from '@/core/domain/book/book.repository';
+import { IAxiosResponse } from '@/infra/http/api-response.interface';
 import { AxiosInstance } from 'axios';
 
 export class ApiBookRepository implements BookRepository {
@@ -18,7 +18,10 @@ export class ApiBookRepository implements BookRepository {
     }
   }
 
-  async buscarPeloIsbn(isbn: string): Promise<FindBookByIsbnResponseDTO> {
+  async buscarPeloIsbn(
+    isbn: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<IAxiosResponse<any, any, any, any>> {
     try {
       return await this.api.get(`/livros/buscar/${isbn}`);
     } catch (error: unknown) {

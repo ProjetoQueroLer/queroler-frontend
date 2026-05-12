@@ -26,7 +26,7 @@ export async function findBookByIsbnAction(data: FindBookByIsbnDTO) {
     const response = await useCase.execute(data.isbn);
     return {
       success: true,
-      response,
+      response: response.data,
       message: 'Livro encontrado com sucesso.',
     };
   } catch (error) {

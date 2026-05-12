@@ -49,29 +49,41 @@ export function BookRegister() {
     const isbn = getValues('isbn');
     const cleanIsbn = isbn.trim().replace(/\D/g, '');
 
-    if (cleanIsbn.length < 13) return;
+    if (!cleanIsbn || cleanIsbn.length < 13 || carregandoIsbn) return;
 
     setCarregandoIsbn(true);
 
-    const response = await findBookByIsbnAction({ isbn });
+    const response = await findBookByIsbnAction({ isbn: cleanIsbn });
 
     if (response.success) {
       const bookData = response.response;
 
       if (bookData) {
-        setValue('titulo', bookData.titulo || '', { shouldValidate: true });
-        setValue('autores', bookData.autores || '', { shouldValidate: true });
-        setValue('editora', bookData.editora || '', { shouldValidate: true });
+        setValue('titulo', bookData.titulo || '', {
+          shouldValidate: true,
+        });
+        setValue('autores', bookData.autores || '', {
+          shouldValidate: true,
+        });
+        setValue('editora', bookData.editora || '', {
+          shouldValidate: true,
+        });
         setValue('anoDePublicacao', bookData.anoDePublicacao || '', {
           shouldValidate: true,
         });
         setValue('numeroDePaginas', String(bookData.numeroDePaginas) || '', {
           shouldValidate: true,
         });
-        setValue('idioma', bookData.idioma || '', { shouldValidate: true });
-        setValue('sinopse', bookData.sinopse || '', { shouldValidate: true });
+        setValue('idioma', bookData.idioma || '', {
+          shouldValidate: true,
+        });
+        setValue('sinopse', bookData.sinopse || '', {
+          shouldValidate: true,
+        });
         setValue('imagem', bookData.capaUrl || '', { shouldValidate: true });
 
+        setCarregandoIsbn(false);
+        setFormDesabilitado(false);
         toast.success('Livro encontrado! Dados preenchidos automaticamente.');
       }
     } else {
@@ -165,9 +177,11 @@ export function BookRegister() {
                   className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                   id="isbn"
                   maxLength={17}
-                  {...register('isbn')}
+                  {...register('isbn', {
+                    onBlur: (_e) => handleBlurIsbn(),
+                  })}
                   aria-invalid={!!errors.isbn}
-                  onBlur={() => handleBlurIsbn()}
+                  // onBlur={() => handleBlurIsbn()}
                 />
                 <FieldError message={errors.isbn?.message as string} />
                 {carregandoIsbn && (
