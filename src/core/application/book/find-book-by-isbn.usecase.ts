@@ -1,13 +1,13 @@
 import { BookRepository } from '@/core/domain/book/book.repository';
-import { IAxiosResponse } from '@/infra/http/api-response.interface';
+import { AxiosResponse } from 'axios';
+import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
 
 export class FindBookByIsbnUseCase {
   constructor(private bookRepository: BookRepository) {}
 
   async execute(
     isbn: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<IAxiosResponse<any, any, any, any>> {
+  ): Promise<AxiosResponse<FindBookByIsbnResponseDTO>> {
     return await this.bookRepository.buscarPeloIsbn(isbn);
   }
 }

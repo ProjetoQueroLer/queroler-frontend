@@ -1,17 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 import Image from 'next/image';
-import { CreateBookDTO } from '@/core/application/book/create-book.dto';
+import { CreateBookRequestDTO } from '@/core/application/book/create-book.dto';
 import { useBookRegisterForm } from '@/presentation/pages/bookRegister/useBookRegisterForm';
 import { toast } from 'react-toastify';
 import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
 import { createBookAction } from '@/app/actions/createBook.actions';
 import { useRef } from 'react';
 import { findBookByIsbnAction } from '@/app/actions/findBookByIsbn.actions';
+import { AutorResponse } from '@/core/application/book/find-book-by-isbn-response.dto';
+import { getBookImageAction } from '@/app/actions/getBookImage.actions';
 
 export function BookRegister() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export function BookRegister() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [carregandoIsbn, setCarregandoIsbn] = useState(false);
   const [formDesabilitado, setFormDesabilitado] = useState(true);
+  const [_isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -62,9 +65,15 @@ export function BookRegister() {
         setValue('titulo', bookData.titulo || '', {
           shouldValidate: true,
         });
-        setValue('autores', bookData.autores || '', {
-          shouldValidate: true,
-        });
+        setValue(
+          'autores',
+          bookData.autores
+            .map((autor: AutorResponse) => autor.nome)
+            .join(', ') || '',
+          {
+            shouldValidate: true,
+          }
+        );
         setValue('editora', bookData.editora || '', {
           shouldValidate: true,
         });
@@ -80,7 +89,23 @@ export function BookRegister() {
         setValue('sinopse', bookData.sinopse || '', {
           shouldValidate: true,
         });
-        setValue('imagem', bookData.capaUrl || '', { shouldValidate: true });
+
+        if (bookData.capaUrl === 'Capa não cadastrada.' || !bookData.capaUrl) {
+          setCarregandoIsbn(false);
+          setFormDesabilitado(false);
+          toast.success('Livro encontrado! Dados preenchidos automaticamente.');
+          return;
+        }
+
+        const imageResp = await getBookImageAction(bookData.capaUrl);
+        if (imageResp.success) {
+          setValue('imagem', imageResp.response, {
+            shouldValidate: true,
+          });
+          setPreviewImage(
+            `${process.env.NEXT_PUBLIC_API_URL}${bookData.capaUrl}`
+          );
+        }
 
         setCarregandoIsbn(false);
         setFormDesabilitado(false);
@@ -95,7 +120,7 @@ export function BookRegister() {
     }
   };
 
-  const submitData = async (data: CreateBookDTO) => {
+  const submitData = async (data: CreateBookRequestDTO) => {
     const result = await createBookAction(data);
     if (!result?.success) {
       toast.error(result?.message);
@@ -123,7 +148,9 @@ export function BookRegister() {
         <div>
           <form
             className="flex flex-col lg:flex-row gap-6"
-            onSubmit={handleSubmit(submitData)}
+            onSubmit={handleSubmit((data) =>
+              submitData(data as CreateBookRequestDTO)
+            )}
             noValidate
             data-testid="book-register-form"
           >
@@ -133,13 +160,14 @@ export function BookRegister() {
               </span>
               <div
                 onClick={triggerFileInput}
-                className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80 relative overflow-hidden"
+                className={`w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 hover:opacity-80 relative overflow-hidden ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               >
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/jpg"
                   className="hidden"
                   ref={fileInputRef}
+                  disabled={formDesabilitado}
                   onChange={handleFileChange}
                 />
                 {previewImage ? (
@@ -181,7 +209,6 @@ export function BookRegister() {
                     onBlur: (_e) => handleBlurIsbn(),
                   })}
                   aria-invalid={!!errors.isbn}
-                  // onBlur={() => handleBlurIsbn()}
                 />
                 <FieldError message={errors.isbn?.message as string} />
                 {carregandoIsbn && (
@@ -211,7 +238,7 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-autor"
-                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="autores"
                     {...register('autores')}
@@ -225,7 +252,7 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-editora"
-                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="titulo"
                     {...register('editora')}
@@ -241,7 +268,7 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-ano"
-                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="ano-de-publicacao"
                     {...register('anoDePublicacao')}
@@ -257,8 +284,8 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-paginas"
-                    type="number"
-                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    maxLength={4}
+                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="numero-de-paginas"
                     {...register('numeroDePaginas')}
@@ -275,7 +302,7 @@ export function BookRegister() {
                 </label>
                 <select
                   data-testid="select-idioma"
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none cursor-pointer"
+                  className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                   id="idioma"
                   {...register('idioma')}
                   aria-invalid={!!errors.idioma}
@@ -297,7 +324,7 @@ export function BookRegister() {
                   data-testid="input-sinopse"
                   placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
                   rows={4}
-                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none"
+                  className={`bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                   disabled={formDesabilitado}
                   id="ano-de-publicacao"
                   {...register('sinopse')}
@@ -309,7 +336,15 @@ export function BookRegister() {
                 <button
                   type="button"
                   data-testid="btn-cancelar"
-                  onClick={() => router.back()}
+                  onClick={() => {
+                    toast.success('Registro de livro cancelado.', {
+                      autoClose: 1500,
+                    });
+                    startTransition(async () => {
+                      await new Promise((resolve) => setTimeout(resolve, 1500));
+                      router.back();
+                    });
+                  }}
                   className="px-6 py-3 text-sm text-text-secondary hover:opacity-80 cursor-pointer uppercase font-bold"
                 >
                   Cancelar

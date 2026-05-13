@@ -28,7 +28,6 @@ export class ApiAuthRepository implements AuthRepository {
           ? (response.data as Record<string, unknown>)
           : {};
 
-      // Verifica se a resposta tem erro mesmo com status 200
       if (
         responseData.message &&
         !responseData.accessToken &&

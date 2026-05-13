@@ -16,25 +16,34 @@ export const createBookSchema = z.object({
     .string('Ano de publicação obrigatório')
     .min(1, 'Ano de publicação deve ter no mínimo 1 dígito')
     .max(4, 'Ano de publicação deve ter 4 dígitos'),
-  numeroDePaginas: z.string('Número de páginas obrigatório'),
+  numeroDePaginas: z
+    .string('Número de páginas obrigatório')
+    .min(1, 'Número de páginas deve ter no mínimo 1 dígito'),
   idioma: z.enum(IdiomaEnum),
   sinopse: z.string().min(50, 'Sinopse deve ter 50 caracteres no mínimo'),
-  autores: z.preprocess(
-    (val) => {
-      if (typeof val === 'string' && val.trim() !== '') {
+  autores: z
+    .union([
+      z.string().min(1, 'Autores é obrigatório'),
+      z.array(z.object({ nome: z.string() })),
+    ])
+    .transform((val) => {
+      if (typeof val === 'string') {
+        if (!val.trim()) return [];
+
         return val
           .split(',')
           .map((nome) => ({ nome: nome.trim() }))
           .filter((obj) => obj.nome !== '');
       }
       return val;
-    },
-    z.array(
-      z.object({
-        nome: z.string(),
-      })
-    )
-  ),
+    })
+    .pipe(
+      z.array(
+        z.object({
+          nome: z.string().min(1, 'Nome do autor não pode ser vazio'),
+        })
+      )
+    ),
   imagem: z
     .any()
     .optional()
@@ -63,5 +72,6 @@ export const findBookByIsbnSchema = createBookSchema.omit({
   imagem: true,
 });
 
-export type CreateBookDTO = z.infer<typeof createBookSchema>;
+export type CreateBookDTO = z.input<typeof createBookSchema>;
+export type CreateBookRequestDTO = z.infer<typeof createBookSchema>;
 export type FindBookByIsbnDTO = z.infer<typeof findBookByIsbnSchema>;

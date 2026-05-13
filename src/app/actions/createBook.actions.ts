@@ -2,14 +2,14 @@
 import api from '@/infra/http/api';
 import z from 'zod';
 import {
-  CreateBookDTO,
+  CreateBookRequestDTO,
   createBookSchema,
 } from '@/core/application/book/create-book.dto';
 import { ApiBookRepository } from '@/infra/repositories/book/book.repository';
 import { CreateBookUseCase } from '@/core/application/book/create-book.usecase';
 import { CreateBookData } from '@/core/domain/book/book.repository';
 
-export async function createBookAction(data: CreateBookDTO) {
+export async function createBookAction(data: CreateBookRequestDTO) {
   const validated = createBookSchema.safeParse(data);
 
   if (!validated.success) {
