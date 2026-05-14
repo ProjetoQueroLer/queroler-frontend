@@ -12,11 +12,14 @@ export function BookCard({ title, author, cover, id }: BookCardProps) {
     <div className="w-[150px] lg:w-[215px] bg-card-bg border border-border rounded-xl shadow-xs flex-shrink-0 relative hover:z-10 transition-all duration-200 cursor-pointer hover:shadow-md hover:scale-[1.02] hover:-translate-y-1">
       <a href={`/livros/${id}`}>
         {cover ? (
-          <Image
-            src={cover}
-            alt={title}
-            className="w-full h-[120px] lg:h-[170px] object-cover rounded-t-xl"
-          />
+          <div className="relative w-full h-[120px] lg:h-[170px] ">
+            <Image
+              src={cover}
+              alt={title}
+              fill
+              className="object-cover rounded-t-xl"
+            />
+          </div>
         ) : (
           <div className="w-full h-[120px] lg:h-[170px] bg-border flex flex-col items-center justify-center gap-2 rounded-t-xl">
             <span className="text-text-secondary text-xs text-center px-4">
