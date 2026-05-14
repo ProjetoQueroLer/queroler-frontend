@@ -1,6 +1,6 @@
 'use client';
 
-// import { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
@@ -10,67 +10,78 @@ import { useBookRegisterForm } from '@/presentation/pages/bookRegister/useBookRe
 import { toast } from 'react-toastify';
 import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
 import { createBookAction } from '@/app/actions/createBook.actions';
+import { useRef } from 'react';
+import { findBookByIsbnAction } from '@/app/actions/findBookByIsbn.actions';
 
 export function BookRegister() {
   const router = useRouter();
-  // const [carregandoIsbn, setCarregandoIsbn] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [carregandoIsbn, setCarregandoIsbn] = useState(false);
+  const [formDesabilitado, setFormDesabilitado] = useState(true);
 
   const {
     register,
     handleSubmit,
-    // setValue,
+    setValue,
+    getValues,
     formState: { errors, isSubmitting, isValid },
   } = useBookRegisterForm();
 
-  // const handleBlurIsbn = async (isbn: string) => {
-  //   const cleanIsbn = isbn.replace(/\D/g, '');
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue('imagem', file, { shouldValidate: true });
 
-  //   if (cleanIsbn.length < 10) return;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  //   setCarregandoIsbn(true);
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
-  //   try {
-  //     const response = await fetch(`/api/livros/isbn/${cleanIsbn}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
+  const handleBlurIsbn = async () => {
+    const isbn = getValues('isbn');
+    const cleanIsbn = isbn.trim().replace(/\D/g, '');
 
-  //     if (response.ok) {
-  //       const bookData = await response.json();
+    if (cleanIsbn.length < 13) return;
 
-  //       if (bookData) {
-  //         setValue('titulo', bookData.titulo || '', { shouldValidate: true });
-  //         setValue('autores', bookData.autores || '', { shouldValidate: true });
-  //         setValue('editora', bookData.editora || '', { shouldValidate: true });
-  //         setValue('anoDePublicacao', bookData.anoDePublicacao || '', {
-  //           shouldValidate: true,
-  //         });
-  //         setValue('numeroDePaginas', bookData.numeroDePaginas || '', {
-  //           shouldValidate: true,
-  //         });
-  //         setValue('idioma', bookData.idioma || '', { shouldValidate: true });
-  //         setValue('sinopse', bookData.sinopse || '', { shouldValidate: true });
+    setCarregandoIsbn(true);
 
-  //         toast.success('Livro encontrado! Dados preenchidos automaticamente.');
-  //       }
-  //     } else {
-  //       // Se a resposta não for OK (ex: 404), ignoramos o erro e mantemos o formulário limpo para preenchimento manual
-  //       console.log(
-  //         'Livro não encontrado no banco de dados. Pronto para cadastro manual.'
-  //       );
-  //     }
-  //   } catch (error) {
-  //     // Ignoramos o erro de conexão ou de not found e deixamos o formulário pronto para o preenchimento
-  //     console.warn(
-  //       'Falha na busca, mas o formulário pode ser preenchido manualmente.',
-  //       error
-  //     );
-  //   } finally {
-  //     setCarregandoIsbn(false);
-  //   }
-  // };
+    const response = await findBookByIsbnAction({ isbn });
+
+    if (response.success) {
+      const bookData = response.response;
+
+      if (bookData) {
+        setValue('titulo', bookData.titulo || '', { shouldValidate: true });
+        setValue('autores', bookData.autores || '', { shouldValidate: true });
+        setValue('editora', bookData.editora || '', { shouldValidate: true });
+        setValue('anoDePublicacao', bookData.anoDePublicacao || '', {
+          shouldValidate: true,
+        });
+        setValue('numeroDePaginas', String(bookData.numeroDePaginas) || '', {
+          shouldValidate: true,
+        });
+        setValue('idioma', bookData.idioma || '', { shouldValidate: true });
+        setValue('sinopse', bookData.sinopse || '', { shouldValidate: true });
+        setValue('imagem', bookData.capaUrl || '', { shouldValidate: true });
+
+        toast.success('Livro encontrado! Dados preenchidos automaticamente.');
+      }
+    } else {
+      toast.error(
+        'Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.'
+      );
+      setCarregandoIsbn(false);
+      setFormDesabilitado(false);
+    }
+  };
 
   const submitData = async (data: CreateBookDTO) => {
     const result = await createBookAction(data);
@@ -108,13 +119,27 @@ export function BookRegister() {
               <span className="text-brand text-xs uppercase tracking-widest">
                 Capa do livro
               </span>
-              <div className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80">
-                {false ? (
-                  <Image
-                    src={''}
-                    alt="Capa do livro"
-                    className="w-full h-full object-cover rounded-xs"
-                  />
+              <div
+                onClick={triggerFileInput}
+                className="w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-80 relative overflow-hidden"
+              >
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+                {previewImage ? (
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={previewImage}
+                      alt="Capa do livro"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100px, 200px"
+                    />
+                  </div>
                 ) : (
                   <>
                     <span className="text-text-secondary text-xs text-center px-4">
@@ -126,6 +151,7 @@ export function BookRegister() {
                   </>
                 )}
               </div>
+              <FieldError message={errors.imagem?.message as string} />
             </div>
             <div className="flex-1 flex flex-col gap-4">
               <div className="flex flex-col gap-1">
@@ -141,14 +167,14 @@ export function BookRegister() {
                   maxLength={17}
                   {...register('isbn')}
                   aria-invalid={!!errors.isbn}
-                  // onBlur={(e) => {}}
+                  onBlur={() => handleBlurIsbn()}
                 />
                 <FieldError message={errors.isbn?.message as string} />
-                {/* {carregando && (
+                {carregandoIsbn && (
                   <span className="text-text-secondary text-xs mt-1">
                     Buscando livro...
                   </span>
-                )} */}
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
@@ -156,7 +182,8 @@ export function BookRegister() {
                 </label>
                 <input
                   data-testid="input-titulo"
-                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                  className={`bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                  disabled={formDesabilitado}
                   id="titulo"
                   {...register('titulo')}
                   aria-invalid={!!errors.titulo}
@@ -170,7 +197,8 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-autor"
-                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    disabled={formDesabilitado}
                     id="autores"
                     {...register('autores')}
                     aria-invalid={!!errors.autores}
@@ -184,6 +212,7 @@ export function BookRegister() {
                   <input
                     data-testid="input-editora"
                     className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    disabled={formDesabilitado}
                     id="titulo"
                     {...register('editora')}
                     aria-invalid={!!errors.editora}
@@ -199,6 +228,7 @@ export function BookRegister() {
                   <input
                     data-testid="input-ano"
                     className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    disabled={formDesabilitado}
                     id="ano-de-publicacao"
                     {...register('anoDePublicacao')}
                     aria-invalid={!!errors.anoDePublicacao}
@@ -215,6 +245,7 @@ export function BookRegister() {
                     data-testid="input-paginas"
                     type="number"
                     className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 cursor-not-allowed"
+                    disabled={formDesabilitado}
                     id="numero-de-paginas"
                     {...register('numeroDePaginas')}
                     aria-invalid={!!errors.numeroDePaginas}
@@ -234,6 +265,7 @@ export function BookRegister() {
                   id="idioma"
                   {...register('idioma')}
                   aria-invalid={!!errors.idioma}
+                  disabled={formDesabilitado}
                 >
                   <option value="">Selecione um idioma</option>
                   {LIVRO_IDIOMA_OPCOES.map((item) => (
@@ -252,6 +284,7 @@ export function BookRegister() {
                   placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
                   rows={4}
                   className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none"
+                  disabled={formDesabilitado}
                   id="ano-de-publicacao"
                   {...register('sinopse')}
                   aria-invalid={!!errors.sinopse}

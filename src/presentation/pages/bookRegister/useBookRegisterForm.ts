@@ -14,11 +14,12 @@ export const INITIAL_BOOK_REGISTER_DEFAULT_VALUES: Partial<CreateBookDTO> = {
   idioma: undefined,
   sinopse: '',
   autores: '',
+  imagem: undefined,
 };
 
 export function useBookRegisterForm(): Pick<
   UseFormReturn<CreateBookDTO>,
-  'register' | 'formState' | 'setValue' | 'handleSubmit'
+  'register' | 'formState' | 'setValue' | 'getValues' | 'handleSubmit'
 > {
   const form = useForm<CreateBookDTO>({
     resolver: zodResolver(createBookSchema),
@@ -30,6 +31,7 @@ export function useBookRegisterForm(): Pick<
     register: form.register,
     formState: form.formState,
     setValue: form.setValue,
+    getValues: form.getValues,
     handleSubmit: form.handleSubmit,
   };
 }
