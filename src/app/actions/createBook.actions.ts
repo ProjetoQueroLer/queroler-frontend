@@ -46,7 +46,7 @@ export async function createBookAction(data: CreateBookRequestDTO) {
         ? error.message
         : typeof error === 'object' && error !== null && 'error' in error
           ? String(error.error)
-          : '';
+          : (error as string);
 
     return {
       success: false,
