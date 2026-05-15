@@ -5,10 +5,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { BookOpen } from 'lucide-react';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
@@ -25,8 +27,8 @@ export function Header() {
       {/* Ícones e Usuário na direita */}
       <div className="flex items-center gap-3 lg:gap-6">
         {/* Ícone livro desabilitado */}
-        <div className="relative group">
-          <BookOpen size={20} className="text-color-text-primary" />
+        <div className="relative group" onClick={() => router.push('/')}>
+          <BookOpen size={20} className="text-text-primary cursor-pointer" />
           <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Leitura
           </span>
