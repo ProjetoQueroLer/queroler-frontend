@@ -1,4 +1,5 @@
 import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
+import { LoadBookReadingPageResponseDTO } from '@/core/application/book/load-book-reading-page-response.dto';
 import { BookRepository } from '@/core/domain/book/book.repository';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
@@ -33,6 +34,22 @@ export class ApiBookRepository implements BookRepository {
   async buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>> {
     try {
       return await this.api.get(`${route}`, { responseType: 'arraybuffer' });
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
+  async buscarTelaDeLeitura(
+    idUsuario: number
+  ): Promise<LoadBookReadingPageResponseDTO> {
+    try {
+      const response = await this.api.get(
+        `/livros/tela_de_leitura/usuario/${idUsuario}`
+      );
+
+      return response.data;
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error
