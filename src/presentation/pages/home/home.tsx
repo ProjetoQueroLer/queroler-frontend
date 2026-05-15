@@ -1,7 +1,8 @@
 import { SearchBar } from '@/presentation/shared/components/searchBar/SearchBar';
-import { BookOpen, BookMarked, CheckCircle, MinusCircle } from 'lucide-react';
+import { BookOpen, BookHeart, CheckCircle, Ban } from 'lucide-react';
 import { BookSection } from '@/presentation/shared/components/bookSection/BookSection';
 import { Header } from '@/presentation/shared/components/header/header';
+import { PopularBooks } from '@/presentation/shared/components/popularBooks/PopularBooks';
 
 export const Home = () => {
   return (
@@ -16,15 +17,17 @@ export const Home = () => {
         </p>
         <SearchBar />
 
+        <PopularBooks />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection
-            title="Livros que Quero Ler"
+            title="Quero Ler"
             tag="DESEJOS"
             tagColor="bg-desired/15 text-desired"
-            icon={<BookMarked size={18} className="text-desired" />}
+            icon={<BookHeart size={18} className="text-desired" />}
           />
           <BookSection
-            title="Livros que estou lendo"
+            title="Estou lendo"
             tag="ATIVO"
             tagColor="bg-active/15 text-active"
             icon={<BookOpen size={18} className="text-active" />}
@@ -36,10 +39,10 @@ export const Home = () => {
             icon={<CheckCircle size={18} className="text-completed" />}
           />
           <BookSection
-            title="Livros abandonados"
+            title="Abandonados"
             tag="PAUSA"
             tagColor="bg-pause/15 text-pause"
-            icon={<MinusCircle size={18} className="text-pause" />}
+            icon={<Ban size={18} className="text-pause" />}
           />
         </div>
       </main>
