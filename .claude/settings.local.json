@@ -7,7 +7,8 @@
       "Bash(Remove-Item \"c:\\\\Users\\\\marcelow\\\\Ferraz\\\\Academia\\\\Projeto Quero Ler\\\\CYPRESS\\\\queroler-frontend\\\\cypress\\\\e2e\\\\elements\\\\tela-inicial-elemento.cy.js\" -Force)",
       "Bash(Remove-Item \"c:\\\\Users\\\\marcelow\\\\Ferraz\\\\Academia\\\\Projeto Quero Ler\\\\CYPRESS\\\\queroler-frontend\\\\cypress\\\\e2e\\\\pages\\\\login-page.cy.js\" -Force)",
       "Bash(Remove-Item \"c:\\\\Users\\\\marcelow\\\\Ferraz\\\\Academia\\\\Projeto Quero Ler\\\\CYPRESS\\\\queroler-frontend\\\\cypress\\\\e2e\\\\pages\\\\tela-inicial-page.cy.js\" -Force)",
-      "Bash(Remove-Item \"c:\\\\Users\\\\marcelow\\\\Ferraz\\\\Academia\\\\Projeto Quero Ler\\\\CYPRESS\\\\queroler-frontend\\\\cypress\\\\e2e\\\\tests\\\\login.cy.js\" -Force)"
+      "Bash(Remove-Item \"c:\\\\Users\\\\marcelow\\\\Ferraz\\\\Academia\\\\Projeto Quero Ler\\\\CYPRESS\\\\queroler-frontend\\\\cypress\\\\e2e\\\\tests\\\\login.cy.js\" -Force)",
+      "Bash(node -e \"require\\('@cypress/webpack-preprocessor'\\); console.log\\('ok'\\)\")"
     ]
   }
 }

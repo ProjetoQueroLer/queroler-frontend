@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
-import { LoginElements } from '@/../cypress/support/elements/LoginElements';
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
+import { LoginElements } from './elements/LoginElements';
 
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {

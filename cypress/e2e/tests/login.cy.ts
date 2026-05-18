@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+ 
 import { LoginPage } from '../../support/pages/LoginPage';
 
 const loginPage = new LoginPage();
