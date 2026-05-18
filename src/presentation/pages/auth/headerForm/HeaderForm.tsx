@@ -1,5 +1,5 @@
 export const HeaderForm = () => (
-  <div className="mb-8">
+  <div className="mb-8" data-testid="login-header">
     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
       Bem-vindo
     </h1>

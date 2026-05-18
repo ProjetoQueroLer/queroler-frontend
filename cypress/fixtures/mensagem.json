@@ -1,5 +1,9 @@
 {
   "toastLoginSucesso": "Login realizado com sucesso.",
   "toastLogoutSucesso": "Realizando logout...",
-  "emailInvalido": "E-mail inválido"
+  "emailObrigatorio": "E-mail obrigatório",
+  "emailInvalido": "E-mail inválido",
+  "emailMuitoLongo": "Máximo de 256 caracteres",
+  "senhaObrigatoria": "Mínimo 8 caracteres",
+  "senhaMuitoCurta": "Mínimo 8 caracteres"
 }
