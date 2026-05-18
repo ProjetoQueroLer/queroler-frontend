@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
- 
 import { HomeElements } from '../elements/HomeElements';
 
 export class HomePage {
@@ -40,6 +39,16 @@ export class HomePage {
 
   verificarSinoVisivel(): this {
     cy.get(HomeElements.bellIcon).should('be.visible');
+    return this;
+  }
+
+  verificarFotoDoUsuarioVisivel(): this {
+    cy.get(HomeElements.photoUser).should('be.visible');
+    return this;
+  }
+
+  verificarNomeDoUsuarioVisivel(nome: string): this {
+    cy.get(HomeElements.username).should('be.visible').and('have.text', nome);
     return this;
   }
 }
