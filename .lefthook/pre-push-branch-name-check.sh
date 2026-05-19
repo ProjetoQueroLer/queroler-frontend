@@ -6,7 +6,7 @@ branch_name=$(git symbolic-ref --short HEAD)
 # Base: E{número}_HU{número}
 # Opcional: _TASK_{número} OU _BUG_{número}
 if ! echo "$branch_name" | grep -Eq '^E[0-9]+_HU[0-9]+(_(TASK|BUG)_[0-9]+)?$'; then
-  echo "❌ Nome da branch inválido: '$branch_name'"
+  echo "Nome da branch inválido: '$branch_name'"
   echo "--------------------------------------------------------"
   echo "O nome da branch deve seguir um dos padrões abaixo:"
   echo "  - HU principal:  E2_HU2"
