@@ -1,8 +1,7 @@
 /// <reference types="cypress" />
 
- 
 import { LoginPage } from '../../support/pages/LoginPage';
- 
+
 import { HomePage } from '../../support/pages/HomePage';
 
 const loginPage = new LoginPage();
@@ -61,6 +60,25 @@ describe('Tela Inicial', () => {
 
     homePage
       .fecharToast()
+      .abrirMenuUsuario()
+      .clicarEmSair()
+      .verificarToast(msg.toastLogoutSucesso);
+
+    loginPage.verificarPaginaCarregada();
+  });
+
+  it('Deve validar tela inicial e realizar logout com sucesso', () => {
+    cy.allure()
+      .feature('Tela Inicial')
+      .story('Acesso com autenticação')
+      .severity('critical');
+
+    homePage
+      .fecharToast()
+      .verificarPaginaCarregada()
+      .verificarSinoVisivel()
+      .verificarFotoDoUsuarioVisivel()
+      .verificarNomeDoUsuarioVisivel('Nome do usuário')
       .abrirMenuUsuario()
       .clicarEmSair()
       .verificarToast(msg.toastLogoutSucesso);
