@@ -7,5 +7,9 @@
   "credenciaisInvalidas": {
     "email": "usuario.invalido@queroler.com",
     "senha": "SenhaErrada123"
+  },
+  "loginNaoPreenchido": {
+    "email": " ",
+    "senha": " "
   }
 }
