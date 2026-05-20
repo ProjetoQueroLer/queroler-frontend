@@ -235,6 +235,6 @@ describe('Login - conta administrador e moderador', () => {
   });
 
   it('Não deve fazer login sem email e senha preenchidos', () => {
-    loginPage.verificarBotaoDesabilitado;
+    loginPage.verificarBotaoDesabilitado();
   });
 });
