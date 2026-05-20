@@ -10,7 +10,7 @@ export function SearchBar() {
   const [filtroSelecionado, setFiltroSelecionado] = useState('Título');
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const opcoesFiltro = ['Título', 'Autor(a)', 'Editora'];
+  const opcoesFiltro = ['Título', 'Autor(a)', 'Editora', 'ISBN'];
   const router = useRouter();
 
   return (
