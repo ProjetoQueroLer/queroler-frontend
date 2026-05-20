@@ -1,0 +1,11 @@
+{
+  "perfilAdministrador": {
+    "email": "administrador@queroler.com",
+    "senha": "Pa55word@"
+  },
+
+  "perfilModerador": {
+    "email": "moderador@queroler.com",
+    "senha": "Pa55word@"
+  }
+}
