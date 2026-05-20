@@ -1,5 +1,6 @@
 import { UserEntity } from '@/core/domain/user/user.entity';
 import {
+  ChangePasswordData,
   CreateUserData,
   UserRepository,
 } from '@/core/domain/user/user.repository';
@@ -12,6 +13,16 @@ export class ApiUserRepository implements UserRepository {
     try {
       const response = await this.api.post('/usuarios', data);
       return response.data;
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
+  async changePassword(data: ChangePasswordData): Promise<void> {
+    try {
+      await this.api.put('/usuarios/alterar-senha', data);
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error

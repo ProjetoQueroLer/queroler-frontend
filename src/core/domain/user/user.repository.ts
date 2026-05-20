@@ -9,6 +9,12 @@ export interface CreateUserData {
   checkTermo: boolean;
 }
 
+export interface ChangePasswordData {
+  senhaAtual: string;
+  senhaNova: string;
+}
+
 export interface UserRepository {
   create(data: CreateUserData): Promise<UserEntity>;
+  changePassword(data: ChangePasswordData): Promise<void>;
 }
