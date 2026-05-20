@@ -1,45 +1,37 @@
 @import 'tailwindcss';
-
 :root {
   /* Cores principais do layout */
   --color-background: #0c0a15;
   --color-foreground: #ffffff;
   --color-brand: #e41b6f;
-
   /* Cores de texto */
   --color-text-primary: #ffffff;
   --color-text-secondary: #94a3b8;
   --color-text-subtitle: #e4bdc2;
-
   /* Cores de status/badges */
   --color-desired: #ff4e7c;
   --color-active: #eab308;
   --color-completed: #10b981;
   --color-pause: #3b82f6;
-
   /* Cores de seções */
   --color-dark-purple: #25213d;
   --color-card-bg: #0d0b16;
   --color-border: #2d293d;
   --color-secondary-bg: #110f1a;
-
   /* Cores neutras */
   --color-white: #ffffff;
   --color-black: #0c0a15;
   --color-darker-gray: #2b283a;
   --color-gray: #687280;
-
   --color-input-bg: #0e0d17;
   --color-placeholder: #3a3744;
   --color-border-default: #1d1a29;
   --color-border-hover: #3a3845;
   --color-search-border: #14121c;
-
   /* Button colors for design system */
   --color-primary-button: #26223e;
   --color-secondary-button: #201e32;
 }
-
 @theme inline {
   --color-background: var(--color-background);
   --color-background-secondary: var(--color-secondary-bg);
@@ -66,11 +58,20 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
 @media (prefers-color-scheme: dark) {
 }
-
 body {
   color: var(--color-foreground);
   font-family: 'Plus Jakarta Sans', var(--font-layout-display), sans-serif;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
 }

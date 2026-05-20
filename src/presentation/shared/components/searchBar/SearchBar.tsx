@@ -1,16 +1,14 @@
 'use client';
-
 import { Search, ChevronDown, Check } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '@/presentation/shared/components/modal/Modal';
 import { useRouter } from 'next/navigation';
-
 export function SearchBar() {
   const [filtroOpen, setFiltroOpen] = useState(false);
   const [filtroSelecionado, setFiltroSelecionado] = useState('Título');
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const opcoesFiltro = ['Título', 'Autor(a)', 'Editora'];
+  const opcoesFiltro = ['Título', 'Autor(a)', 'Editora', 'ISBN'];
   const router = useRouter();
 
   return (
@@ -30,7 +28,6 @@ export function SearchBar() {
             }}
           />
         </div>
-
         <div className="relative w-[20px] lg:w-[110px]">
           <div
             onClick={() => setFiltroOpen(!filtroOpen)}
@@ -41,7 +38,6 @@ export function SearchBar() {
             </span>
             <ChevronDown size={14} className="text-text-secondary" />
           </div>
-
           {filtroOpen && (
             <div className="absolute right-0 mt-2 w-[110px] bg-card-bg border border-border rounded-lg shadow-lg z-50 flex flex-col p-1 flex flex-col p-1">
               {opcoesFiltro.map((opcao) => (
