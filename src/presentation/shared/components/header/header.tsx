@@ -1,30 +1,44 @@
 'use client';
 
-import { Bell, ChevronDown, LogOut, User } from 'lucide-react';
+import { Bell, ChevronDown, CircleUser, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BookOpen } from 'lucide-react';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
 
-export function Header() {
+export interface HeaderProps {
+  fotoDePerfil?: string;
+  nomeUsuario?: string;
+}
+
+export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
   const { logout } = useAuth();
+  const router = useRouter();
   const [menuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
-      {/* Logo na esquerda */}
-      <Image
-        src="/logo-small.svg"
-        alt="Quero Ler"
-        width={120}
-        height={36}
-        priority
-        className="h-auto w-auto"
-      />
+      {fotoDePerfil ? (
+        <Image
+          src={fotoDePerfil}
+          alt="Foto de perfil"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      ) : (
+        <Image
+          src="/logo-small.svg"
+          alt="Quero Ler"
+          width={120}
+          height={36}
+          priority
+          className="h-auto w-auto"
+        />
+      )}
 
-      {/* Ícones e Usuário na direita */}
       <div className="flex items-center gap-3 lg:gap-6">
-        {/* Ícone livro desabilitado */}
         <div className="relative group">
           <BookOpen size={20} className="text-color-text-primary" />
           <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -32,7 +46,6 @@ export function Header() {
           </span>
         </div>
 
-        {/* Sino desabilitado */}
         <div className="relative group">
           <Bell
             data-testid="bell-icon"
@@ -56,13 +69,27 @@ export function Header() {
               <User size={16} className="text-white" />
             </div>
             <span className="text-text-primary text-sm hidden lg:block">
-              Nome do usuário
+              {nomeUsuario} Nome do usuario
             </span>
             <ChevronDown size={16} className="text-text-secondary" />
           </button>
 
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50">
+              <div className="border-b border-border p-2">
+                <p className="text-text-primary text-sm font-medium">
+                  {nomeUsuario} Nome do usuario
+                </p>
+                <p className="text-text-secondary text-xs">email do usuario</p>
+              </div>
+              <button
+                data-testid="profile-button"
+                onClick={() => router.push('/perfil')}
+                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg cursor-pointer"
+              >
+                <CircleUser size={14} />
+                Meu perfil
+              </button>
               <button
                 data-testid="logout-button"
                 onClick={logout}
