@@ -41,15 +41,13 @@ export class ApiBookRepository implements BookRepository {
     }
   }
 
-  async buscarTelaDeLeitura(
-    idUsuario: number
-  ): Promise<LoadBookReadingPageResponseDTO> {
+  async buscarTelaDeLeitura(): Promise<
+    AxiosResponse<LoadBookReadingPageResponseDTO>
+  > {
     try {
-      const response = await this.api.get(
-        `/livros/tela_de_leitura/usuario/${idUsuario}`
+      return await this.api.get<LoadBookReadingPageResponseDTO>(
+        '/livros/tela_de_leitura'
       );
-
-      return response.data;
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error

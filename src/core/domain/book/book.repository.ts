@@ -20,5 +20,5 @@ export interface BookRepository {
   ): Promise<AxiosResponse<FindBookByIsbnResponseDTO>>;
 
   buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>>;
-  buscarTelaDeLeitura(id: number): Promise<LoadBookReadingPageResponseDTO>;
+  buscarTelaDeLeitura(): Promise<AxiosResponse<LoadBookReadingPageResponseDTO>>;
 }
