@@ -23,7 +23,7 @@ export function BookSection({
         <div className="flex items-center gap-2">
           {icon}
           <span className="text-text-primary text-sm lg:text-base font-semibold">
-            {title}
+            {title + readings}
           </span>
         </div>
         <span

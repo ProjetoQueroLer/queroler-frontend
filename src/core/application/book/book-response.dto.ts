@@ -1,6 +1,6 @@
 import { IdiomaEnum } from '@/core/domain/book/language.enum';
 
-export interface FindBookByIsbnResponseDTO {
+export interface BookResponseDTO {
   id: number;
   titulo: string;
   isbn: string;

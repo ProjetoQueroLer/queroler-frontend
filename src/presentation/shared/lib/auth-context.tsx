@@ -34,6 +34,7 @@ export function AuthProvider({
     });
   };
 
+  // para dar bypass no login inserir true na propriedade isAuthenticated
   return (
     <AuthContext.Provider value={{ isAuthenticated, setAuthenticated, logout }}>
       {children}
