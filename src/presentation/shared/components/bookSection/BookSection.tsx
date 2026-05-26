@@ -5,14 +5,14 @@ import {
 } from '@/presentation/shared/components/bookCard/BookCard';
 interface BookSectionProps {
   title: string;
-  tag: string;
+  bookQuantity: number;
   tagColor: string;
   icon: ReactNode;
   livros?: BookCardProps[];
 }
 export function BookSection({
   title,
-  tag,
+  bookQuantity,
   tagColor,
   icon,
   livros,
@@ -29,7 +29,7 @@ export function BookSection({
         <span
           className={`${tagColor} flex items-center gap-1 text-xs font-thin px-2 py-1 rounded-xs`}
         >
-          {tag}
+          {bookQuantity}
         </span>
       </div>
 

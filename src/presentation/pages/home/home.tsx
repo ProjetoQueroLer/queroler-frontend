@@ -98,28 +98,28 @@ export const Home = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection
             title="Quero Ler"
-            tag="DESEJOS"
+            bookQuantity={livrosQueroLer.length}
             tagColor="bg-desired/15 text-desired"
             icon={<BookHeart size={18} className="text-desired" />}
             livros={livrosQueroLer}
           />
           <BookSection
             title="Estou lendo"
-            tag="ATIVO"
+            bookQuantity={livrosEstouLendo.length}
             tagColor="bg-active/15 text-active"
             icon={<BookOpen size={18} className="text-active" />}
             livros={livrosEstouLendo}
           />
           <BookSection
             title="Livros lidos"
-            tag="CONCLUÍDO"
+            bookQuantity={livrosLidos.length}
             tagColor="bg-completed/15 text-completed"
             icon={<CheckCircle size={18} className="text-completed" />}
             livros={livrosLidos}
           />
           <BookSection
             title="Abandonados"
-            tag="PAUSA"
+            bookQuantity={livrosAbandonados.length}
             tagColor="bg-pause/15 text-pause"
             icon={<Ban size={18} className="text-pause" />}
             livros={livrosAbandonados}
