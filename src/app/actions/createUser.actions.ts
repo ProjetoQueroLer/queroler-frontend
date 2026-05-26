@@ -8,6 +8,7 @@ import api from '@/infra/http/api';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 import { CreateUserUseCase } from '@/core/application/user/create-user.usecase';
+import { CreateUserData } from '@/core/domain/user/user.repository';
 
 export async function createUserAction(data: CreateUserDTO) {
   const validated = createUserSchema.safeParse(data);
@@ -24,7 +25,15 @@ export async function createUserAction(data: CreateUserDTO) {
   try {
     const repository = new ApiUserRepository(api);
     const useCase = new CreateUserUseCase(repository);
-    await useCase.execute(validated.data);
+    const payload: CreateUserData = {
+      nome: validated.data.nome,
+      email: validated.data.email,
+      senha: validated.data.senha,
+      confirmarSenha: validated.data.confirmarSenha,
+      cpf: validated.data.cpf,
+      checkTermo: validated.data.checkTermo,
+    };
+    await useCase.execute(JSON.stringify(payload));
     revalidatePath('/', 'layout');
   } catch (error) {
     return {

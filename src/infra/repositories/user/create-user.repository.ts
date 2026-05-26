@@ -1,7 +1,6 @@
 import { UserEntity } from '@/core/domain/user/user.entity';
 import {
   ChangePasswordData,
-  CreateUserData,
   UserRepository,
 } from '@/core/domain/user/user.repository';
 import { AxiosInstance } from 'axios';
@@ -9,9 +8,11 @@ import { AxiosInstance } from 'axios';
 export class ApiUserRepository implements UserRepository {
   constructor(private readonly api: AxiosInstance) {}
 
-  async create(data: CreateUserData): Promise<UserEntity> {
+  async create(data: string): Promise<UserEntity> {
     try {
-      const response = await this.api.post('/usuarios', data);
+      const formData = new FormData();
+      formData.append('dados', data);
+      const response = await this.api.post('/usuarios', formData);
       return response.data;
     } catch (error: unknown) {
       throw (

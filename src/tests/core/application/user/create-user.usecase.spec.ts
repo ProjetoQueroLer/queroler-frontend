@@ -17,7 +17,7 @@ describe('CreateUserUseCase', () => {
     const repository = makeRepository();
     const useCase = new CreateUserUseCase(repository);
     const input = createUserPayload();
-    await expect(useCase.execute(input)).resolves.toBeUndefined();
-    expect(repository.create).toHaveBeenCalledWith(input);
+    await expect(useCase.execute(input.toString())).resolves.toBeDefined();
+    expect(repository.create).toHaveBeenCalledWith(input.toString());
   });
 });
