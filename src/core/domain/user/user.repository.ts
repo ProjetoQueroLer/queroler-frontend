@@ -15,6 +15,6 @@ export interface ChangePasswordData {
 }
 
 export interface UserRepository {
-  create(data: CreateUserData): Promise<UserEntity>;
+  create(data: string): Promise<UserEntity>;
   changePassword(data: ChangePasswordData): Promise<void>;
 }
