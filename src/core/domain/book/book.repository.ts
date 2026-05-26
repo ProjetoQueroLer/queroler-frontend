@@ -1,5 +1,8 @@
-import { FindBookByIsbnResponseDTO } from '@/core/application/book/find-book-by-isbn-response.dto';
-import { LoadBookReadingPageResponseDTO } from '@/core/application/book/load-book-reading-page-response.dto';
+import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import {
+  LoadBookReadingPageResponseDTO,
+  Page,
+} from '@/core/application/book/load-book-reading-page-response.dto';
 import { AxiosResponse } from 'axios';
 
 export interface CreateBookData {
@@ -15,10 +18,8 @@ export interface CreateBookData {
 
 export interface BookRepository {
   create(dados: string, imagem?: File): Promise<void>;
-  buscarPeloIsbn(
-    isbn: string
-  ): Promise<AxiosResponse<FindBookByIsbnResponseDTO>>;
-
+  buscarPeloIsbn(isbn: string): Promise<AxiosResponse<BookResponseDTO>>;
   buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>>;
   buscarTelaDeLeitura(id: number): Promise<LoadBookReadingPageResponseDTO>;
+  buscarLivrosPopulares(): Promise<AxiosResponse<Page<BookResponseDTO>>>;
 }
