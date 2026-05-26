@@ -1,7 +1,10 @@
 import { CreateUserDTO } from '@/core/application/user/create-user.dto';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { UserEntity } from '@/core/domain/user/user.entity';
-import { UserRepository } from '@/core/domain/user/user.repository';
+import {
+  ChangePasswordData,
+  UserRepository,
+} from '@/core/domain/user/user.repository';
 
 export class MockUserRepository implements UserRepository {
   public async create(data: CreateUserDTO): Promise<UserEntity> {
@@ -22,4 +25,6 @@ export class MockUserRepository implements UserRepository {
       livros: undefined,
     };
   }
+
+  public async changePassword(_data: ChangePasswordData): Promise<void> {}
 }
