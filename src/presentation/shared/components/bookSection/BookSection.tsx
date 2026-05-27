@@ -3,7 +3,6 @@ import {
   BookCard,
   BookCardProps,
 } from '@/presentation/shared/components/bookCard/BookCard';
-
 interface BookSectionProps {
   title: string;
   tag: string;
@@ -11,7 +10,6 @@ interface BookSectionProps {
   icon: ReactNode;
   livros?: BookCardProps[];
 }
-
 export function BookSection({
   title,
   tag,
@@ -28,7 +26,6 @@ export function BookSection({
             {title}
           </span>
         </div>
-
         <span
           className={`${tagColor} flex items-center gap-1 text-xs font-thin px-2 py-1 rounded-xs`}
         >
@@ -36,9 +33,11 @@ export function BookSection({
         </span>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto pb-2 min-h-[120px]">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 min-h-[120px]">
         {livros && livros.length > 0 ? (
-          livros.map((livro) => <BookCard key={livro.id} {...livro} />)
+          livros
+            ?.slice(0, 4)
+            .map((livro) => <BookCard key={livro.id} {...livro} />)
         ) : (
           <p className="text-text-secondary text-sm self-center">
             Nenhum livro ainda.
