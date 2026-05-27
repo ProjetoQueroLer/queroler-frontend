@@ -14,6 +14,8 @@ import { changePasswordFirstLoginAction } from '@/app/actions/changePasswordFirs
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { deleteAuthCookieAction } from '@/app/actions/auth/deleteAuthCookie.actions';
+import { deleteFirstLoginCookieAction } from '@/app/actions/auth/deleteFirstLoginCookie.actions';
 
 export function ChangePasswordForm() {
   const { setAuthenticated } = useAuth();
@@ -47,6 +49,12 @@ export function ChangePasswordForm() {
     setAuthenticated(true);
     router.refresh();
     router.push('/');
+  };
+
+  const onCancel = async () => {
+    await deleteFirstLoginCookieAction();
+    setAuthenticated(false);
+    await deleteAuthCookieAction();
   };
 
   return (
@@ -121,15 +129,25 @@ export function ChangePasswordForm() {
               message={errors.confirmarSenhaNova?.message as string}
             />
           </div>
-          <Button
-            variant="primary"
-            type="submit"
-            iconRight={<ArrowRight size={16} />}
-            data-testid="change-password-submit-button"
-            disabled={isSubmitting || !isValid}
-          >
-            {isSubmitting ? 'Salvando...' : 'Confirmar'}
-          </Button>
+          <div className="flex items-center justify-between gap-4 mt-2">
+            <Button
+              variant="primary"
+              type="button"
+              data-testid="change-password-cancel-button"
+              onClick={() => onCancel()}
+            >
+              {'Cancelar'}
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              iconRight={<ArrowRight size={16} />}
+              data-testid="change-password-submit-button"
+              disabled={isSubmitting || !isValid}
+            >
+              {isSubmitting ? 'Salvando...' : 'Confirmar'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

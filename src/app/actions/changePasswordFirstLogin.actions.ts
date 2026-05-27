@@ -7,6 +7,7 @@ import {
 import { ChangePasswordUseCase } from '@/core/application/user/change-password.usecase';
 import api from '@/infra/http/api';
 import { ApiUserRepository } from '@/infra/repositories/user/create-user.repository';
+import { cookies } from 'next/headers';
 import z from 'zod';
 
 export async function changePasswordFirstLoginAction(data: ChangePasswordDTO) {
@@ -25,6 +26,9 @@ export async function changePasswordFirstLoginAction(data: ChangePasswordDTO) {
     const repository = new ApiUserRepository(api);
     const useCase = new ChangePasswordUseCase(repository);
     await useCase.execute(validated.data);
+
+    const cookieStore = await cookies();
+    cookieStore.delete('primeiroLoginPendente');
 
     return {
       success: true,
