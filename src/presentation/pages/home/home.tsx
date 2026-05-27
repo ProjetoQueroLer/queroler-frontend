@@ -23,8 +23,6 @@ export const Home = () => {
       try {
         const result = await loadBookReadingPageAction();
 
-        console.log(result);
-
         if (!result.success) {
           toast.error(result.message);
           return;
