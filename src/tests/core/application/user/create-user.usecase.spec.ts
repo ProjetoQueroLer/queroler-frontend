@@ -7,6 +7,7 @@ import { createUserResponse } from '@/tests/mocks/data-providers/create-user-act
 const makeRepository = (overrides: Partial<UserRepository> = {}) => {
   const base: UserRepository = {
     create: jest.fn(async () => createUserResponse()),
+    changePassword: jest.fn(),
   };
   return { ...base, ...overrides } as UserRepository;
 };
@@ -16,7 +17,7 @@ describe('CreateUserUseCase', () => {
     const repository = makeRepository();
     const useCase = new CreateUserUseCase(repository);
     const input = createUserPayload();
-    await expect(useCase.execute(input)).resolves.toBeUndefined();
-    expect(repository.create).toHaveBeenCalledWith(input);
+    await expect(useCase.execute(input.toString())).resolves.toBeDefined();
+    expect(repository.create).toHaveBeenCalledWith(input.toString());
   });
 });

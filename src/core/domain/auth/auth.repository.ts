@@ -8,6 +8,7 @@ export interface LoginResponse {
   refreshToken?: string;
   user?: unknown;
   setCookie?: string[];
+  primeiroLogin: boolean;
 }
 
 export interface AuthRepository {
