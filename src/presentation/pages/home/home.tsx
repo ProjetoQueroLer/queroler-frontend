@@ -13,8 +13,6 @@ import { BookSection } from '@/presentation/shared/components/bookSection/BookSe
 import { Ban, BookHeart, BookOpen, CheckCircle } from 'lucide-react';
 
 export const Home = () => {
-  //Id do usuário está hardcoded pois backend ainda não fornece api para pegar id usando o JWT
-  const idUsuario = 1;
   const [livrosQueroLer, setLivrosQueroLer] = useState<BookCardProps[]>([]);
   const [livrosEstouLendo, setLivrosEstouLendo] = useState<BookCardProps[]>([]);
   const [livrosLidos, setLivrosLidos] = useState<BookCardProps[]>([]);
@@ -27,7 +25,7 @@ export const Home = () => {
   useEffect(() => {
     async function carregarDadosIniciais() {
       const response = await loadPopularBooksAction();
-      // const result = await loadBookReadingPageAction(idUsuario);
+      // const result = await loadBookReadingPageAction();
 
       // if (!result.success) {
       //   toast.error(result.message);
@@ -84,7 +82,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 px-4 py-6 lg:px-8">
+      <main className="flex-1 max-w-7xl mx-auto px-4 py-6 lg:px-8">
         <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
           Leituras atuais, desejadas e passadas
         </h1>

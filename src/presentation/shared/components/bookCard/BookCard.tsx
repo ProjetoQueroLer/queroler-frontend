@@ -32,9 +32,11 @@ export function BookCard({ title, author, cover }: BookCardProps) {
           {title}
         </span>
 
-        <span className="text-text-secondary flex items-center text-sm font-thin py-1 rounded-xs">
-          {author}
-        </span>
+        {author && (
+          <span className="text-text-secondary text-sm font-thin mt-1 line-clamp-1">
+            {author}
+          </span>
+        )}
       </div>
     </div>
   );

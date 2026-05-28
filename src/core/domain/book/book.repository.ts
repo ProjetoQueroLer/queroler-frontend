@@ -20,6 +20,6 @@ export interface BookRepository {
   create(dados: string, imagem?: File): Promise<void>;
   buscarPeloIsbn(isbn: string): Promise<AxiosResponse<BookResponseDTO>>;
   buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>>;
-  buscarTelaDeLeitura(id: number): Promise<LoadBookReadingPageResponseDTO>;
+  buscarTelaDeLeitura(): Promise<AxiosResponse<LoadBookReadingPageResponseDTO>>;
   buscarLivrosPopulares(): Promise<AxiosResponse<Page<BookResponseDTO>>>;
 }

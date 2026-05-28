@@ -20,11 +20,6 @@
 //   filtro: string;
 // }
 
-// //interface RespostaBack {
-// //  content: Livro[];
-// //  totalElements: number;
-// //}
-
 // export function BookResults({ query, filtro }: BookResultsProps) {
 //   const [livros, setLivros] = useState<Livro[]>([]);
 //   const [paginaAtual, setPaginaAtual] = useState(1);
@@ -39,15 +34,15 @@
 //           return;
 //         }
 
-//         // const resposta = await fetch(
-//         //   `${process.env.NEXT_PUBLIC_API_URL}/livros/busca?query=${query}`
-//         // );
+//         const resposta = await fetch(
+//           `${process.env.NEXT_PUBLIC_API_URL}/livros/busca?query=${query}`
+//         );
 
-//         // if (!resposta.ok) return;
+//         if (!resposta.ok) return;
 
-//         // const dados: RespostaBack = await resposta.json();
+//         const dados: RespostaBack = await resposta.json();
 
-//         const dados = mockPopularBooks5;
+//         const dados = [];
 
 //         const termo = query.toLowerCase();
 

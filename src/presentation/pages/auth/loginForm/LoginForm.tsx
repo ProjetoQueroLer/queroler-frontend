@@ -40,8 +40,14 @@ export function LoginForm() {
       return;
     }
 
-    setAuthenticated(true);
     toast.success(result.message);
+
+    if (result.data?.primeiroLogin) {
+      router.push('/alterar-senha');
+      return;
+    }
+
+    setAuthenticated(true);
     router.refresh();
     router.push('/');
   };

@@ -35,6 +35,14 @@ export async function loginAction(data: LoginDTO) {
     const jwt = extractJwtCookieValue(result.setCookie ?? []);
     if (jwt) {
       const cookieStore = await cookies();
+      if (result.primeiroLogin) {
+        cookieStore.set('primeiroLoginPendente', 'true', {
+          maxAge: 60 * 5,
+          secure: process.env.NODE_ENV === 'production',
+          path: '/',
+          sameSite: 'strict',
+        });
+      }
       cookieStore.set('jwt', jwt, {
         httpOnly: true,
         sameSite: 'strict',
