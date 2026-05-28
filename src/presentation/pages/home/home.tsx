@@ -89,7 +89,7 @@ export const Home = () => {
           Leituras atuais, desejadas e passadas
         </h1>
         <p className="text-text-subtitle text-sm lg:text-base mb-6">
-          Organize sua jornada literária e acompanhe seu progresso.
+          Organize sua jornada literária e acompanhe seu progressooooo.
         </p>
         <SearchBar />
         <PopularBooks />
