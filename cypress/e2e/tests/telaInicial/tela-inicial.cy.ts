@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import { LoginPage } from '../../support/pages/LoginPage';
+import { LoginPage } from '../../../support/pages/LoginPage';
 
-import { HomePage } from '../../support/pages/HomePage';
+import { HomePage } from '../../../support/pages/HomePage';
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
@@ -24,9 +24,6 @@ beforeEach(() => {
   cy.login();
 });
 
-// ─────────────────────────────────────────────
-// Tela Inicial
-// ─────────────────────────────────────────────
 describe('Tela Inicial', () => {
   it('Deve exibir toast de sucesso após login realizado com sucesso', () => {
     cy.allure()
