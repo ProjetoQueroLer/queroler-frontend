@@ -35,10 +35,10 @@ export function UserProfile() {
 
       <main className="flex-1 px-4 py-6 lg:px-8">
         <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
-          Perfil
+          Meu perfil
         </h1>
         <p className="text-text-subtitle text-sm lg:text-base mb-6">
-          Atualize sua foto de perfil e informações pessoais.
+          Cadastre e edite as informações do seu perfil.
         </p>
 
         <form className="flex flex-col lg:flex-row gap-6">
@@ -90,6 +90,7 @@ export function UserProfile() {
                 data-testid="input-nome"
                 className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                 id="nome"
+                placeholder="Ex: João da Silva"
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -109,29 +110,33 @@ export function UserProfile() {
                 </label>
                 <input
                   data-testid="input-cpf"
+                  placeholder="Ex: 123.456.789-00"
                   className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                   id="cpf"
-                  placeholder="Ex.: 000.000.000-00"
                   maxLength={11}
                 />
               </div>
-              <div className="flex-1 flex flex-col gap-1">
+              <div className="relative flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
                   Data de nascimento
                 </label>
-                <input
-                  type="date"
-                  data-testid="input-nascimento"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  onClick={(e) =>
-                    (e.currentTarget as HTMLInputElement).showPicker?.()
-                  }
-                  className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none ${
-                    date ? 'text-text-primary' : 'text-text-secondary'
-                  }`}
-                  id="data-picker"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    data-testid="input-nascimento"
+                    placeholder="Ex: 01/02/1234"
+                    maxLength={10}
+                    value={date}
+                    onChange={(e) => {
+                      let v = e.target.value.replace(/\D/g, '');
+                      if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+                      if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
+                      setDate(v);
+                    }}
+                    className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
+                    id="data-picker"
+                  />
+                </div>
               </div>
             </div>
             <div className="flex flex-col lg:flex-row gap-4">
@@ -139,21 +144,36 @@ export function UserProfile() {
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
                   País
                 </label>
-                <input
-                  data-testid="input-pais"
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                  id="pais"
-                />
+                <div className="relative">
+                  <select
+                    data-testid="input-pais"
+                    className="w-full appearance-none bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                    id="pais"
+                  >
+                    <option value="">Selecione um país</option>
+                  </select>
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
+                    ▾
+                  </span>
+                </div>
               </div>
+
               <div className="flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
                   Estado
                 </label>
-                <input
-                  data-testid="input-estado"
-                  className="w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                  id="estado"
-                />
+                <div className="relative">
+                  <select
+                    data-testid="input-estado"
+                    className="w-full appearance-none bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                    id="estado"
+                  >
+                    <option value="">Selecione um estado</option>
+                  </select>
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
+                    ▾
+                  </span>
+                </div>
               </div>
               <div className="flex-1 flex flex-col gap-1">
                 <label className="text-text-secondary text-xs uppercase tracking-widest">
@@ -180,15 +200,28 @@ export function UserProfile() {
                     router.back();
                   });
                 }}
-                className="px-6 py-3 text-sm text-text-secondary hover:opacity-80 cursor-pointer uppercase font-bold"
+                className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer uppercase font-bold"
               >
                 Excluir perfil
+              </button>
+              <button
+                type="button"
+                data-testid="btn-voltar"
+                onClick={() => {
+                  startTransition(async () => {
+                    await new Promise((resolve) => setTimeout(resolve, 1500));
+                    router.back();
+                  });
+                }}
+                className="px-6 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple uppercase font-bold"
+              >
+                Voltar
               </button>
               <button
                 data-testid="btn-salvar"
                 type="submit"
                 disabled={formDesabilitado}
-                className="px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white"
+                className="px-6 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand uppercase font-bold"
               >
                 Salvar dados
               </button>
