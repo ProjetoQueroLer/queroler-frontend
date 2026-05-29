@@ -11,8 +11,6 @@ import { BookCardProps } from '@/presentation/shared/components/bookCard/BookCar
 import { LoadBookReadingPageResponseDTO } from '@/core/application/book/load-book-reading-page-response.dto';
 
 export const Home = () => {
-  //Id do usuário está hardcoded pois backend ainda não fornece api para pegar id usando o JWT
-  const idUsuario = 1;
   const [livrosQueroLer, setLivrosQueroLer] = useState<BookCardProps[]>([]);
   const [livrosEstouLendo, setLivrosEstouLendo] = useState<BookCardProps[]>([]);
   const [livrosLidos, setLivrosLidos] = useState<BookCardProps[]>([]);
@@ -23,7 +21,7 @@ export const Home = () => {
   useEffect(() => {
     async function carregarTelaDeLeitura() {
       try {
-        const result = await loadBookReadingPageAction(idUsuario);
+        const result = await loadBookReadingPageAction();
 
         if (!result.success) {
           toast.error(result.message);
@@ -86,7 +84,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 px-4 py-6 lg:px-40">
+      <main className="flex-1 max-w-7xl mx-auto px-4 py-6 lg:px-8">
         <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
           Leituras atuais, desejadas e passadas
         </h1>

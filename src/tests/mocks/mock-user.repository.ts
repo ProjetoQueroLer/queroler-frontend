@@ -1,25 +1,29 @@
-import { CreateUserDTO } from '@/core/application/user/create-user.dto';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { UserEntity } from '@/core/domain/user/user.entity';
-import { UserRepository } from '@/core/domain/user/user.repository';
+import {
+  ChangePasswordData,
+  UserRepository,
+} from '@/core/domain/user/user.repository';
 
 export class MockUserRepository implements UserRepository {
-  public async create(data: CreateUserDTO): Promise<UserEntity> {
+  public async create(_data: string): Promise<UserEntity> {
     return {
       id: 19,
-      nome: data.nome,
-      email: data.email,
-      cpf: data.cpf,
+      nome: 'Teste',
+      email: 'teste@email.com',
+      cpf: '47583364758',
       profile: Profile.LEITOR,
-      dataDeNascimento: '',
-      aceitarTermos: data.checkTermo,
-      cidade: '',
-      estado: '',
-      pais: '',
+      dataDeNascimento: '2000-12-30',
+      aceitarTermos: true,
+      cidade: 'Cidade',
+      estado: 'Estado',
+      pais: 'Pais',
       foto: null,
       user: undefined,
       notificacoes: undefined,
       livros: undefined,
     };
   }
+
+  public async changePassword(_data: ChangePasswordData): Promise<void> {}
 }

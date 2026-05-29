@@ -23,10 +23,13 @@ export class ApiAuthRepository implements AuthRepository {
           ? [setCookieHeader]
           : [];
 
-      const responseData =
-        response.data && typeof response.data === 'object'
-          ? (response.data as Record<string, unknown>)
-          : {};
+      let responseData: Record<string, unknown> = {};
+
+      if (typeof response.data === 'boolean') {
+        responseData = { primeiroLogin: response.data };
+      } else if (response.data && typeof response.data === 'object') {
+        responseData = response.data as Record<string, unknown>;
+      }
 
       if (
         responseData.message &&
@@ -37,7 +40,7 @@ export class ApiAuthRepository implements AuthRepository {
       }
 
       return {
-        ...(responseData as LoginResponse),
+        ...(responseData as unknown as LoginResponse),
         setCookie,
       };
     } catch (error: unknown) {
