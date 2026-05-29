@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, ChevronDown, CircleUser, LogOut, User } from 'lucide-react';
+import { Bell, ChevronDown, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -75,29 +75,34 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-2 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50">
-              <div className="border-b border-border p-2">
+            <div className="absolute right-0 mt-3 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50 ">
+              <div className="gap-2 px-4 py-3 border-b border-border">
                 <p className="text-text-primary text-sm font-medium">
                   {nomeUsuario} Nome do usuario
                 </p>
                 <p className="text-text-secondary text-xs">email do usuario</p>
               </div>
-              <button
-                data-testid="profile-button"
-                onClick={() => router.push('/perfil')}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg cursor-pointer"
-              >
-                <CircleUser size={14} />
-                Meu perfil
-              </button>
-              <button
-                data-testid="logout-button"
-                onClick={logout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:bg-border rounded-lg cursor-pointer"
-              >
-                <LogOut size={14} />
-                Sair
-              </button>
+
+              <div className="border-b border-border hover:bg-border cursor-pointer">
+                <button
+                  data-testid="profile-button"
+                  onClick={() => router.push('/perfil')}
+                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary"
+                >
+                  <User size={14} />
+                  Meu perfil
+                </button>
+              </div>
+              <div className="border-b border-border hover:bg-border rounded-b-lg cursor-pointer">
+                <button
+                  data-testid="logout-button"
+                  onClick={logout}
+                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-brand"
+                >
+                  <LogOut size={14} />
+                  Sair
+                </button>
+              </div>
             </div>
           )}
         </div>
