@@ -140,7 +140,7 @@ export function BookRegister() {
         <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
           Incremente a nossa Biblioteca
         </h1>
-        <p className="text-text-subtitle text-sm lg:text-base mb-6">
+        <p className="text-text-secondary text-sm lg:text-base mb-6">
           Cadastre um livro não encontrado para você e outros leitores o
           adicionarem na sua lista de leitura.
         </p>
