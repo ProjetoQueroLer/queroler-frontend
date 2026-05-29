@@ -26,7 +26,9 @@ export const createUserSchema = z
       }),
     confirmarSenha: z.string().min(8, 'Confirmação obrigatória'),
     cpf: z.string().min(11, 'CPF obrigatório').max(14, 'CPF inválido'),
-    checkTermo: z.literal(true, { message: 'É necessário aceitar os termos' }),
+    checkTermo: z.boolean().refine((val) => val === true, {
+      message: 'É necessário aceitar os termos',
+    }),
   })
   .refine((data) => data.senha === data.confirmarSenha, {
     message: 'As senhas não coincidem',
