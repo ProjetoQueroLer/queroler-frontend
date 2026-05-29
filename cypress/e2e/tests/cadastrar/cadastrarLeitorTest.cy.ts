@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 import { faker } from '@faker-js/faker/locale/pt_BR';
-import { gerarCpf } from '../../support/utils/geradorCpf';
-import { CadastrarLeitorPage } from '../../support/pages/CadastrarLeitorPage';
-import { gerarSenha } from '../../support/utils/geradorSenha';
+import { gerarCpf } from '../../../support/utils/geradorCpf';
+import { CadastrarLeitorPage } from '../../../support/pages/CadastrarLeitorPage';
+import { gerarSenha } from '../../../support/utils/geradorSenha';
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();

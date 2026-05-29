@@ -43,6 +43,9 @@ export class CadastrarLeitorPage {
     cy.get(CadastrarLeitorElements.acceptTheTermsOfUseText).should(
       'be.visible'
     );
+    cy.get(CadastrarLeitorElements.acceptTheTermsOfUseCheckbox)
+      .should('be.visible')
+      .click();
     return this;
   }
 

@@ -3,7 +3,7 @@ import allureWriter from '@shelex/cypress-allure-plugin/writer';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'https://queroler-frontend.vercel.app/',
+    baseUrl: 'https://queroler-frontend-stg.onrender.com',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/e2e.ts',
     viewportWidth: 1280,
