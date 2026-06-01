@@ -7,7 +7,8 @@ export class CadastrarLeitorElements {
   static readonly passwordInput = '[data-testid="input-senha"]';
   static readonly confirmPasswordInput = '[data-testid="input-confirmarSenha"]';
   static readonly cpfUserInput = '[data-testid="input-cpf"]';
-  static readonly acceptTheTermsOfUseCheckbox = '[id="checkTermo"]';
+  static readonly acceptTheTermsOfUseCheckbox =
+    '.relative.flex.items-center.justify-center';
   static readonly acceptTheTermsOfUseText = '.text-xs.text-zinc-300';
   static readonly registeredButton = '[data-testid="register-submit-button"]';
 }
