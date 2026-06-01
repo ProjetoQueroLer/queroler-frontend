@@ -1,14 +1,4 @@
-'use client';
-
-import { Star } from 'lucide-react';
-import { BookCard } from '@/presentation/shared/components/bookCard/BookCard';
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
-
-export function PopularBooks({
-  livros,
-}: {
-  livros: BookResponseDTO[] | undefined;
-}) {
+function BookResults() {
   return (
     <div className="bg-card-bg border border-border rounded-xl px-4 py-3 lg:p-6 lg:py-6 mb-4">
       <div className="flex items-center justify-between mb-4">
@@ -39,3 +29,5 @@ export function PopularBooks({
     </div>
   );
 }
+
+export default BookResults;

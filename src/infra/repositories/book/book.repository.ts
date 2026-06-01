@@ -65,4 +65,16 @@ export class ApiBookRepository implements BookRepository {
       );
     }
   }
+
+  async buscarLivrosPeloAtributo(): Promise<
+    AxiosResponse<Page<BookResponseDTO>>
+  > {
+    try {
+      return await this.api.get('/livros', { params: { titulo: 'a' } });
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
 }

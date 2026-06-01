@@ -22,6 +22,7 @@ export const Home = () => {
   const [livrosPopulares, setLivrosPopulares] = useState<
     BookResponseDTO[] | undefined
   >([]);
+
   useEffect(() => {
     async function carregarDadosIniciais() {
       const response = await loadPopularBooksAction();
@@ -92,7 +93,7 @@ export const Home = () => {
         <SearchBar />
         <PopularBooks livros={livrosPopulares} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* <BookSection
+          <BookSection
             title="Quero Ler"
             tag="DESEJOS"
             tagColor="bg-desired/15 text-desired"
@@ -119,7 +120,7 @@ export const Home = () => {
             tagColor="bg-pause/15 text-pause"
             icon={<Ban size={18} className="text-pause" />}
             livros={livrosAbandonados}
-          /> */}
+          />
         </div>
       </main>
     </div>
