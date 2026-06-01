@@ -9,9 +9,20 @@ export class CadastrarLeitorPage {
   }
 
   verificarPaginaCarregada(): this {
-    cy.get(CadastrarLeitorElements.logoQueroLer, { timeout: 10000 }).should(
+    cy.get(CadastrarLeitorElements.logoQueroLer).should('be.visible');
+    cy.get(CadastrarLeitorElements.titleCrieSuaConta).should('be.visible');
+    cy.get(CadastrarLeitorElements.nameInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.emailInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.passwordInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.confirmPasswordInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.cpfUserInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.acceptTheTermsOfUseCheckbox).should(
       'be.visible'
     );
+    cy.get(CadastrarLeitorElements.acceptTheTermsOfUseText).should(
+      'be.visible'
+    );
+    cy.get(CadastrarLeitorElements.registeredButton).should('be.visible');
     return this;
   }
 
