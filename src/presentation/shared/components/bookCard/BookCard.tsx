@@ -4,6 +4,7 @@ export interface BookCardProps {
   title: string;
   author?: string;
   cover: string;
+  id: string;
 }
 
 export function BookCard({ title, author, cover }: BookCardProps) {

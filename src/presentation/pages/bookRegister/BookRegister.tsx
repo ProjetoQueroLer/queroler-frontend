@@ -12,8 +12,8 @@ import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
 import { createBookAction } from '@/app/actions/createBook.actions';
 import { useRef } from 'react';
 import { findBookByIsbnAction } from '@/app/actions/findBookByIsbn.actions';
-import { AutorResponse } from '@/core/application/book/book-response.dto';
 import { getBookImageAction } from '@/app/actions/getBookImage.actions';
+import { AutorResponse } from '@/core/application/book/book-response.dto';
 
 export function BookRegister() {
   const router = useRouter();
