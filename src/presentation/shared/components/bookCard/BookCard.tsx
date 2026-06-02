@@ -19,6 +19,7 @@ export function BookCard({ title, author, cover }: BookCardProps) {
             sizes="(max-width: 768px) 150px, 215px"
             className="object-cover rounded-t-xl"
             priority={false}
+            loading="eager"
           />
         </div>
       ) : (

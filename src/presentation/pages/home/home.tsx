@@ -1,8 +1,11 @@
 'use client';
-import { SearchBar } from '@/presentation/shared/components/searchBar/SearchBar';
+import {
+  Filtros,
+  SearchBar,
+} from '@/presentation/shared/components/searchBar/SearchBar';
 import { Header } from '@/presentation/shared/components/header/header';
 import { loadPopularBooksAction } from '@/app/actions/loadPopularBooks.actions';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BookResponseDTO } from '@/core/application/book/book-response.dto';
 import { toast } from 'react-toastify';
 import { PopularBooks } from '@/presentation/shared/components/popularBooks/PopularBooks';
@@ -11,8 +14,14 @@ import { BookCardProps } from '@/presentation/shared/components/bookCard/BookCar
 import { LoadBookReadingPageResponseDTO } from '@/core/application/book/load-book-reading-page-response.dto';
 import { BookSection } from '@/presentation/shared/components/bookSection/BookSection';
 import { Ban, BookHeart, BookOpen, CheckCircle } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { findAllBooksByAttributeAction } from '@/app/actions/findAllBooksByAttribute.actions';
 
 export const Home = () => {
+  const [searchParams, setSearchParams] = useState({
+    filtro: 'titulo' as keyof typeof Filtros,
+    termo: '',
+  });
   const [livrosQueroLer, setLivrosQueroLer] = useState<BookCardProps[]>([]);
   const [livrosEstouLendo, setLivrosEstouLendo] = useState<BookCardProps[]>([]);
   const [livrosLidos, setLivrosLidos] = useState<BookCardProps[]>([]);
@@ -22,62 +31,98 @@ export const Home = () => {
   const [livrosPopulares, setLivrosPopulares] = useState<
     BookResponseDTO[] | undefined
   >([]);
+  // const [pages, setPages] = useState();
+  // const [page, setPage] = useState();
+
+  const { data: resultadosAutocomplete = [], isFetching: loadingAutocomplete } =
+    useQuery({
+      queryKey: ['books-search', searchParams.filtro, searchParams.termo],
+      queryFn: async () => {
+        const res = await findAllBooksByAttributeAction({
+          filtro: searchParams.filtro,
+          termo: searchParams.termo,
+        });
+        return res.success ? res.response : [];
+      },
+      enabled: searchParams.termo.trim().length > 0,
+    });
+
+  const handleSearch = useCallback(
+    (filtro: keyof typeof Filtros, termo: string) => {
+      setSearchParams({ filtro, termo });
+    },
+    []
+  );
 
   useEffect(() => {
-    async function carregarDadosIniciais() {
+    async function carregarLivrosPopulares() {
       const response = await loadPopularBooksAction();
-      // const result = await loadBookReadingPageAction();
 
-      // if (!result.success) {
-      //   toast.error(result.message);
-      //   return;
-      // }
       if (!response.success) {
         toast.error(response.message);
         return;
       }
-      // const telaDeLeitura: LoadBookReadingPageResponseDTO = result.response;
 
-      // const queroLer: BookCardProps[] = [];
-      // const estouLendo: BookCardProps[] = [];
-      // const lidos: BookCardProps[] = [];
-      // const abandonados: BookCardProps[] = [];
-      // telaDeLeitura.content.forEach((livro, index) => {
-      //   const livroMapeado: BookCardProps = {
-      //     id: String(index),
-      //     title: livro.titulo,
-      //     cover:
-      //       livro.urlCapa === 'Capa não cadastrada.'
-      //         ? ''
-      //         : `${process.env.NEXT_PUBLIC_API_URL}${livro.urlCapa}`,
-      //   };
-
-      //   switch (livro.status) {
-      //     case 'LIVROS_QUE_QUERO_LER':
-      //       queroLer.push(livroMapeado);
-      //       break;
-
-      //     case 'LIVROS_QUE_ESTOU_LENDO':
-      //       estouLendo.push(livroMapeado);
-      //       break;
-
-      //     case 'LIVROS_LIDOS':
-      //       lidos.push(livroMapeado);
-      //       break;
-
-      //     case 'LIVROS_ABANDONADOS':
-      //       abandonados.push(livroMapeado);
-      //       break;
-      //   }
-      // });
-      // setLivrosQueroLer(queroLer);
-      // setLivrosEstouLendo(estouLendo);
-      // setLivrosLidos(lidos);
-      // setLivrosAbandonados(abandonados);
       setLivrosPopulares(response.response?.content);
     }
 
-    carregarDadosIniciais();
+    async function carregarTelaDeLeitura() {
+      const result = await loadBookReadingPageAction();
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      if (!result.response) {
+        toast.error('Resposta inválida da API.');
+        return;
+      }
+
+      const response: LoadBookReadingPageResponseDTO = result.response;
+
+      const queroLer: BookCardProps[] = [];
+      const estouLendo: BookCardProps[] = [];
+      const lidos: BookCardProps[] = [];
+      const abandonados: BookCardProps[] = [];
+
+      response.content.forEach((livro, index) => {
+        const livroMapeado: BookCardProps = {
+          id: String(index),
+          title: livro.titulo,
+          cover:
+            livro.urlCapa === 'Capa não cadastrada.'
+              ? ''
+              : `${process.env.NEXT_PUBLIC_API_URL}${livro.urlCapa}`,
+        };
+
+        switch (livro.status) {
+          case 'LIVROS_QUE_QUERO_LER':
+            queroLer.push(livroMapeado);
+            break;
+
+          case 'LIVROS_QUE_ESTOU_LENDO':
+            estouLendo.push(livroMapeado);
+            break;
+
+          case 'LIVROS_LIDOS':
+            lidos.push(livroMapeado);
+            break;
+
+          case 'LIVROS_ABANDONADOS':
+            abandonados.push(livroMapeado);
+            break;
+        }
+      });
+
+      setLivrosQueroLer(queroLer);
+      setLivrosEstouLendo(estouLendo);
+      setLivrosLidos(lidos);
+      setLivrosAbandonados(abandonados);
+    }
+
+    carregarLivrosPopulares();
+    carregarTelaDeLeitura();
   }, []);
 
   return (
@@ -90,7 +135,7 @@ export const Home = () => {
         <p className="text-text-subtitle text-sm lg:text-base mb-6">
           Organize sua jornada literária e acompanhe seu progresso.
         </p>
-        <SearchBar />
+        <SearchBar onSearch={handleSearch} />
         <PopularBooks livros={livrosPopulares} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection

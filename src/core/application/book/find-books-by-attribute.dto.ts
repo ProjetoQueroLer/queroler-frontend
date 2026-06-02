@@ -1,4 +1,4 @@
 export interface FindBooksByAttributeDTO {
+  filtro: string;
   termo: string;
-  atributo: string;
 }

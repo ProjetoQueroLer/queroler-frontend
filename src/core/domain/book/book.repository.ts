@@ -1,4 +1,5 @@
 import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { FindBooksByAttributeDTO } from '@/core/application/book/find-books-by-attribute.dto';
 import {
   LoadBookReadingPageResponseDTO,
   Page,
@@ -22,5 +23,5 @@ export interface BookRepository {
   buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>>;
   buscarTelaDeLeitura(): Promise<AxiosResponse<LoadBookReadingPageResponseDTO>>;
   buscarLivrosPopulares(): Promise<AxiosResponse<Page<BookResponseDTO>>>;
-  buscarLivrosPeloAtributo(): Promise<AxiosResponse<Page<BookResponseDTO>>>;
+  buscarLivrosPeloAtributo(data: FindBooksByAttributeDTO): Promise<AxiosResponse<Page<BookResponseDTO>>>;
 }

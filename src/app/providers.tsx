@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthProvider } from '@/presentation/shared/lib/auth-context';
+import { QueryProvider } from '@/presentation/shared/lib/query-provider';
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ export function Providers({
 }: ProvidersProps) {
   return (
     <AuthProvider initialIsAuthenticated={initialIsAuthenticated}>
-      {children}
+      <QueryProvider>
+        {children}
+      </QueryProvider>
     </AuthProvider>
   );
 }

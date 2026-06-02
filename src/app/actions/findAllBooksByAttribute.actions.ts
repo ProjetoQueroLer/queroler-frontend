@@ -5,13 +5,12 @@ import api from '@/infra/http/api';
 import { ApiBookRepository } from '@/infra/repositories/book/book.repository';
 
 export async function findAllBooksByAttributeAction(
-  _data: FindBooksByAttributeDTO
+  data: FindBooksByAttributeDTO
 ) {
-  'use cache';
   try {
     const repository = new ApiBookRepository(api);
     const useCase = new FindAllBooksByAttributeUseCase(repository);
-    const response = await useCase.execute();
+    const response = await useCase.execute(data);
     return {
       success: true,
       response: response.data,

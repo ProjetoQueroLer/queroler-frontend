@@ -1,4 +1,5 @@
 import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { FindBooksByAttributeDTO } from '@/core/application/book/find-books-by-attribute.dto';
 import {
   LoadBookReadingPageResponseDTO,
   Page,
@@ -66,11 +67,13 @@ export class ApiBookRepository implements BookRepository {
     }
   }
 
-  async buscarLivrosPeloAtributo(): Promise<
-    AxiosResponse<Page<BookResponseDTO>>
-  > {
+  async buscarLivrosPeloAtributo(
+    data: FindBooksByAttributeDTO
+  ): Promise<AxiosResponse<Page<BookResponseDTO>>> {
     try {
-      return await this.api.get('/livros', { params: { titulo: 'a' } });
+      return await this.api.get('/livros', {
+        params: { [data.filtro]: data.termo },
+      });
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error
