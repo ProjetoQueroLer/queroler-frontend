@@ -11,4 +11,6 @@ export class CadastrarLeitorElements {
     '.relative.flex.items-center.justify-center';
   static readonly acceptTheTermsOfUseText = '.text-xs.text-zinc-300';
   static readonly registeredButton = '[data-testid="register-submit-button"]';
+  static readonly errorMessageToast =
+    '.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--error';
 }
