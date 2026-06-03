@@ -105,7 +105,18 @@ export function RegisterForm() {
                 />
                 <FieldError message={errors.cpf?.message as string} />
               </div>
-              <div className="flex flex-col h-full gap-2 align-center justify-center">
+              <div>
+                <Input
+                  label="Data de Nascimento"
+                  id="dataNascimento"
+                  type='date'
+                  dataTestId="input-data-nascimento"
+                  // {...registerWithMask('cpf', '999.999.999-99')}
+                  // aria-invalid={!!errors.cpf}
+                />
+                <FieldError message={errors.cpf?.message as string} />
+              </div>
+              <div className="flex flex-col h-full gap-2 align-center flex-start">
                 <div className="mt-2">
                   <Checkbox
                     id="checkTermo"

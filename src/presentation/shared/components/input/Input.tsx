@@ -46,7 +46,7 @@ export const Input = ({
           {...props}
           {...(registerWithMaskConfig || {})}
           className={cn(
-            'flex-1 h-11 outline-none text-zinc-100 placeholder:text-placeholder text-base md:text-sm',
+            'flex-1 h-11 outline-none text-zinc-100 placeholder:text-placeholder text-base md:text-sm [&::-webkit-calendar-picker-indicator]:hidden',
             icon ? 'pl-0' : 'pl-1',
             props.className
           )}
