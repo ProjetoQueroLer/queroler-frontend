@@ -11,6 +11,7 @@ export function createUserPayload(
     senha: '123456K&t#',
     confirmarSenha: '123456K&t#',
     cpf: '12345678901',
+    dataDeNascimento: '2005-12-26',
     checkTermo: true,
     ...overrides,
   };

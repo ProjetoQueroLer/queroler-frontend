@@ -74,6 +74,19 @@ export function RegisterForm() {
                   password: errors.senha,
                 }}
               />
+              <div className="flex flex-col h-full gap-2 align-center flex-start">
+                <div className="mt-2">
+                  <Checkbox
+                    id="checkTermo"
+                    label="Aceito os termos de uso"
+                    error={!!errors.checkTermo}
+                    data-testid="input-termo"
+                    {...register('checkTermo')}
+                    aria-invalid={!!errors.checkTermo}
+                  />
+                </div>
+                <FieldError message={errors.checkTermo?.message as string} />
+              </div>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -105,18 +118,18 @@ export function RegisterForm() {
                 />
                 <FieldError message={errors.cpf?.message as string} />
               </div>
-              <div className="flex flex-col h-full gap-2 align-center justify-center">
-                <div className="mt-2">
-                  <Checkbox
-                    id="checkTermo"
-                    label="Aceito os termos de uso"
-                    error={!!errors.checkTermo}
-                    data-testid="input-termo"
-                    {...register('checkTermo')}
-                    aria-invalid={!!errors.checkTermo}
-                  />
-                </div>
-                <FieldError message={errors.checkTermo?.message as string} />
+              <div>
+                <Input
+                  label="Data de Nascimento"
+                  id="dataDeNascimento"
+                  type="date"
+                  dataTestId="input-data-nascimento"
+                  {...register('dataDeNascimento')}
+                  aria-invalid={!!errors.dataDeNascimento}
+                />
+                <FieldError
+                  message={errors.dataDeNascimento?.message as string}
+                />
               </div>
             </div>
 

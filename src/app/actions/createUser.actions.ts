@@ -31,6 +31,7 @@ export async function createUserAction(data: CreateUserDTO) {
       senha: validated.data.senha,
       confirmarSenha: validated.data.confirmarSenha,
       cpf: validated.data.cpf,
+      dataDeNascimento: validated.data.dataDeNascimento,
       checkTermo: validated.data.checkTermo,
     };
     await useCase.execute(JSON.stringify(payload));
