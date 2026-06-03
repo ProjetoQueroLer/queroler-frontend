@@ -5,5 +5,7 @@
   "emailInvalido": "E-mail inválido",
   "emailMuitoLongo": "Máximo de 256 caracteres",
   "senhaObrigatoria": "Mínimo 8 caracteres",
-  "senhaMuitoCurta": "Mínimo 8 caracteres"
+  "senhaMuitoCurta": "Mínimo 8 caracteres",
+  "cpfJaCadastrado": "CPF já cadastrado.",
+  "emailJaCadastrado": "E-mail já cadastrado."
 }
