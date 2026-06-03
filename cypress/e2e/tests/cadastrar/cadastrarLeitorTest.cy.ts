@@ -80,10 +80,10 @@ describe('Cadastro de Leitor', () => {
 
     cadastrarLeitorPage.preencherFormulario(
       dadosCadastro.nome,
-      dadosCadastro.email,
+      dados.usuarioCadastrado.email,
       dadosCadastro.senha,
       dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf
+      dados.usuarioCadastrado.cpf
     );
 
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
