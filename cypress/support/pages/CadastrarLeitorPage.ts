@@ -3,7 +3,7 @@
 import { CadastrarLeitorElements } from '../elements/CadastrarLeitorElements';
 
 export class CadastrarLeitorPage {
-  visitarPaginaCadastrar(): this {
+  visitarPaginaCadastrarDeLeitor(): this {
     cy.visit('/register');
     return this;
   }
@@ -16,6 +16,7 @@ export class CadastrarLeitorPage {
     cy.get(CadastrarLeitorElements.passwordInput).should('be.visible');
     cy.get(CadastrarLeitorElements.confirmPasswordInput).should('be.visible');
     cy.get(CadastrarLeitorElements.cpfUserInput).should('be.visible');
+    cy.get(CadastrarLeitorElements.birthDateInput).should('be.visible');
     cy.get(CadastrarLeitorElements.acceptTheTermsOfUseCheckbox).should(
       'be.visible'
     );
@@ -36,7 +37,8 @@ export class CadastrarLeitorPage {
     email: string,
     senha: string,
     confirmarSenha: string,
-    cpf: string
+    cpf: string,
+    dataNascimento: string
   ): this {
     cy.get(CadastrarLeitorElements.nameInput).should('be.visible').type(nome);
     cy.get(CadastrarLeitorElements.emailInput).should('be.visible').type(email);
@@ -47,6 +49,9 @@ export class CadastrarLeitorPage {
       .should('be.visible')
       .type(confirmarSenha);
     cy.get(CadastrarLeitorElements.cpfUserInput).should('be.visible').type(cpf);
+    cy.get(CadastrarLeitorElements.birthDateInput)
+      .should('be.visible')
+      .type(dataNascimento);
     return this;
   }
 
@@ -69,6 +74,13 @@ export class CadastrarLeitorPage {
 
   verificarMensagemJaCadastrado(msg: string): this {
     cy.get(CadastrarLeitorElements.errorMessageToast)
+      .should('be.visible')
+      .and('contain.text', msg);
+    return this;
+  }
+
+  verificarMensagemCadastroSucesso(msg: string): this {
+    cy.get(CadastrarLeitorElements.successMessageToast)
       .should('be.visible')
       .and('contain.text', msg);
     return this;
