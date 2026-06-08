@@ -6,6 +6,7 @@ export interface CreateUserData {
   senha: string;
   confirmarSenha: string;
   cpf: string;
+  dataDeNascimento: string;
   checkTermo: boolean;
 }
 

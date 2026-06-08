@@ -11,7 +11,8 @@ export const INITIAL_REGISTER_DEFAULT_VALUES: Partial<CreateUserDTO> = {
   senha: '',
   confirmarSenha: '',
   cpf: '',
-  checkTermo: true,
+  dataDeNascimento: '',
+  checkTermo: false,
 };
 
 export function useRegisterForm(): Pick<

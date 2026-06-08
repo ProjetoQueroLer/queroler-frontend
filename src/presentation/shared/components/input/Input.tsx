@@ -46,7 +46,8 @@ export const Input = ({
           {...props}
           {...(registerWithMaskConfig || {})}
           className={cn(
-            'flex-1 h-11 outline-none text-zinc-100 placeholder:text-placeholder text-base md:text-sm',
+            'flex-1 h-11 outline-none text-zinc-100 placeholder:text-placeholder text-base md:text-sm bg-transparent',
+            '[&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:cursor-pointer',
             icon ? 'pl-0' : 'pl-1',
             props.className
           )}
