@@ -9,8 +9,14 @@ export const createBookSchema = z.object({
   isbn: z
     .string()
     .min(1, 'ISBN obrigatório')
-    .max(17, 'Máximo de 17 caracteres')
-    .transform((val) => val.replace(/\D/g, '')),
+    .max(13, 'O ISBN não deve ter 10 ou 13 dígitos')
+    .regex(
+      /^\d+$/,
+      'O ISBN deve conter apenas números (sem letras ou caracteres especiais)'
+    )
+    .refine((val) => val.length === 10 || val.length === 13, {
+      message: 'O ISBN deve ter exatamente 10 ou 13 dígitos',
+    }),
   editora: z.string().min(1, 'Editora obrigatória'),
   anoDePublicacao: z
     .string('Ano de publicação obrigatório')
