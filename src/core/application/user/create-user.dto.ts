@@ -26,6 +26,7 @@ export const createUserSchema = z
       }),
     confirmarSenha: z.string().min(8, 'Confirmação obrigatória'),
     cpf: z.string().min(11, 'CPF obrigatório').max(14, 'CPF inválido'),
+    dataDeNascimento: z.iso.date({ error: 'Data inválida' }),
     checkTermo: z.boolean().refine((val) => val === true, {
       message: 'É necessário aceitar os termos',
     }),

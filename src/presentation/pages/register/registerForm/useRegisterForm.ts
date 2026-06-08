@@ -11,6 +11,7 @@ export const INITIAL_REGISTER_DEFAULT_VALUES: Partial<CreateUserDTO> = {
   senha: '',
   confirmarSenha: '',
   cpf: '',
+  dataDeNascimento: '',
   checkTermo: false,
 };
 
