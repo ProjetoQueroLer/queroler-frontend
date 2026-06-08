@@ -7,5 +7,6 @@
   "senhaObrigatoria": "Mínimo 8 caracteres",
   "senhaMuitoCurta": "Mínimo 8 caracteres",
   "cpfJaCadastrado": "CPF já cadastrado.",
-  "emailJaCadastrado": "E-mail já cadastrado."
+  "emailJaCadastrado": "E-mail já cadastrado.",
+  "usuarioCadastradoSucesso": "Usuário criado com sucesso! Redirecionando para login..."
 }
