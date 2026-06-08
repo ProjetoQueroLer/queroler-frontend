@@ -3,6 +3,7 @@
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import { gerarCpf } from '../../../support/utils/geradorCpf';
 import { gerarSenha } from '../../../support/utils/geradorSenha';
+import { gerarDataNascimento } from '../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../support/pages/CadastrarLeitorPage';
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
@@ -17,6 +18,7 @@ type TestData = {
 };
 
 type Mensagem = {
+  usuarioCadastradoSucesso: string;
   emailJaCadastrado: string;
   cpfJaCadastrado: string;
 };
@@ -32,6 +34,7 @@ const dadosCadastro = {
   senha: senha,
   confirmacaoSenha: senha,
   cpf: gerarCpf(),
+  dataNascimento: gerarDataNascimento(),
 };
 
 describe('Cadastro de Leitor', () => {
@@ -45,7 +48,7 @@ describe('Cadastro de Leitor', () => {
   });
 
   beforeEach(() => {
-    cadastrarLeitorPage.visitarPaginaCadastrar();
+    cadastrarLeitorPage.visitarPaginaCadastrarDeLeitor();
   });
 
   it('Deve exibir todos os elementos do formulário de cadastro', () => {
@@ -68,7 +71,8 @@ describe('Cadastro de Leitor', () => {
       dadosCadastro.email,
       dadosCadastro.senha,
       dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf
+      dadosCadastro.cpf,
+      dadosCadastro.dataNascimento
     );
   });
 
@@ -80,14 +84,21 @@ describe('Cadastro de Leitor', () => {
 
     cadastrarLeitorPage.preencherFormulario(
       dadosCadastro.nome,
-      dados.usuarioCadastrado.email,
+      dadosCadastro.email,
       dadosCadastro.senha,
       dadosCadastro.confirmacaoSenha,
-      dados.usuarioCadastrado.cpf
+      dadosCadastro.cpf,
+      dadosCadastro.dataNascimento
     );
 
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
     cadastrarLeitorPage.clicarEmCadastrar();
+    cadastrarLeitorPage.verificarMensagemCadastroSucesso(
+      msg.usuarioCadastradoSucesso
+    );
+
+    dados.usuarioCadastrado.email = dadosCadastro.email;
+    dados.usuarioCadastrado.cpf = dadosCadastro.cpf;
   });
 
   describe('Duplicidade', () => {
@@ -105,7 +116,8 @@ describe('Cadastro de Leitor', () => {
         dados.usuarioCadastrado.email,
         senhaEmail,
         senhaEmail,
-        gerarCpf()
+        gerarCpf(),
+        gerarDataNascimento()
       );
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
@@ -124,7 +136,8 @@ describe('Cadastro de Leitor', () => {
         faker.internet.email(),
         senhaCpf,
         senhaCpf,
-        dados.usuarioCadastrado.cpf
+        dados.usuarioCadastrado.cpf,
+        gerarDataNascimento()
       );
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
