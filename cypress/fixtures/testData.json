@@ -11,5 +11,10 @@
   "loginNaoPreenchido": {
     "email": " ",
     "senha": " "
-  }
+  },
+  "usuarioCadastrado": {
+    "email": "qateste@yopmail.com",
+    "cpf": "50636777030"
+  },
+  "nomeDoLivro": "O Senhor dos Anéis"
 }
