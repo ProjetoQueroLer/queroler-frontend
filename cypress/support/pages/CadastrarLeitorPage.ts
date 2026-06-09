@@ -75,7 +75,7 @@ export class CadastrarLeitorPage {
   verificarMensagemJaCadastrado(msg: string): this {
     cy.get(CadastrarLeitorElements.errorMessageToast)
       .should('be.visible')
-      .and('contain.text', msg);
+      .and('contain', msg);
     return this;
   }
 
