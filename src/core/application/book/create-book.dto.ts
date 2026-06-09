@@ -29,7 +29,13 @@ export const createBookSchema = z.object({
   sinopse: z.string().min(50, 'Sinopse deve ter 50 caracteres no mínimo'),
   autores: z
     .union([
-      z.string().min(1, 'Autores é obrigatório'),
+      z
+        .string()
+        .min(1, 'Autores é obrigatório')
+        .regex(
+          /^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/,
+          'O campo não deve conter números ou caracteres especiais (exceto vírgula)'
+        ),
       z.array(z.object({ nome: z.string() })),
     ])
     .transform((val) => {
