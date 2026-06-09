@@ -20,62 +20,57 @@ export const Home = () => {
 
   useEffect(() => {
     async function carregarTelaDeLeitura() {
-      try {
-        const result = await loadBookReadingPageAction();
+      const result = await loadBookReadingPageAction();
 
-        if (!result.success) {
-          toast.error(result.message);
-          return;
-        }
-
-        if (!result.response) {
-          toast.error('Resposta inválida da API.');
-          return;
-        }
-
-        const response: LoadBookReadingPageResponseDTO = result.response;
-
-        const queroLer: BookCardProps[] = [];
-        const estouLendo: BookCardProps[] = [];
-        const lidos: BookCardProps[] = [];
-        const abandonados: BookCardProps[] = [];
-
-        response.content.forEach((livro, index) => {
-          const livroMapeado: BookCardProps = {
-            id: String(index),
-            title: livro.titulo,
-            cover:
-              livro.urlCapa === 'Capa não cadastrada.'
-                ? ''
-                : `${process.env.NEXT_PUBLIC_API_URL}${livro.urlCapa}`,
-          };
-
-          switch (livro.status) {
-            case 'LIVROS_QUE_QUERO_LER':
-              queroLer.push(livroMapeado);
-              break;
-
-            case 'LIVROS_QUE_ESTOU_LENDO':
-              estouLendo.push(livroMapeado);
-              break;
-
-            case 'LIVROS_LIDOS':
-              lidos.push(livroMapeado);
-              break;
-
-            case 'LIVROS_ABANDONADOS':
-              abandonados.push(livroMapeado);
-              break;
-          }
-        });
-
-        setLivrosQueroLer(queroLer);
-        setLivrosEstouLendo(estouLendo);
-        setLivrosLidos(lidos);
-        setLivrosAbandonados(abandonados);
-      } catch {
-        toast.error('Não foi possível carregar a tela de leitura do usuário.');
+      if (!result.success) {
+        toast.error(result.message);
+        return;
       }
+
+      if (!result.response) {
+        return;
+      }
+
+      const response: LoadBookReadingPageResponseDTO = result.response;
+
+      const queroLer: BookCardProps[] = [];
+      const estouLendo: BookCardProps[] = [];
+      const lidos: BookCardProps[] = [];
+      const abandonados: BookCardProps[] = [];
+
+      response.content.forEach((livro, index) => {
+        const livroMapeado: BookCardProps = {
+          id: String(index),
+          title: livro.titulo,
+          cover:
+            livro.urlCapa === 'Capa não cadastrada.'
+              ? ''
+              : `${process.env.NEXT_PUBLIC_API_URL}${livro.urlCapa}`,
+        };
+
+        switch (livro.status) {
+          case 'LIVROS_QUE_QUERO_LER':
+            queroLer.push(livroMapeado);
+            break;
+
+          case 'LIVROS_QUE_ESTOU_LENDO':
+            estouLendo.push(livroMapeado);
+            break;
+
+          case 'LIVROS_LIDOS':
+            lidos.push(livroMapeado);
+            break;
+
+          case 'LIVROS_ABANDONADOS':
+            abandonados.push(livroMapeado);
+            break;
+        }
+      });
+
+      setLivrosQueroLer(queroLer);
+      setLivrosEstouLendo(estouLendo);
+      setLivrosLidos(lidos);
+      setLivrosAbandonados(abandonados);
     }
 
     carregarTelaDeLeitura();
