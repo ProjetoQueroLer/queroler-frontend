@@ -244,6 +244,7 @@ export function BookRegister() {
                   <input
                     data-testid="input-autor"
                     className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                    placeholder="Ex: Paulo Coelho, Carla Madeira"
                     disabled={formDesabilitado}
                     id="autores"
                     {...register('autores')}
