@@ -52,7 +52,12 @@ export function BookRegister() {
     const isbn = getValues('isbn');
     const cleanIsbn = isbn.trim().replace(/\D/g, '');
 
-    if (!cleanIsbn || cleanIsbn.length < 13 || carregandoIsbn) return;
+    if (
+      !cleanIsbn ||
+      (cleanIsbn.length !== 10 && cleanIsbn.length !== 13) ||
+      carregandoIsbn
+    )
+      return;
 
     setCarregandoIsbn(true);
 
@@ -201,10 +206,10 @@ export function BookRegister() {
                 <input
                   data-testid="input-isbn"
                   inputMode="numeric"
-                  placeholder="Ex: 978-3-16-148410-0"
+                  placeholder="Ex: 9783161484100"
                   className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                   id="isbn"
-                  maxLength={17}
+                  maxLength={13}
                   {...register('isbn', {
                     onBlur: (_e) => handleBlurIsbn(),
                   })}
