@@ -19,6 +19,11 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 export function RegisterForm() {
+  const hoje = new Date();
+  const anoLimite = hoje.getFullYear();
+  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoje.getDate() - 1).padStart(2, '0');
+
   const router = useRouter();
   const {
     register,
@@ -123,6 +128,7 @@ export function RegisterForm() {
                   label="Data de Nascimento"
                   id="dataDeNascimento"
                   type="date"
+                  max={`${anoLimite}-${mes}-${dia}`}
                   dataTestId="input-data-nascimento"
                   {...register('dataDeNascimento')}
                   aria-invalid={!!errors.dataDeNascimento}
