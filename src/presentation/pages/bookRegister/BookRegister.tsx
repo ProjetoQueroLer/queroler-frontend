@@ -230,6 +230,7 @@ export function BookRegister() {
                   data-testid="input-titulo"
                   className={`bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                   disabled={formDesabilitado}
+                  placeholder="Ex: O Alquimista"
                   id="titulo"
                   {...register('titulo')}
                   aria-invalid={!!errors.titulo}
@@ -260,6 +261,7 @@ export function BookRegister() {
                     data-testid="input-editora"
                     className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
+                    placeholder="Ex: Paralela"
                     id="titulo"
                     {...register('editora')}
                     aria-invalid={!!errors.editora}
@@ -276,6 +278,8 @@ export function BookRegister() {
                     data-testid="input-ano"
                     className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
+                    placeholder="Ex: 1987"
+                    maxLength={4}
                     id="ano-de-publicacao"
                     {...register('anoDePublicacao')}
                     aria-invalid={!!errors.anoDePublicacao}
@@ -293,6 +297,7 @@ export function BookRegister() {
                     maxLength={4}
                     className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
+                    placeholder="Ex: 125"
                     id="numero-de-paginas"
                     {...register('numeroDePaginas')}
                     aria-invalid={!!errors.numeroDePaginas}
