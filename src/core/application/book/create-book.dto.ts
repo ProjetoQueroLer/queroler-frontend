@@ -31,7 +31,8 @@ export const createBookSchema = z.object({
     .transform((val) => String(val)),
   numeroDePaginas: z
     .string('Número de páginas obrigatório')
-    .min(1, 'Número de páginas deve ter no mínimo 1 dígito'),
+    .min(1, 'Número de páginas deve ter no mínimo 1 dígito')
+    .regex(/^\d+$/, 'O número de páginas deve conter apenas números'),
   idioma: z.enum(IdiomaEnum),
   sinopse: z.string().min(50, 'Sinopse deve ter 50 caracteres no mínimo'),
   autores: z
