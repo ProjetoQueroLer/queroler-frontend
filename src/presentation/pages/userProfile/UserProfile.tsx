@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
+import { useEffect } from 'react';
 
 export function UserProfile() {
   const router = useRouter();
@@ -13,6 +15,19 @@ export function UserProfile() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [formDesabilitado] = useState(true);
   const [_isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await loadUserProfilePageAction();
+        console.log('Resposta da API:', response);
+      } catch (error) {
+        console.error('Erro ao carregar perfil:', error);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
