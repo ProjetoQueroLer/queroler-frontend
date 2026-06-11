@@ -8,7 +8,7 @@ type Mensagem = {
   emailObrigatorio: string;
   emailInvalido: string;
   emailMuitoLongo: string;
-  senhaObrigatoria: string;
+  senhaMinimaObrigatoria: string;
   senhaMuitoCurta: string;
 };
 
@@ -102,7 +102,9 @@ describe('Login - Validações do campo de senha', () => {
       .story('Validação de senha')
       .severity('critical');
 
-    loginPage.tocarCampoSenhaESair().verificarErroSenha(msg.senhaObrigatoria);
+    loginPage
+      .tocarCampoSenhaESair()
+      .verificarErroSenha(msg.senhaMinimaObrigatoria);
   });
 
   it('Deve exibir erro para senha com menos de 8 caracteres', () => {
