@@ -14,6 +14,7 @@ describe('ApiUserRepository', () => {
     senha: '123456',
     confirmarSenha: '123456',
     cpf: '429.063.400-14',
+    dataDeNascimento: '2003-06-28',
     checkTermo: true,
   };
 

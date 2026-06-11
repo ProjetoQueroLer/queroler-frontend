@@ -26,7 +26,22 @@ export const createUserSchema = z
       }),
     confirmarSenha: z.string().min(8, 'Confirmação obrigatória'),
     cpf: z.string().min(11, 'CPF obrigatório').max(14, 'CPF inválido'),
-    dataDeNascimento: z.iso.date({ error: 'Data inválida' }),
+    dataDeNascimento: z.iso.date({ error: 'Data inválida' }).refine(
+      (val) => {
+        const apenasData = val.split('T')[0];
+
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoje.getDate() - 1).padStart(2, '0');
+        const dataAtualLocal = `${ano}-${mes}-${dia}`;
+
+        return apenasData <= dataAtualLocal;
+      },
+      {
+        message: 'A data não pode ser igual ou maior que a data atual.',
+      }
+    ),
     checkTermo: z.boolean().refine((val) => val === true, {
       message: 'É necessário aceitar os termos',
     }),

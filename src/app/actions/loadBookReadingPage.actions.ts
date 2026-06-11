@@ -13,10 +13,12 @@ export async function loadBookReadingPageAction() {
       success: true,
       response: response.data,
     };
-  } catch {
+  } catch (error) {
     return {
       success: false,
-      message: 'Não foi possível carregar a tela de leitura do usuário.',
+      message:
+        (error as string) ||
+        'Não foi possível carregar a tela de leitura do usuário.',
     };
   }
 }

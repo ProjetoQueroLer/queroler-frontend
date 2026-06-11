@@ -25,13 +25,17 @@ export async function createUserAction(data: CreateUserDTO) {
   try {
     const repository = new ApiUserRepository(api);
     const useCase = new CreateUserUseCase(repository);
+    const dataDeNascimento = validated.data.dataDeNascimento
+      .split('-')
+      .reverse()
+      .join('/');
     const payload: CreateUserData = {
       nome: validated.data.nome,
       email: validated.data.email,
       senha: validated.data.senha,
       confirmarSenha: validated.data.confirmarSenha,
       cpf: validated.data.cpf,
-      dataDeNascimento: validated.data.dataDeNascimento,
+      dataDeNascimento,
       checkTermo: validated.data.checkTermo,
     };
     await useCase.execute(JSON.stringify(payload));

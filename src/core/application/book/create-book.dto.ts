@@ -3,27 +3,47 @@ import z from 'zod';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+const anoAtual = new Date().getFullYear();
 
 export const createBookSchema = z.object({
   titulo: z.string().min(1, 'Título obrigatório'),
   isbn: z
     .string()
     .min(1, 'ISBN obrigatório')
-    .max(17, 'Máximo de 17 caracteres')
-    .transform((val) => val.replace(/\D/g, '')),
+    .max(13, 'O ISBN não deve ter 10 ou 13 dígitos')
+    .regex(
+      /^\d+$/,
+      'O ISBN deve conter apenas números (sem letras ou caracteres especiais)'
+    )
+    .refine((val) => val.length === 10 || val.length === 13, {
+      message: 'O ISBN deve ter exatamente 10 ou 13 dígitos',
+    }),
   editora: z.string().min(1, 'Editora obrigatória'),
   anoDePublicacao: z
     .string('Ano de publicação obrigatório')
     .min(1, 'Ano de publicação deve ter no mínimo 1 dígito')
-    .max(4, 'Ano de publicação deve ter 4 dígitos'),
+    .max(4, 'Ano de publicação deve ter 4 dígitos')
+    .regex(/^\d+$/, 'O ano de publicação deve conter apenas números')
+    .transform((val) => Number(val))
+    .refine((ano) => ano <= anoAtual, {
+      message: `O ano de publicação não pode ser maior que o ano atual (${anoAtual})`,
+    })
+    .transform((val) => String(val)),
   numeroDePaginas: z
     .string('Número de páginas obrigatório')
-    .min(1, 'Número de páginas deve ter no mínimo 1 dígito'),
+    .min(1, 'Número de páginas deve ter no mínimo 1 dígito')
+    .regex(/^\d+$/, 'O número de páginas deve conter apenas números'),
   idioma: z.enum(IdiomaEnum),
   sinopse: z.string().min(50, 'Sinopse deve ter 50 caracteres no mínimo'),
   autores: z
     .union([
-      z.string().min(1, 'Autores é obrigatório'),
+      z
+        .string()
+        .min(1, 'Autores é obrigatório')
+        .regex(
+          /^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/,
+          'O campo não deve conter números ou caracteres especiais (exceto vírgula)'
+        ),
       z.array(z.object({ nome: z.string() })),
     ])
     .transform((val) => {
