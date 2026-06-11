@@ -6,8 +6,6 @@ import { gerarSenha } from '../../../support/utils/geradorSenha';
 import { gerarDataNascimento } from '../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../support/pages/CadastrarLeitorPage';
 
-const cadastrarLeitorPage = new CadastrarLeitorPage();
-
 type UsuarioCadastrado = {
   email: string;
   cpf: string;
@@ -33,6 +31,7 @@ type Mensagem = {
 let dados: TestData;
 let msg: Mensagem;
 
+const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
 
 const dadosCadastro = {

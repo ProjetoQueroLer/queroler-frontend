@@ -3,9 +3,6 @@
 import { LoginPage } from '../../../support/pages/LoginPage';
 import { HomePage } from '../../../support/pages/HomePage';
 
-const loginPage = new LoginPage();
-const homePage = new HomePage();
-
 type Mensagem = {
   toastLoginSucesso: string;
   toastLogoutSucesso: string;
@@ -13,17 +10,20 @@ type Mensagem = {
 
 let msg: Mensagem;
 
-before(() => {
-  cy.fixture('mensagem').then((fixture) => {
-    msg = fixture;
-  });
-});
-
-beforeEach(() => {
-  cy.login();
-});
+const loginPage = new LoginPage();
+const homePage = new HomePage();
 
 describe('Tela Inicial', () => {
+  before(() => {
+    cy.fixture('mensagem').then((fixture) => {
+      msg = fixture;
+    });
+  });
+
+  beforeEach(() => {
+    cy.login();
+  });
+
   it('Deve exibir toast de sucesso após login realizado com sucesso', () => {
     cy.allure()
       .feature('Tela Inicial')
