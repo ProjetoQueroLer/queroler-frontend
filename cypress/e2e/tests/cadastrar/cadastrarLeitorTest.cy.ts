@@ -21,6 +21,13 @@ type Mensagem = {
   usuarioCadastradoSucesso: string;
   emailJaCadastrado: string;
   cpfJaCadastrado: string;
+  nomeObrigatorio: string;
+  emailObrigatorio: string;
+  senhaObrigatoria: string;
+  confirmacaoSenhaObrigatoria: string;
+  cpfObrigatorio: string;
+  dataNascimentoObrigatoria: string;
+  termosDeUsoObrigatorio: string;
 };
 
 let dados: TestData;
@@ -74,6 +81,7 @@ describe('Cadastro de Leitor', () => {
       dadosCadastro.cpf,
       dadosCadastro.dataNascimento
     );
+    cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
   });
 
   it('Deve cadastrar leitor com sucesso', () => {
@@ -99,6 +107,24 @@ describe('Cadastro de Leitor', () => {
 
     dados.usuarioCadastrado.email = dadosCadastro.email;
     dados.usuarioCadastrado.cpf = dadosCadastro.cpf;
+  });
+
+  it('Deve exibir mensagens de campos obrigatórios quando o formulário for submetido vazio', () => {
+    cy.allure()
+      .feature('Cadastro de Leitor')
+      .story('Validação de campos obrigatórios')
+      .severity('critical');
+
+    cadastrarLeitorPage.clicaOsCamposObrigatorios();
+    cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
+      msg.nomeObrigatorio,
+      msg.emailObrigatorio,
+      msg.senhaObrigatoria,
+      msg.confirmacaoSenhaObrigatoria,
+      msg.cpfObrigatorio,
+      msg.dataNascimentoObrigatoria,
+      msg.termosDeUsoObrigatorio
+    );
   });
 
   describe('Duplicidade', () => {
