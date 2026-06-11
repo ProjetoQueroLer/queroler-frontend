@@ -4,12 +4,12 @@ import { HomeElements } from '../elements/HomeElements';
 
 export class HomePage {
   verificarPaginaCarregada(): this {
-    cy.get(HomeElements.logo, { timeout: 10000 }).should('be.visible');
+    cy.get(HomeElements.logoQueroLer, { timeout: 10000 }).should('be.visible');
     return this;
   }
 
   fecharToast(): this {
-    cy.get(HomeElements.toastCloseButton).should('be.visible').click();
+    cy.get(HomeElements.fechaToastButton).should('be.visible').click();
     return this;
   }
 
@@ -21,7 +21,7 @@ export class HomePage {
   }
 
   abrirMenuUsuario(): this {
-    cy.get(HomeElements.userMenuButton, { timeout: 10000 })
+    cy.get(HomeElements.menuUsuarioTriggerButton, { timeout: 10000 })
       .should('be.visible')
       .click({ force: true });
     return this;
@@ -33,22 +33,24 @@ export class HomePage {
   }
 
   verificarLogoVisivel(): this {
-    cy.get(HomeElements.logo).should('be.visible');
+    cy.get(HomeElements.logoQueroLer).should('be.visible');
     return this;
   }
 
   verificarSinoVisivel(): this {
-    cy.get(HomeElements.bellIcon).should('be.visible');
+    cy.get(HomeElements.sinoIconButton).should('be.visible');
     return this;
   }
 
   verificarFotoDoUsuarioVisivel(): this {
-    cy.get(HomeElements.photoUser).should('be.visible');
+    cy.get(HomeElements.fotoDoUsuarioIcon).should('be.visible');
     return this;
   }
 
   verificarNomeDoUsuarioVisivel(nome: string): this {
-    cy.get(HomeElements.username).should('be.visible').and('have.text', nome);
+    cy.get(HomeElements.nomeDoUsuarioText)
+      .should('be.visible')
+      .and('have.text', nome);
     return this;
   }
 }
