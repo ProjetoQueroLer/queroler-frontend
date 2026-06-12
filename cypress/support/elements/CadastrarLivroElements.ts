@@ -17,4 +17,7 @@ export class CadastrarLivroElements {
   static readonly sinopseInput = '[data-testid="input-sinopse"]';
   static readonly cadastrarLivroButton = '[data-testid="btn-salvar"]';
   static readonly cancelarCadastroButton = '[data-testid="btn-cancelar"]';
+  static readonly fechaToastButton = '.Toastify__close-button';
+  static readonly mensagemErrorToastLabel =
+    '.Toastify__toast.Toastify__toast--error';
 }
