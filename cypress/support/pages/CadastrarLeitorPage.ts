@@ -18,17 +18,24 @@ export class CadastrarLeitorPage {
   }
 
   verificarPaginaCarregada(): this {
-    cy.get(CadastrarLeitorElements.logoQueroLer).should('be.visible');
-    cy.get(CadastrarLeitorElements.tituloCrieSuaConta).should('be.visible');
-    cy.get(CadastrarLeitorElements.nomeInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.emailInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.senhaInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.confirmaSenhaInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.cpfUsuarioInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.dataDeNascimentoInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.aceitoOsTermosCheckbox).should('be.visible');
-    cy.get(CadastrarLeitorElements.aceitoOsTermosLabel).should('be.visible');
-    cy.get(CadastrarLeitorElements.cadastrarButton).should('be.visible');
+    const elementos = [
+      CadastrarLeitorElements.logoQueroLer,
+      CadastrarLeitorElements.tituloCrieSuaConta,
+      CadastrarLeitorElements.nomeInput,
+      CadastrarLeitorElements.emailInput,
+      CadastrarLeitorElements.senhaInput,
+      CadastrarLeitorElements.confirmaSenhaInput,
+      CadastrarLeitorElements.cpfUsuarioInput,
+      CadastrarLeitorElements.dataDeNascimentoInput,
+      CadastrarLeitorElements.aceitoOsTermosCheckbox,
+      CadastrarLeitorElements.aceitoOsTermosLabel,
+      CadastrarLeitorElements.cadastrarButton,
+    ];
+
+    elementos.forEach((elemento) => {
+      cy.get(elemento).should('be.visible');
+    });
+
     return this;
   }
 
