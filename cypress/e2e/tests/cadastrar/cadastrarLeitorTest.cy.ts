@@ -72,14 +72,15 @@ describe('Cadastro de Leitor', () => {
       .story('Preenchimento do formulário')
       .severity('normal');
 
-    cadastrarLeitorPage.preencherFormulario(
-      dadosCadastro.nome,
-      dadosCadastro.email,
-      dadosCadastro.senha,
-      dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf,
-      dadosCadastro.dataNascimento
-    );
+    cadastrarLeitorPage.preencherFormulario({
+      nome: dadosCadastro.nome,
+      email: dadosCadastro.email,
+      senha: dadosCadastro.senha,
+      confirmarSenha: dadosCadastro.confirmacaoSenha,
+      cpf: dadosCadastro.cpf,
+      dataNascimento: dadosCadastro.dataNascimento,
+    });
+
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
   });
 
@@ -89,14 +90,14 @@ describe('Cadastro de Leitor', () => {
       .story('Cadastro com sucesso')
       .severity('critical');
 
-    cadastrarLeitorPage.preencherFormulario(
-      dadosCadastro.nome,
-      dadosCadastro.email,
-      dadosCadastro.senha,
-      dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf,
-      dadosCadastro.dataNascimento
-    );
+    cadastrarLeitorPage.preencherFormulario({
+      nome: dadosCadastro.nome,
+      email: dadosCadastro.email,
+      senha: dadosCadastro.senha,
+      confirmarSenha: dadosCadastro.confirmacaoSenha,
+      cpf: dadosCadastro.cpf,
+      dataNascimento: dadosCadastro.dataNascimento,
+    });
 
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
     cadastrarLeitorPage.clicarEmCadastrar();
@@ -136,14 +137,14 @@ describe('Cadastro de Leitor', () => {
         .story('E-mail duplicado')
         .severity('critical');
 
-      cadastrarLeitorPage.preencherFormulario(
-        faker.person.fullName(),
-        dados.usuarioCadastrado.email,
-        senhaEmail,
-        senhaEmail,
-        gerarCpf(),
-        gerarDataNascimento()
-      );
+      cadastrarLeitorPage.preencherFormulario({
+        nome: faker.person.fullName(),
+        email: dados.usuarioCadastrado.email,
+        senha: senhaEmail,
+        confirmarSenha: senhaEmail,
+        cpf: gerarCpf(),
+        dataNascimento: gerarDataNascimento(),
+      });
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
@@ -156,14 +157,14 @@ describe('Cadastro de Leitor', () => {
         .story('CPF duplicado')
         .severity('critical');
 
-      cadastrarLeitorPage.preencherFormulario(
-        faker.person.fullName(),
-        faker.internet.email(),
-        senhaCpf,
-        senhaCpf,
-        dados.usuarioCadastrado.cpf,
-        gerarDataNascimento()
-      );
+      cadastrarLeitorPage.preencherFormulario({
+        nome: faker.person.fullName(),
+        email: faker.internet.email(),
+        senha: senhaCpf,
+        confirmarSenha: senhaCpf,
+        cpf: dados.usuarioCadastrado.cpf,
+        dataNascimento: gerarDataNascimento(),
+      });
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
