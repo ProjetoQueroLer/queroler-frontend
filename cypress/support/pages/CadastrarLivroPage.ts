@@ -2,6 +2,7 @@
 
 import { CadastrarLivroElements } from '../elements/CadastrarLivroElements';
 import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Fixtures } from '../utils/fixtures';
 
 type DadosLivro = {
   isbn: string;
@@ -47,6 +48,7 @@ export class CadastrarLivroPage {
       CadastrarLivroElements.numeroDePaginasInput,
       CadastrarLivroElements.idiomaComboBox,
       CadastrarLivroElements.sinopseInput,
+      CadastrarLivroElements.textoSecundarioLabel,
       CadastrarLivroElements.cadastrarLivroButton,
       CadastrarLivroElements.cancelarCadastroButton,
     ];
@@ -70,12 +72,14 @@ export class CadastrarLivroPage {
       });
   }
 
-  preencherFormularioObrigatorio(): this {
+  preencherFormularioObrigatorio(msg: string): this {
     cy.get(CadastrarLivroElements.isbnInput).type(this.dadosLivro.isbn);
     cy.get(CadastrarLivroElements.fechaToastButton)
       .should('be.visible')
       .click();
-    cy.get(CadastrarLivroElements.mensagemErrorToastLabel).should('be.visible');
+    cy.get(CadastrarLivroElements.mensagemErrorToastLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
     cy.get(CadastrarLivroElements.tituloDoLivroInput).type(
       this.dadosLivro.titulo
     );
@@ -89,6 +93,37 @@ export class CadastrarLivroPage {
     );
     this.selecionarIdiomaAleatorio();
     cy.get(CadastrarLivroElements.sinopseInput).type(this.dadosLivro.sinopse);
+    return this;
+  }
+
+  selecionarImagemLivro(): this {
+    cy.get(CadastrarLivroElements.textoSecundarioLabel).should('be.visible');
+    cy.get(CadastrarLivroElements.imagemLivroInput).selectFile(
+      Fixtures.imagens.livro,
+      { force: true }
+    );
+    return this;
+  }
+
+  salvarCadastro(): this {
+    cy.get(CadastrarLivroElements.fechaToastButton)
+      .should('be.visible')
+      .click();
+    cy.get(CadastrarLivroElements.cadastrarLivroButton).click();
+    cy.get(CadastrarLivroElements.mensagemSucessoToastLabel).should(
+      'be.visible'
+    );
+    return this;
+  }
+
+  cancelarCadastro(msg: string): this {
+    cy.get(CadastrarLivroElements.fechaToastButton)
+      .should('be.visible')
+      .click();
+    cy.get(CadastrarLivroElements.cancelarCadastroButton).click();
+    cy.get(CadastrarLivroElements.mensagemSucessoToastLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
     return this;
   }
 }
