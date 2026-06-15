@@ -6,7 +6,13 @@ type TestData = {
   nomeDoLivro: string;
 };
 
+type Mensagem = {
+  ISBNNaoEncontrado: string;
+  registroDeLivroCancelado: string;
+};
+
 let dados: TestData;
+let mensagens: Mensagem;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
 
@@ -14,6 +20,9 @@ describe('Cadastrar Livro', () => {
   before(() => {
     cy.fixture('testData').then((fixture) => {
       dados = fixture;
+    });
+    cy.fixture('mensagem').then((fixture) => {
+      mensagens = fixture;
     });
   });
 
@@ -38,6 +47,37 @@ describe('Cadastrar Livro', () => {
       .severity('critical');
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.preencherFormularioObrigatorio();
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      mensagens.ISBNNaoEncontrado
+    );
+    cadastrarLivroPage.selecionarImagemLivro();
+  });
+
+  it('Deve exibir mensagem de sucesso ao cadastrar um livro', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Cadastro bem-sucedido')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      mensagens.ISBNNaoEncontrado
+    );
+    cadastrarLivroPage.selecionarImagemLivro();
+    cadastrarLivroPage.salvarCadastro();
+  });
+
+  it('Deve cancelar o cadastro de um livro', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Cancelar cadastro')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      mensagens.ISBNNaoEncontrado
+    );
+    cadastrarLivroPage.selecionarImagemLivro();
+    cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
   });
 });
