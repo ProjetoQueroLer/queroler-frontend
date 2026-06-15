@@ -14,5 +14,7 @@
   "confirmacaoSenhaObrigatoria": "Confirmação obrigatória",
   "cpfObrigatorio": "CPF obrigatório",
   "dataNascimentoObrigatoria": "Data inválida",
-  "termosDeUsoObrigatorio": "É necessário aceitar os termos"
+  "termosDeUsoObrigatorio": "É necessário aceitar os termos",
+  "ISBNNaoEncontrado": "Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.",
+  "registroDeLivroCancelado": "Registro de livro cancelado."
 }
