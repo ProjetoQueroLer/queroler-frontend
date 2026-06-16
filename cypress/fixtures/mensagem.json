@@ -16,5 +16,6 @@
   "dataNascimentoObrigatoria": "Data inválida",
   "termosDeUsoObrigatorio": "É necessário aceitar os termos",
   "ISBNNaoEncontrado": "Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.",
-  "registroDeLivroCancelado": "Registro de livro cancelado."
+  "registroDeLivroCancelado": "Registro de livro cancelado.",
+  "registroDeLivroSucesso": "Livro criado com sucesso! Redirecionando para tela inicial..."
 }
