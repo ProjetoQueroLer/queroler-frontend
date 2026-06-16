@@ -6,46 +6,48 @@ import { PopularBooks } from '@/presentation/shared/components/popularBooks/Popu
 
 export const Home = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div>
       <Header />
-      <main className="flex-1 px-4 py-6 lg:px-8">
-        <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
-          Leituras atuais, desejadas e passadas
-        </h1>
-        <p className="text-text-subtitle text-sm lg:text-base mb-6">
-          Organize sua jornada literária e acompanhe seu progresso.
-        </p>
-        <SearchBar />
+      <div className="min-h-screen lg:mx-50 flex flex-col">
+        <main className="flex-1 px-4 py-6 lg:px-8">
+          <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
+            Leituras atuais, desejadas e passadas
+          </h1>
+          <p className="text-text-secondary text-sm lg:text-base mb-6">
+            Organize sua jornada literária e acompanhe seu progresso.
+          </p>
+          <SearchBar />
 
-        <PopularBooks />
+          <PopularBooks />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <BookSection
-            title="Quero Ler"
-            tag="DESEJOS"
-            tagColor="bg-desired/15 text-desired"
-            icon={<BookHeart size={18} className="text-desired" />}
-          />
-          <BookSection
-            title="Estou lendo"
-            tag="ATIVO"
-            tagColor="bg-active/15 text-active"
-            icon={<BookOpen size={18} className="text-active" />}
-          />
-          <BookSection
-            title="Livros lidos"
-            tag="CONCLUÍDO"
-            tagColor="bg-completed/15 text-completed"
-            icon={<CheckCircle size={18} className="text-completed" />}
-          />
-          <BookSection
-            title="Abandonados"
-            tag="PAUSA"
-            tagColor="bg-pause/15 text-pause"
-            icon={<Ban size={18} className="text-pause" />}
-          />
-        </div>
-      </main>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <BookSection
+              title="Quero Ler"
+              tag="DESEJOS"
+              tagColor="bg-desired/15 text-desired"
+              icon={<BookHeart size={18} className="text-desired" />}
+            />
+            <BookSection
+              title="Estou lendo"
+              tag="ATIVO"
+              tagColor="bg-active/15 text-active"
+              icon={<BookOpen size={18} className="text-active" />}
+            />
+            <BookSection
+              title="Livros lidos"
+              tag="CONCLUÍDO"
+              tagColor="bg-completed/15 text-completed"
+              icon={<CheckCircle size={18} className="text-completed" />}
+            />
+            <BookSection
+              title="Abandonados"
+              tag="PAUSA"
+              tagColor="bg-pause/15 text-pause"
+              icon={<Ban size={18} className="text-pause" />}
+            />
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

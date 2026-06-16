@@ -133,236 +133,240 @@ export function BookRegister() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div>
       <Header />
+      <div className="min-h-screen lg:mx-50 flex flex-col">
+        <main className="flex-1 px-4 py-6 lg:px-8">
+          <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
+            Incremente a nossa Biblioteca
+          </h1>
+          <p className="text-text-secondary text-sm lg:text-base mb-6">
+            Cadastre um livro não encontrado para você e outros leitores o
+            adicionarem na sua lista de leitura.
+          </p>
 
-      <main className="flex-1 px-4 py-6 lg:px-8">
-        <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
-          Incremente a nossa Biblioteca
-        </h1>
-        <p className="text-text-subtitle text-sm lg:text-base mb-6">
-          Cadastre um livro não encontrado para você e outros leitores o
-          adicionarem na sua lista de leitura.
-        </p>
-
-        <div>
-          <form
-            className="flex flex-col lg:flex-row gap-6"
-            onSubmit={handleSubmit((data) =>
-              submitData(data as CreateBookRequestDTO)
-            )}
-            noValidate
-            data-testid="book-register-form"
-          >
-            <div className="flex flex-col gap-3 w-full lg:w-[220px]">
-              <span className="text-brand text-xs uppercase tracking-widest">
-                Capa do livro
-              </span>
-              <div
-                onClick={triggerFileInput}
-                className={`w-[100px] h-[140px] lg:w-[200px] lg:h-[280px] bg-border-default border-2 border-dashed border-border rounded-xs flex flex-col items-center justify-center gap-2 hover:opacity-80 relative overflow-hidden ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-              >
-                <input
-                  type="file"
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="hidden"
-                  ref={fileInputRef}
-                  disabled={formDesabilitado}
-                  onChange={handleFileChange}
-                />
-                {previewImage ? (
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={previewImage}
-                      alt="Capa do livro"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100px, 200px"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <span className="text-text-secondary text-xs text-center px-4">
-                      JPG, PNG ou JPEG
-                    </span>
-                    <span className="text-text-secondary text-xs text-center px-4">
-                      Tamanho máximo 10MB
-                    </span>
-                  </>
-                )}
-              </div>
-              <FieldError message={errors.imagem?.message as string} />
-            </div>
-            <div className="flex-1 flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  ISBN <span className="text-red-400">*</span>
-                </label>
-                <input
-                  data-testid="input-isbn"
-                  inputMode="numeric"
-                  placeholder="Ex: 978-3-16-148410-0"
-                  className="bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
-                  id="isbn"
-                  maxLength={17}
-                  {...register('isbn', {
-                    onBlur: (_e) => handleBlurIsbn(),
-                  })}
-                  aria-invalid={!!errors.isbn}
-                />
-                <FieldError message={errors.isbn?.message as string} />
-                {carregandoIsbn && (
-                  <span className="text-text-secondary text-xs mt-1">
-                    Buscando livro...
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Título do livro <span className="text-red-400">*</span>
-                </label>
-                <input
-                  data-testid="input-titulo"
-                  className={`bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
-                  disabled={formDesabilitado}
-                  id="titulo"
-                  {...register('titulo')}
-                  aria-invalid={!!errors.titulo}
-                />
-                <FieldError message={errors.titulo?.message as string} />
-              </div>
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-text-secondary text-xs uppercase tracking-widest">
-                    Autor(es) <span className="text-red-400">*</span>
-                  </label>
+          <div>
+            <form
+              className="flex flex-col lg:flex-row"
+              onSubmit={handleSubmit((data) =>
+                submitData(data as CreateBookRequestDTO)
+              )}
+              noValidate
+              data-testid="book-register-form"
+            >
+              <div className="flex flex-col gap-3 w-full lg:w-[220px]">
+                <span className="text-brand text-xs tracking-widest">
+                  Capa do livro
+                </span>
+                <div
+                  onClick={triggerFileInput}
+                  className={`w-[100px] h-[140px] lg:w-[200px] lg:h-[290px] bg-border border-2 border-dashed border-text-secondary flex flex-col items-center justify-center hover:opacity-80 relative overflow-hidden ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                >
                   <input
-                    data-testid="input-autor"
-                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    className="hidden"
+                    ref={fileInputRef}
                     disabled={formDesabilitado}
-                    id="autores"
-                    {...register('autores')}
-                    aria-invalid={!!errors.autores}
+                    onChange={handleFileChange}
                   />
-                  <FieldError message={errors.autores?.message as string} />
+                  {previewImage ? (
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={previewImage}
+                        alt="Capa do livro"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100px, 200px"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <span className="text-text-primary text-xs text-center px-4">
+                        JPG, PNG ou JPEG
+                      </span>
+                      <span className="text-text-primary text-xs text-center px-4">
+                        Tamanho máximo 10MB
+                      </span>
+                    </>
+                  )}
                 </div>
-                <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-text-secondary text-xs uppercase tracking-widest">
-                    Editora <span className="text-red-400">*</span>
+                <FieldError message={errors.imagem?.message as string} />
+              </div>
+              <div className="flex-1 flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <label className="text-text-primary text-xs tracking-widest">
+                    ISBN <span className="text-brand">*</span>
                   </label>
                   <input
-                    data-testid="input-editora"
-                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                    data-testid="input-isbn"
+                    inputMode="numeric"
+                    placeholder="Ex: 978-3-16-148410-0"
+                    className="bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
+                    id="isbn"
+                    maxLength={17}
+                    {...register('isbn', {
+                      onBlur: (_e) => handleBlurIsbn(),
+                    })}
+                    aria-invalid={!!errors.isbn}
+                  />
+                  <FieldError message={errors.isbn?.message as string} />
+                  {carregandoIsbn && (
+                    <span className="text-text-primary text-xs mt-1">
+                      Buscando livro...
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-text-primary text-xs tracking-widest">
+                    Título do livro <span className="text-brand">*</span>
+                  </label>
+                  <input
+                    data-testid="input-titulo"
+                    placeholder="Ex: O Morro dos Ventos Uivantes"
+                    className={`bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary placeholder:text-text-secondary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="titulo"
-                    {...register('editora')}
-                    aria-invalid={!!errors.editora}
+                    {...register('titulo')}
+                    aria-invalid={!!errors.titulo}
                   />
-                  <FieldError message={errors.editora?.message as string} />
+                  <FieldError message={errors.titulo?.message as string} />
                 </div>
-              </div>
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-text-secondary text-xs uppercase tracking-widest">
-                    Ano de Publicação <span className="text-red-400">*</span>
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-text-primary text-xs tracking-widest">
+                      Autor(es) <span className="text-brand">*</span>
+                    </label>
+                    <input
+                      data-testid="input-autor"
+                      className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                      disabled={formDesabilitado}
+                      id="autores"
+                      {...register('autores')}
+                      aria-invalid={!!errors.autores}
+                    />
+                    <FieldError message={errors.autores?.message as string} />
+                  </div>
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-text-primary text-xs tracking-widest">
+                      Editora <span className="text-brand">*</span>
+                    </label>
+                    <input
+                      data-testid="input-editora"
+                      className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                      disabled={formDesabilitado}
+                      id="editora"
+                      {...register('editora')}
+                      aria-invalid={!!errors.editora}
+                    />
+                    <FieldError message={errors.editora?.message as string} />
+                  </div>
+                </div>
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-text-primary text-xs tracking-widest">
+                      Ano de Publicação <span className="text-brand">*</span>
+                    </label>
+                    <input
+                      data-testid="input-ano"
+                      className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                      disabled={formDesabilitado}
+                      id="ano-de-publicacao"
+                      {...register('anoDePublicacao')}
+                      aria-invalid={!!errors.anoDePublicacao}
+                    />
+                    <FieldError
+                      message={errors.anoDePublicacao?.message as string}
+                    />
+                  </div>
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-text-primary text-xs tracking-widest">
+                      Número de Páginas <span className="text-brand">*</span>
+                    </label>
+                    <input
+                      data-testid="input-paginas"
+                      maxLength={4}
+                      className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                      disabled={formDesabilitado}
+                      id="numero-de-paginas"
+                      {...register('numeroDePaginas')}
+                      aria-invalid={!!errors.numeroDePaginas}
+                    />
+                    <FieldError
+                      message={errors.numeroDePaginas?.message as string}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-text-primary text-xs tracking-widest">
+                    Idioma <span className="text-brand">*</span>
                   </label>
-                  <input
-                    data-testid="input-ano"
-                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                  <select
+                    data-testid="select-idioma"
+                    className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    id="idioma"
+                    {...register('idioma')}
+                    aria-invalid={!!errors.idioma}
+                    disabled={formDesabilitado}
+                  >
+                    <option value="">Selecione um idioma</option>
+                    {LIVRO_IDIOMA_OPCOES.map((item) => (
+                      <option key={item.label} value={item.valorEnum}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-text-primary text-xs tracking-widest">
+                    Sinopse <span className="text-brand">*</span>
+                  </label>
+                  <textarea
+                    data-testid="input-sinopse"
+                    placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
+                    rows={4}
+                    className={`bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
                     id="ano-de-publicacao"
-                    {...register('anoDePublicacao')}
-                    aria-invalid={!!errors.anoDePublicacao}
+                    {...register('sinopse')}
+                    aria-invalid={!!errors.sinopse}
                   />
-                  <FieldError
-                    message={errors.anoDePublicacao?.message as string}
-                  />
+                  <FieldError message={errors.sinopse?.message as string} />
                 </div>
-                <div className="flex-1 flex flex-col gap-1">
-                  <label className="text-text-secondary text-xs uppercase tracking-widest">
-                    Número de Páginas <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    data-testid="input-paginas"
-                    maxLength={4}
-                    className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
-                    disabled={formDesabilitado}
-                    id="numero-de-paginas"
-                    {...register('numeroDePaginas')}
-                    aria-invalid={!!errors.numeroDePaginas}
-                  />
-                  <FieldError
-                    message={errors.numeroDePaginas?.message as string}
-                  />
+                <div className="flex justify-end gap-4 mt-2">
+                  <button
+                    type="button"
+                    data-testid="btn-cancelar"
+                    onClick={() => {
+                      toast.success('Registro de livro cancelado.', {
+                        autoClose: 1500,
+                      });
+                      startTransition(async () => {
+                        await new Promise((resolve) =>
+                          setTimeout(resolve, 1500)
+                        );
+                        router.back();
+                      });
+                    }}
+                    className="px-9 py-3 text-sm rounded-lg font-bold transition-opacity duration-200 bg-dark-purple text-white hover:brightness-110 cursor-pointer"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    data-testid="btn-salvar"
+                    type="submit"
+                    disabled={isSubmitting || !isValid}
+                    className={`px-9 py-3 text-sm rounded-lg font-bold transition-opacity duration-200 bg-brand text-white
+                      ${isSubmitting || !isValid ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
+                  >
+                    Salvar
+                  </button>
                 </div>
               </div>
-              <div>
-                <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Idioma <span className="text-red-400">*</span>
-                </label>
-                <select
-                  data-testid="select-idioma"
-                  className={`w-full bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                  id="idioma"
-                  {...register('idioma')}
-                  aria-invalid={!!errors.idioma}
-                  disabled={formDesabilitado}
-                >
-                  <option value="">Selecione um idioma</option>
-                  {LIVRO_IDIOMA_OPCOES.map((item) => (
-                    <option key={item.label} value={item.valorEnum}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="text-text-secondary text-xs uppercase tracking-widest">
-                  Sinopse <span className="text-red-400">*</span>
-                </label>
-                <textarea
-                  data-testid="input-sinopse"
-                  placeholder="Escreva a sinopse do livro (mínimo 50 caracteres)..."
-                  rows={4}
-                  className={`bg-card-bg border border-border rounded-xs px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary w-full resize-none ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
-                  disabled={formDesabilitado}
-                  id="ano-de-publicacao"
-                  {...register('sinopse')}
-                  aria-invalid={!!errors.sinopse}
-                />
-                <FieldError message={errors.sinopse?.message as string} />
-              </div>
-              <div className="flex justify-end gap-4 mt-2">
-                <button
-                  type="button"
-                  data-testid="btn-cancelar"
-                  onClick={() => {
-                    toast.success('Registro de livro cancelado.', {
-                      autoClose: 1500,
-                    });
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
-                  }}
-                  className="px-6 py-3 text-sm text-text-secondary hover:opacity-80 cursor-pointer uppercase font-bold"
-                >
-                  Cancelar
-                </button>
-                <button
-                  data-testid="btn-salvar"
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
-                  className={`px-6 py-3 text-sm rounded-lg uppercase font-bold transition-opacity duration-200 bg-brand text-white
-                    ${isSubmitting || !isValid ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110 cursor-pointer'}`}
-                >
-                  Salvar dados
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </main>
+            </form>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
