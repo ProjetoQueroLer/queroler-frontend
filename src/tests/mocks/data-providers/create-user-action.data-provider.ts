@@ -8,6 +8,7 @@ export function createUserPayload(
   return {
     nome: 'Usuário Teste',
     email: 'usuario@teste.com',
+    confirmarEmail: 'usuario@teste.com',
     senha: '123456K&t#',
     confirmarSenha: '123456K&t#',
     cpf: '12345678901',

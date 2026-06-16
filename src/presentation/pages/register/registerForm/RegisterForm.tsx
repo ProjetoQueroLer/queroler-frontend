@@ -14,7 +14,7 @@ import { HeaderRegisterForm } from '@/presentation/pages/register/headerForm/Hea
 import { LogoHeader } from '@/presentation/pages/auth';
 import { CreateUserDTO } from '@/core/application/user/create-user.dto';
 import { createUserAction } from '@/app/actions/createUser.actions';
-
+import { Mail } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
@@ -79,6 +79,21 @@ export function RegisterForm() {
                   password: errors.senha,
                 }}
               />
+              <div>
+                <Input
+                  label="Data de Nascimento"
+                  id="dataDeNascimento"
+                  type="date"
+                  max={`${anoLimite}-${mes}-${dia}`}
+                  dataTestId="input-data-nascimento"
+                  {...register('dataDeNascimento')}
+                  aria-invalid={!!errors.dataDeNascimento}
+                />
+                <FieldError
+                  message={errors.dataDeNascimento?.message as string}
+                />
+              </div>
+
               <div className="flex flex-col h-full gap-2 align-center flex-start">
                 <div className="mt-2">
                   <Checkbox
@@ -97,22 +112,6 @@ export function RegisterForm() {
             <div className="flex flex-col gap-4">
               <div>
                 <Input
-                  label="Confirmar Senha"
-                  type="password"
-                  id="confirmarSenha"
-                  placeholder="Confirme sua senha"
-                  dataTestId="input-confirmarSenha"
-                  autoComplete="new-password"
-                  {...register('confirmarSenha')}
-                  aria-invalid={!!errors.confirmarSenha}
-                  showPasswordToggle
-                />
-                <FieldError
-                  message={errors.confirmarSenha?.message as string}
-                />
-              </div>
-              <div>
-                <Input
                   label="CPF"
                   id="cpf"
                   placeholder="Seu CPF"
@@ -125,16 +124,35 @@ export function RegisterForm() {
               </div>
               <div>
                 <Input
-                  label="Data de Nascimento"
-                  id="dataDeNascimento"
-                  type="date"
-                  max={`${anoLimite}-${mes}-${dia}`}
-                  dataTestId="input-data-nascimento"
-                  {...register('dataDeNascimento')}
-                  aria-invalid={!!errors.dataDeNascimento}
+                  label="Confirmar E-mail"
+                  type="email"
+                  id="confirmarEmail"
+                  placeholder="Confirme seu e-mail"
+                  icon={<Mail size={18} />}
+                  dataTestId="input-confirmar-email"
+                  autoComplete="email"
+                  maxLength={256}
+                  {...register('confirmarEmail')}
+                  aria-invalid={!!errors.confirmarEmail}
                 />
                 <FieldError
-                  message={errors.dataDeNascimento?.message as string}
+                  message={errors.confirmarEmail?.message as string}
+                />
+              </div>
+              <div>
+                <Input
+                  label="Confirmar Senha"
+                  type="password"
+                  id="confirmarSenha"
+                  placeholder="Confirme sua senha"
+                  dataTestId="input-confirmarSenha"
+                  autoComplete="new-password"
+                  {...register('confirmarSenha')}
+                  aria-invalid={!!errors.confirmarSenha}
+                  showPasswordToggle
+                />
+                <FieldError
+                  message={errors.confirmarSenha?.message as string}
                 />
               </div>
             </div>

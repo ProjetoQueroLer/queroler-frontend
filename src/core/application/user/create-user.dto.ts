@@ -8,6 +8,11 @@ export const createUserSchema = z
       .min(1, 'E-mail obrigatório')
       .max(256, 'Máximo de 256 caracteres')
       .email({ message: 'E-mail inválido' }),
+    confirmarEmail: z
+      .string()
+      .min(1, 'Confirmação de e-mail obrigatória')
+      .max(256, 'Máximo de 256 caracteres')
+      .email({ message: 'E-mail inválido' }),
     senha: z
       .string()
       .nonempty('Senha obrigatória')
@@ -49,6 +54,10 @@ export const createUserSchema = z
   .refine((data) => data.senha === data.confirmarSenha, {
     message: 'As senhas não coincidem',
     path: ['confirmarSenha'],
+  })
+  .refine((data) => data.email === data.confirmarEmail, {
+    message: 'Os e-mails não coincidem',
+    path: ['confirmarEmail'],
   });
 
 export type CreateUserDTO = z.infer<typeof createUserSchema>;
