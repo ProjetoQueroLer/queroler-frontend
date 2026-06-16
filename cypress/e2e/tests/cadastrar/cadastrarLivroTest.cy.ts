@@ -8,6 +8,7 @@ type TestData = {
 
 type Mensagem = {
   ISBNNaoEncontrado: string;
+  registroDeLivroSucesso: string;
   registroDeLivroCancelado: string;
 };
 
@@ -53,31 +54,61 @@ describe('Cadastrar Livro', () => {
     cadastrarLivroPage.selecionarImagemLivro();
   });
 
-  it('Deve exibir mensagem de sucesso ao cadastrar um livro', () => {
-    cy.allure()
-      .feature('Cadastrar Livro')
-      .story('Cadastro bem-sucedido')
-      .severity('normal');
+  describe('Cadastro de livro com imagem', () => {
+    it('Deve exibir mensagem de sucesso ao cadastrar um livro', () => {
+      cy.allure()
+        .feature('Cadastrar Livro')
+        .story('Cadastro bem-sucedido')
+        .severity('normal');
 
-    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.preencherFormularioObrigatorio(
-      mensagens.ISBNNaoEncontrado
-    );
-    cadastrarLivroPage.selecionarImagemLivro();
-    cadastrarLivroPage.salvarCadastro();
+      cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+      cadastrarLivroPage.preencherFormularioObrigatorio(
+        mensagens.ISBNNaoEncontrado
+      );
+      cadastrarLivroPage.selecionarImagemLivro();
+      cadastrarLivroPage.salvarCadastro(mensagens.registroDeLivroSucesso);
+    });
+
+    it('Deve exibir mensagem ao cancelar o cadastro de um livro', () => {
+      cy.allure()
+        .feature('Cadastrar Livro')
+        .story('Cancelar cadastro')
+        .severity('normal');
+
+      cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+      cadastrarLivroPage.preencherFormularioObrigatorio(
+        mensagens.ISBNNaoEncontrado
+      );
+      cadastrarLivroPage.selecionarImagemLivro();
+      cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+    });
   });
 
-  it('Deve cancelar o cadastro de um livro', () => {
-    cy.allure()
-      .feature('Cadastrar Livro')
-      .story('Cancelar cadastro')
-      .severity('normal');
+  describe('Sem upload de imagem', () => {
+    it('Deve exibir mensagem de sucesso ao cadastrar um livro sem imagem', () => {
+      cy.allure()
+        .feature('Cadastrar Livro')
+        .story('Cadastro sem imagem')
+        .severity('normal');
 
-    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.preencherFormularioObrigatorio(
-      mensagens.ISBNNaoEncontrado
-    );
-    cadastrarLivroPage.selecionarImagemLivro();
-    cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+      cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+      cadastrarLivroPage.preencherFormularioObrigatorio(
+        mensagens.ISBNNaoEncontrado
+      );
+      cadastrarLivroPage.salvarCadastro(mensagens.registroDeLivroSucesso);
+    });
+
+    it('Deve exibir mensagem ao cancelar o cadastro de um livro sem imagem', () => {
+      cy.allure()
+        .feature('Cadastrar Livro')
+        .story('Cancelar cadastro sem imagem')
+        .severity('normal');
+
+      cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+      cadastrarLivroPage.preencherFormularioObrigatorio(
+        mensagens.ISBNNaoEncontrado
+      );
+      cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+    });
   });
 });
