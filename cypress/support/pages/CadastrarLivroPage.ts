@@ -3,32 +3,8 @@
 import { CadastrarLivroElements } from '../elements/CadastrarLivroElements';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Fixtures } from '../utils/fixtures';
-
-type DadosLivro = {
-  isbn: string;
-  titulo: string;
-  autor: string;
-  editora: string;
-  ano: string;
-  paginas: string;
-  sinopse: string;
-};
-
-const isbnFaker = faker.helpers.arrayElement([
-  faker.string.numeric(10),
-  faker.string.numeric(13),
-]);
+import { GeradorDadosLivro } from '../utils/geradorDadosLivro';
 export class CadastrarLivroPage {
-  readonly dadosLivro: DadosLivro = {
-    isbn: isbnFaker,
-    titulo: faker.lorem.words(3),
-    autor: `${faker.person.firstName()} ${faker.person.lastName()}`,
-    editora: faker.company.name(),
-    ano: faker.date.past({ years: 30 }).getFullYear().toString(),
-    paginas: faker.string.numeric(4),
-    sinopse: faker.lorem.sentences(3),
-  };
-
   acessarPaginaCadastrarLivro(texto: string): this {
     cy.get(CadastrarLivroElements.buscarLivroInput).type(texto);
     cy.get(CadastrarLivroElements.modalSimButton).click();
@@ -72,27 +48,42 @@ export class CadastrarLivroPage {
       });
   }
 
-  preencherFormularioObrigatorio(msg: string): this {
-    cy.get(CadastrarLivroElements.isbnInput).type(this.dadosLivro.isbn);
+  fecharToast(): this {
     cy.get(CadastrarLivroElements.fechaToastButton)
       .should('be.visible')
       .click();
+    return this;
+  }
+
+  verificarToastErro(msg: string): this {
     cy.get(CadastrarLivroElements.mensagemErrorToastLabel)
       .should('be.visible')
       .and('contain.text', msg);
-    cy.get(CadastrarLivroElements.tituloDoLivroInput).type(
-      this.dadosLivro.titulo
-    );
-    cy.get(CadastrarLivroElements.autorInput).type(this.dadosLivro.autor);
-    cy.get(CadastrarLivroElements.editoraInput).type(this.dadosLivro.editora);
-    cy.get(CadastrarLivroElements.anoDePublicacaoInput).type(
-      this.dadosLivro.ano
-    );
+    return this;
+  }
+
+  verificarToastSucesso(msg: string): this {
+    cy.get(CadastrarLivroElements.mensagemSucessoToastLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
+    return this;
+  }
+
+  preencherFormularioObrigatorio(msg: string): this {
+    const dadosLivro = GeradorDadosLivro.criar();
+
+    cy.get(CadastrarLivroElements.isbnInput).type(dadosLivro.isbn);
+    this.fecharToast();
+    this.verificarToastErro(msg);
+    cy.get(CadastrarLivroElements.tituloDoLivroInput).type(dadosLivro.titulo);
+    cy.get(CadastrarLivroElements.autorInput).type(dadosLivro.autor);
+    cy.get(CadastrarLivroElements.editoraInput).type(dadosLivro.editora);
+    cy.get(CadastrarLivroElements.anoDePublicacaoInput).type(dadosLivro.ano);
     cy.get(CadastrarLivroElements.numeroDePaginasInput).type(
-      this.dadosLivro.paginas
+      dadosLivro.paginas
     );
     this.selecionarIdiomaAleatorio();
-    cy.get(CadastrarLivroElements.sinopseInput).type(this.dadosLivro.sinopse);
+    cy.get(CadastrarLivroElements.sinopseInput).type(dadosLivro.sinopse);
     return this;
   }
 
@@ -105,25 +96,17 @@ export class CadastrarLivroPage {
     return this;
   }
 
-  salvarCadastro(): this {
-    cy.get(CadastrarLivroElements.fechaToastButton)
-      .should('be.visible')
-      .click();
+  salvarCadastro(msg: string): this {
+    this.fecharToast();
     cy.get(CadastrarLivroElements.cadastrarLivroButton).click();
-    cy.get(CadastrarLivroElements.mensagemSucessoToastLabel).should(
-      'be.visible'
-    );
+    this.verificarToastSucesso(msg);
     return this;
   }
 
   cancelarCadastro(msg: string): this {
-    cy.get(CadastrarLivroElements.fechaToastButton)
-      .should('be.visible')
-      .click();
+    this.fecharToast();
     cy.get(CadastrarLivroElements.cancelarCadastroButton).click();
-    cy.get(CadastrarLivroElements.mensagemSucessoToastLabel)
-      .should('be.visible')
-      .and('contain.text', msg);
+    this.verificarToastSucesso(msg);
     return this;
   }
 }
