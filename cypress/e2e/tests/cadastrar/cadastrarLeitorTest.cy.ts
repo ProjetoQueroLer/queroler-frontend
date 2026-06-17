@@ -21,6 +21,7 @@ type Mensagem = {
   cpfJaCadastrado: string;
   nomeObrigatorio: string;
   emailObrigatorio: string;
+  confirmacaoEmailObrigatoria: string;
   senhaObrigatoria: string;
   confirmacaoSenhaObrigatoria: string;
   cpfObrigatorio: string;
@@ -75,6 +76,7 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.preencherFormulario({
       nome: dadosCadastro.nome,
       email: dadosCadastro.email,
+      confirmarEmail: dadosCadastro.email,
       senha: dadosCadastro.senha,
       confirmarSenha: dadosCadastro.confirmacaoSenha,
       cpf: dadosCadastro.cpf,
@@ -93,6 +95,7 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.preencherFormulario({
       nome: dadosCadastro.nome,
       email: dadosCadastro.email,
+      confirmarEmail: dadosCadastro.email,
       senha: dadosCadastro.senha,
       confirmarSenha: dadosCadastro.confirmacaoSenha,
       cpf: dadosCadastro.cpf,
@@ -119,6 +122,7 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
       msg.nomeObrigatorio,
       msg.emailObrigatorio,
+      msg.confirmacaoEmailObrigatoria,
       msg.senhaObrigatoria,
       msg.confirmacaoSenhaObrigatoria,
       msg.cpfObrigatorio,
@@ -140,6 +144,7 @@ describe('Cadastro de Leitor', () => {
       cadastrarLeitorPage.preencherFormulario({
         nome: faker.person.fullName(),
         email: dados.usuarioCadastrado.email,
+        confirmarEmail: dados.usuarioCadastrado.email,
         senha: senhaEmail,
         confirmarSenha: senhaEmail,
         cpf: gerarCpf(),
@@ -157,9 +162,12 @@ describe('Cadastro de Leitor', () => {
         .story('CPF duplicado')
         .severity('critical');
 
+      const emailFaker = faker.internet.email();
+
       cadastrarLeitorPage.preencherFormulario({
         nome: faker.person.fullName(),
-        email: faker.internet.email(),
+        email: emailFaker,
+        confirmarEmail: emailFaker,
         senha: senhaCpf,
         confirmarSenha: senhaCpf,
         cpf: dados.usuarioCadastrado.cpf,
