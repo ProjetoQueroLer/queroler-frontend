@@ -5,6 +5,7 @@ import { CadastrarLeitorElements } from '../elements/CadastrarLeitorElements';
 type DadosLeitor = {
   nome: string;
   email: string;
+  confirmarEmail: string;
   senha: string;
   confirmarSenha: string;
   cpf: string;
@@ -23,6 +24,7 @@ export class CadastrarLeitorPage {
       CadastrarLeitorElements.tituloCrieSuaConta,
       CadastrarLeitorElements.nomeInput,
       CadastrarLeitorElements.emailInput,
+      CadastrarLeitorElements.confirmaEmailInput,
       CadastrarLeitorElements.senhaInput,
       CadastrarLeitorElements.confirmaSenhaInput,
       CadastrarLeitorElements.cpfUsuarioInput,
@@ -53,6 +55,9 @@ export class CadastrarLeitorPage {
     cy.get(CadastrarLeitorElements.emailInput)
       .should('be.visible')
       .type(dados.email);
+    cy.get(CadastrarLeitorElements.confirmaEmailInput)
+      .should('be.visible')
+      .type(dados.confirmarEmail);
     cy.get(CadastrarLeitorElements.senhaInput)
       .should('be.visible')
       .type(dados.senha);
@@ -101,6 +106,7 @@ export class CadastrarLeitorPage {
     const campos = [
       CadastrarLeitorElements.nomeInput,
       CadastrarLeitorElements.emailInput,
+      CadastrarLeitorElements.confirmaEmailInput,
       CadastrarLeitorElements.senhaInput,
       CadastrarLeitorElements.confirmaSenhaInput,
       CadastrarLeitorElements.cpfUsuarioInput,
