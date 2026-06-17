@@ -11,6 +11,7 @@ describe('ApiUserRepository', () => {
   const userPayload: CreateUserDTO = {
     nome: 'Teste',
     email: 'teste@email.com',
+    confirmarEmail: 'teste@email.com',
     senha: '123456',
     confirmarSenha: '123456',
     cpf: '429.063.400-14',

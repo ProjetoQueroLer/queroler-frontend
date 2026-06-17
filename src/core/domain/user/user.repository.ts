@@ -3,6 +3,7 @@ import { UserEntity } from '@/core/domain/user/user.entity';
 export interface CreateUserData {
   nome: string;
   email: string;
+  confirmarEmail: string;
   senha: string;
   confirmarSenha: string;
   cpf: string;

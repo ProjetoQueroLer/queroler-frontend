@@ -32,6 +32,7 @@ export async function createUserAction(data: CreateUserDTO) {
     const payload: CreateUserData = {
       nome: validated.data.nome,
       email: validated.data.email,
+      confirmarEmail: validated.data.confirmarEmail,
       senha: validated.data.senha,
       confirmarSenha: validated.data.confirmarSenha,
       cpf: validated.data.cpf,
