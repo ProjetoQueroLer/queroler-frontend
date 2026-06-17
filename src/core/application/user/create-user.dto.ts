@@ -2,7 +2,10 @@ import z from 'zod';
 
 export const createUserSchema = z
   .object({
-    nome: z.string().min(1, 'Nome obrigatório'),
+    nome: z
+      .string()
+      .min(1, 'Nome obrigatório')
+      .max(80, 'Nome deve ter no máximo 80 caracteres'),
     email: z
       .string()
       .min(1, 'E-mail obrigatório')

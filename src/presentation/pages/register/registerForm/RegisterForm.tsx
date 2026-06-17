@@ -64,6 +64,7 @@ export function RegisterForm() {
                   id="nome"
                   placeholder="Seu nome completo"
                   dataTestId="input-nome"
+                  maxLength={80}
                   {...register('nome')}
                   aria-invalid={!!errors.nome}
                 />
