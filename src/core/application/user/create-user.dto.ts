@@ -3,9 +3,13 @@ import z from 'zod';
 export const createUserSchema = z
   .object({
     nome: z
-      .string()
-      .min(1, 'Nome obrigatório')
-      .max(80, 'Nome deve ter no máximo 80 caracteres'),
+      .string('Nome obrigatório')
+      .min(3, 'Nome deve ter no mínimo 3 caracteres')
+      .max(80, 'Nome deve ter no máximo 80 caracteres')
+      .regex(
+        /^[a-zA-ZÀ-ÿ\s'-]+$/,
+        'O nome não deve conter números ou caracteres especiais'
+      ),
     email: z
       .string()
       .min(1, 'E-mail obrigatório')
