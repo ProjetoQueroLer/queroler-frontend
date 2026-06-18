@@ -30,6 +30,7 @@ describe('Server Actions: createUserAction', () => {
     const data = createUserPayload({
       nome: '',
       email: '',
+      confirmarEmail: '',
       senha: '',
       confirmarSenha: '',
       cpf: '',
