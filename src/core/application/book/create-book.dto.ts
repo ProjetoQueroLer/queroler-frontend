@@ -21,8 +21,7 @@ export const createBookSchema = z.object({
   editora: z.string().min(1, 'Editora obrigatória'),
   anoDePublicacao: z
     .string('Ano de publicação obrigatório')
-    .min(1, 'Ano de publicação deve ter no mínimo 1 dígito')
-    .max(4, 'Ano de publicação deve ter 4 dígitos')
+    .length(4, 'Ano de publicação deve ter exatamente 4 números')
     .regex(/^\d+$/, 'O ano de publicação deve conter apenas números')
     .transform((val) => Number(val))
     .refine((ano) => ano <= anoAtual, {
