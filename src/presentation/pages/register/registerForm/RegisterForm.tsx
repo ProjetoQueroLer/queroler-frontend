@@ -14,11 +14,16 @@ import { HeaderRegisterForm } from '@/presentation/pages/register/headerForm/Hea
 import { LogoHeader } from '@/presentation/pages/auth';
 import { CreateUserDTO } from '@/core/application/user/create-user.dto';
 import { createUserAction } from '@/app/actions/createUser.actions';
-
+import { Mail } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 export function RegisterForm() {
+  const hoje = new Date();
+  const anoLimite = hoje.getFullYear();
+  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoje.getDate() - 1).padStart(2, '0');
+
   const router = useRouter();
   const {
     register,
@@ -59,6 +64,7 @@ export function RegisterForm() {
                   id="nome"
                   placeholder="Seu nome completo"
                   dataTestId="input-nome"
+                  maxLength={80}
                   {...register('nome')}
                   aria-invalid={!!errors.nome}
                 />
@@ -74,9 +80,66 @@ export function RegisterForm() {
                   password: errors.senha,
                 }}
               />
+              <div>
+                <Input
+                  label="Data de Nascimento"
+                  id="dataDeNascimento"
+                  type="date"
+                  max={`${anoLimite}-${mes}-${dia}`}
+                  dataTestId="input-data-nascimento"
+                  {...register('dataDeNascimento')}
+                  aria-invalid={!!errors.dataDeNascimento}
+                />
+                <FieldError
+                  message={errors.dataDeNascimento?.message as string}
+                />
+              </div>
+
+              <div className="flex flex-col h-full gap-2 align-center flex-start">
+                <div className="mt-2">
+                  <Checkbox
+                    id="checkTermo"
+                    label="Aceito os termos de uso"
+                    error={!!errors.checkTermo}
+                    data-testid="input-termo"
+                    {...register('checkTermo')}
+                    aria-invalid={!!errors.checkTermo}
+                  />
+                </div>
+                <FieldError message={errors.checkTermo?.message as string} />
+              </div>
             </div>
 
             <div className="flex flex-col gap-4">
+              <div>
+                <Input
+                  label="CPF"
+                  id="cpf"
+                  placeholder="Seu CPF"
+                  dataTestId="input-cpf"
+                  maxLength={14}
+                  {...registerWithMask('cpf', '999.999.999-99')}
+                  aria-invalid={!!errors.cpf}
+                />
+                <FieldError message={errors.cpf?.message as string} />
+              </div>
+              <div>
+                <Input
+                  label="Confirmar E-mail"
+                  type="email"
+                  id="confirmarEmail"
+                  placeholder="Confirme seu e-mail"
+                  icon={<Mail size={18} />}
+                  dataTestId="input-confirmar-email"
+                  autoComplete="email"
+                  maxLength={256}
+                  {...register('confirmarEmail')}
+                  aria-invalid={!!errors.confirmarEmail}
+                />
+                <FieldError
+                  message={errors.confirmarEmail?.message as string}
+                />
+              </div>
               <div>
                 <Input
                   label="Confirmar Senha"
@@ -92,31 +155,6 @@ export function RegisterForm() {
                 <FieldError
                   message={errors.confirmarSenha?.message as string}
                 />
-              </div>
-              <div>
-                <Input
-                  label="CPF"
-                  id="cpf"
-                  placeholder="Seu CPF"
-                  dataTestId="input-cpf"
-                  maxLength={14}
-                  {...registerWithMask('cpf', '999.999.999-99')}
-                  aria-invalid={!!errors.cpf}
-                />
-                <FieldError message={errors.cpf?.message as string} />
-              </div>
-              <div className="flex flex-col h-full gap-2 align-center justify-center">
-                <div className="mt-2">
-                  <Checkbox
-                    id="checkTermo"
-                    label="Aceito os termos de uso"
-                    error={!!errors.checkTermo}
-                    data-testid="input-termo"
-                    {...register('checkTermo')}
-                    aria-invalid={!!errors.checkTermo}
-                  />
-                </div>
-                <FieldError message={errors.checkTermo?.message as string} />
               </div>
             </div>
 

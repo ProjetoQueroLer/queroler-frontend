@@ -28,7 +28,7 @@ Cypress.Commands.add(
     cy.visit('/');
     cy.get(LoginElements.emailInput).type(email);
     cy.get(LoginElements.senhaInput).type(password);
-    cy.get(LoginElements.submitButton).click();
+    cy.get(LoginElements.entrarButton).click();
   }
 );
 

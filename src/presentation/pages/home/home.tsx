@@ -75,7 +75,6 @@ export const Home = () => {
       }
 
       if (!result.response) {
-        toast.error('Resposta inválida da API.');
         return;
       }
 

@@ -8,9 +8,11 @@ import {
 export const INITIAL_REGISTER_DEFAULT_VALUES: Partial<CreateUserDTO> = {
   nome: '',
   email: '',
+  confirmarEmail: '',
   senha: '',
   confirmarSenha: '',
   cpf: '',
+  dataDeNascimento: '',
   checkTermo: false,
 };
 

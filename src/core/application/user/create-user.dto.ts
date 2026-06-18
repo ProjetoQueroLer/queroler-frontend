@@ -2,10 +2,22 @@ import z from 'zod';
 
 export const createUserSchema = z
   .object({
-    nome: z.string().min(1, 'Nome obrigatório'),
+    nome: z
+      .string('Nome obrigatório')
+      .min(3, 'Nome deve ter no mínimo 3 caracteres')
+      .max(80, 'Nome deve ter no máximo 80 caracteres')
+      .regex(
+        /^[a-zA-ZÀ-ÿ\s'-]+$/,
+        'O nome não deve conter números ou caracteres especiais'
+      ),
     email: z
       .string()
       .min(1, 'E-mail obrigatório')
+      .max(256, 'Máximo de 256 caracteres')
+      .email({ message: 'E-mail inválido' }),
+    confirmarEmail: z
+      .string()
+      .min(1, 'Confirmação de e-mail obrigatória')
       .max(256, 'Máximo de 256 caracteres')
       .email({ message: 'E-mail inválido' }),
     senha: z
@@ -26,6 +38,22 @@ export const createUserSchema = z
       }),
     confirmarSenha: z.string().min(8, 'Confirmação obrigatória'),
     cpf: z.string().min(11, 'CPF obrigatório').max(14, 'CPF inválido'),
+    dataDeNascimento: z.iso.date({ error: 'Data inválida' }).refine(
+      (val) => {
+        const apenasData = val.split('T')[0];
+
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoje.getDate() - 1).padStart(2, '0');
+        const dataAtualLocal = `${ano}-${mes}-${dia}`;
+
+        return apenasData <= dataAtualLocal;
+      },
+      {
+        message: 'A data não pode ser igual ou maior que a data atual.',
+      }
+    ),
     checkTermo: z.boolean().refine((val) => val === true, {
       message: 'É necessário aceitar os termos',
     }),
@@ -33,6 +61,10 @@ export const createUserSchema = z
   .refine((data) => data.senha === data.confirmarSenha, {
     message: 'As senhas não coincidem',
     path: ['confirmarSenha'],
+  })
+  .refine((data) => data.email === data.confirmarEmail, {
+    message: 'Os e-mails não coincidem',
+    path: ['confirmarEmail'],
   });
 
 export type CreateUserDTO = z.infer<typeof createUserSchema>;

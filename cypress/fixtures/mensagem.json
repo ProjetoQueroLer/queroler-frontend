@@ -4,6 +4,15 @@
   "emailObrigatorio": "E-mail obrigatório",
   "emailInvalido": "E-mail inválido",
   "emailMuitoLongo": "Máximo de 256 caracteres",
-  "senhaObrigatoria": "Mínimo 8 caracteres",
-  "senhaMuitoCurta": "Mínimo 8 caracteres"
+  "senhaMinimaObrigatoria": "Mínimo 8 caracteres",
+  "senhaMuitoCurta": "Mínimo 8 caracteres",
+  "cpfJaCadastrado": "CPF já cadastrado.",
+  "emailJaCadastrado": "já está cadastrado",
+  "usuarioCadastradoSucesso": "Usuário criado com sucesso! Redirecionando para login...",
+  "nomeObrigatorio": "Nome obrigatório",
+  "senhaObrigatoria": "Senha obrigatória",
+  "confirmacaoSenhaObrigatoria": "Confirmação obrigatória",
+  "cpfObrigatorio": "CPF obrigatório",
+  "dataNascimentoObrigatoria": "Data inválida",
+  "termosDeUsoObrigatorio": "É necessário aceitar os termos"
 }
