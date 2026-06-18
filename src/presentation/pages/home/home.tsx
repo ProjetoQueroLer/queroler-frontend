@@ -16,6 +16,7 @@ import { BookSection } from '@/presentation/shared/components/bookSection/BookSe
 import { Ban, BookHeart, BookOpen, CheckCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { findAllBooksByAttributeAction } from '@/app/actions/findAllBooksByAttribute.actions';
+import { SearchResults } from '@/presentation/shared/components/searchResults/SearchResults';
 
 export const Home = () => {
   const [searchParams, setSearchParams] = useState({
@@ -34,6 +35,8 @@ export const Home = () => {
   // const [pages, setPages] = useState();
   // const [page, setPage] = useState();
 
+  const estaPesquisando = searchParams.termo.trim().length > 0;
+
   const { data: resultadosAutocomplete = [], isFetching: loadingAutocomplete } =
     useQuery({
       queryKey: ['books-search', searchParams.filtro, searchParams.termo],
@@ -44,7 +47,7 @@ export const Home = () => {
         });
         return res.success ? res.response : [];
       },
-      enabled: searchParams.termo.trim().length > 0,
+      enabled: estaPesquisando,
     });
 
   const handleSearch = useCallback(
@@ -135,6 +138,16 @@ export const Home = () => {
           Organize sua jornada literária e acompanhe seu progresso.
         </p>
         <SearchBar onSearch={handleSearch} />
+        {estaPesquisando && (
+          <SearchResults
+            livros={
+              'content' in resultadosAutocomplete
+                ? resultadosAutocomplete.content
+                : []
+            }
+            isLoading={loadingAutocomplete}
+          />
+        )}
         <PopularBooks livros={livrosPopulares} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection

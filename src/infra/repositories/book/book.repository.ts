@@ -4,6 +4,7 @@ import {
   LoadBookReadingPageResponseDTO,
   Page,
 } from '@/core/application/book/load-book-reading-page-response.dto';
+import { SearchBookResponseDTO } from '@/core/application/book/search-book-response.dto';
 import { BookRepository } from '@/core/domain/book/book.repository';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
@@ -69,7 +70,7 @@ export class ApiBookRepository implements BookRepository {
 
   async buscarLivrosPeloAtributo(
     data: FindBooksByAttributeDTO
-  ): Promise<AxiosResponse<Page<BookResponseDTO>>> {
+  ): Promise<AxiosResponse<Page<SearchBookResponseDTO>>> {
     try {
       return await this.api.get('/livros', {
         params: { [data.filtro]: data.termo },
