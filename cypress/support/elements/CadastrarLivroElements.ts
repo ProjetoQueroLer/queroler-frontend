@@ -5,8 +5,9 @@ export class CadastrarLivroElements {
   static readonly tituloIncrementeANossaBibliotecaText =
     '.text-text-primary.text-2xl';
   static readonly subtituloCadastreUmLivroText = '.text-text-subtitle.text-sm';
-  static readonly imagemLivroInput =
-    '.bg-border-default.border-2.border-dashed.border-border';
+  static readonly textoSecundarioLabel =
+    '.text-text-secondary.text-xs.text-center.px-4';
+  static readonly imagemLivroInput = 'input[type="file"]';
   static readonly isbnInput = '[data-testid="input-isbn"]';
   static readonly tituloDoLivroInput = '[data-testid="input-titulo"]';
   static readonly autorInput = '[data-testid="input-autor"]';
@@ -17,4 +18,10 @@ export class CadastrarLivroElements {
   static readonly sinopseInput = '[data-testid="input-sinopse"]';
   static readonly cadastrarLivroButton = '[data-testid="btn-salvar"]';
   static readonly cancelarCadastroButton = '[data-testid="btn-cancelar"]';
+  static readonly fechaToastButton = '.Toastify__close-button';
+  static readonly mensagemErrorToastLabel =
+    '.Toastify__toast.Toastify__toast--error';
+  static readonly mensagemSucessoToastLabel =
+    '.Toastify__toast.Toastify__toast--success';
+  static readonly campoObrigatorioLabel = '.mt-1.text-xs.text-red-400';
 }
