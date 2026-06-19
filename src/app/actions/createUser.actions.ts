@@ -42,11 +42,34 @@ export async function createUserAction(data: CreateUserDTO) {
     await useCase.execute(JSON.stringify(payload));
     revalidatePath('/', 'layout');
   } catch (error) {
+    let errorMessage = '';
+
+    const targetError =
+      error && typeof error === 'object' && 'data' in error
+        ? error.data
+        : error;
+
+    if (
+      Array.isArray(targetError) &&
+      targetError.length > 0 &&
+      'mensagem' in targetError[0] &&
+      'campo' in targetError[0]
+    ) {
+      errorMessage = `${targetError[0].mensagem}: ${String(targetError[0].campo).charAt(0).toUpperCase() + String(targetError[0].campo).slice(1)}`;
+    } else {
+      errorMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'object' && error !== null && 'error' in error
+            ? String(error.error)
+            : typeof error === 'string'
+              ? error
+              : '';
+    }
     return {
       success: false,
       message:
-        (error as string) ||
-        'Falha ao criar usuário. Tente novamente mais tarde.',
+        errorMessage || 'Falha ao criar usuário. Tente novamente mais tarde.',
     };
   }
 
