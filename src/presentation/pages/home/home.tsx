@@ -32,30 +32,37 @@ export const Home = () => {
   const [livrosPopulares, setLivrosPopulares] = useState<
     BookResponseDTO[] | undefined
   >([]);
-  // const [pages, setPages] = useState();
-  // const [page, setPage] = useState();
+  const [paginaAtual, setPaginaAtual] = useState(0);
 
   const estaPesquisando = searchParams.termo.trim().length > 0;
-
-  const { data: resultadosAutocomplete = [], isFetching: loadingAutocomplete } =
-    useQuery({
-      queryKey: ['books-search', searchParams.filtro, searchParams.termo],
-      queryFn: async () => {
-        const res = await findAllBooksByAttributeAction({
-          filtro: searchParams.filtro,
-          termo: searchParams.termo,
-        });
-        return res.success ? res.response : [];
-      },
-      enabled: estaPesquisando,
-    });
 
   const handleSearch = useCallback(
     (filtro: keyof typeof Filtros, termo: string) => {
       setSearchParams({ filtro, termo });
+      setPaginaAtual(0);
     },
     []
   );
+
+  const { data: resultadosAutocomplete = [], isFetching: loadingAutocomplete } =
+    useQuery({
+      queryKey: [
+        'books-search',
+        searchParams.filtro,
+        searchParams.termo,
+        paginaAtual,
+      ],
+      queryFn: async () => {
+        const res = await findAllBooksByAttributeAction({
+          filtro: searchParams.filtro,
+          termo: searchParams.termo,
+          page: paginaAtual,
+          size: 4,
+        });
+        return res.success ? res.response : null;
+      },
+      enabled: estaPesquisando,
+    });
 
   useEffect(() => {
     async function carregarLivrosPopulares() {
@@ -137,17 +144,26 @@ export const Home = () => {
         <p className="text-text-subtitle text-sm lg:text-base mb-6">
           Organize sua jornada literária e acompanhe seu progresso.
         </p>
-        <SearchBar onSearch={handleSearch} />
-        {estaPesquisando && (
-          <SearchResults
-            livros={
-              'content' in resultadosAutocomplete
-                ? resultadosAutocomplete.content
-                : []
-            }
-            isLoading={loadingAutocomplete}
-          />
-        )}
+        <div className="bg-card-bg border border-border-default rounded-md mb-6 m-1 transition-all duration-200">
+          <SearchBar onSearch={handleSearch} />
+          {estaPesquisando && (
+            <SearchResults
+              livros={
+                resultadosAutocomplete && 'content' in resultadosAutocomplete
+                  ? resultadosAutocomplete.content
+                  : []
+              }
+              isLoading={loadingAutocomplete}
+              totalPages={
+                resultadosAutocomplete && 'totalPages' in resultadosAutocomplete
+                  ? resultadosAutocomplete.totalPages
+                  : 0
+              }
+              currentPage={paginaAtual}
+              onPageChange={(novaPagina: number) => setPaginaAtual(novaPagina)}
+            />
+          )}
+        </div>
         <PopularBooks livros={livrosPopulares} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <BookSection

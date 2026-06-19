@@ -18,7 +18,9 @@ interface SearchBarProps {
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const [filtroOpen, setFiltroOpen] = useState(false);
-  const [filtroSelecionado, setFiltroSelecionado] = useState<'titulo'| 'autor' | 'editora' | 'isbn'>('titulo');
+  const [filtroSelecionado, setFiltroSelecionado] = useState<
+    'titulo' | 'autor' | 'editora' | 'isbn'
+  >('titulo');
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -31,7 +33,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2 bg-search-border border border-border-default rounded-md m-1 mb-6 px-2 py-2 lg:px-3 lg:py-3">
+      <div className="flex items-center gap-2 m-1 mb-4 px-2 py-2 lg:px-3 lg:py-3">
         <div className="flex-1 flex items-center gap-2 bg-card-bg border border-border-default rounded-sm px-1 py-1 lg:px-4 lg:py-3">
           <Search size={16} className="text-text-secondary" />
           <input
@@ -42,7 +44,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
-              // setIsModalOpen(true);
             }}
           />
         </div>
