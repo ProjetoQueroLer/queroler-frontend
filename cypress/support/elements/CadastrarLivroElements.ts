@@ -23,4 +23,5 @@ export class CadastrarLivroElements {
     '.Toastify__toast.Toastify__toast--error';
   static readonly mensagemSucessoToastLabel =
     '.Toastify__toast.Toastify__toast--success';
+  static readonly campoObrigatorioLabel = '.mt-1.text-xs.text-red-400';
 }
