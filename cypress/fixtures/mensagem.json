@@ -9,7 +9,7 @@
   "cpfJaCadastrado": "CPF já cadastrado.",
   "emailJaCadastrado": "já está cadastrado",
   "usuarioCadastradoSucesso": "Usuário criado com sucesso! Redirecionando para login...",
-  "nomeObrigatorio": "Nome obrigatório",
+  "nomeObrigatorio": "Nome deve ter no mínimo 3 caracteres",
   "confirmacaoEmailObrigatoria": "Confirmação de e-mail obrigatória",
   "senhaObrigatoria": "Senha obrigatória",
   "confirmacaoSenhaObrigatoria": "Confirmação obrigatória",
@@ -18,5 +18,14 @@
   "termosDeUsoObrigatorio": "É necessário aceitar os termos",
   "ISBNNaoEncontrado": "Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.",
   "registroDeLivroCancelado": "Registro de livro cancelado.",
-  "registroDeLivroSucesso": "Livro criado com sucesso! Redirecionando para tela inicial..."
+  "registroDeLivroSucesso": "Livro criado com sucesso! Redirecionando para tela inicial...",
+  "ISBNJaCadastrado": "Isbn já cadastrado",
+  "ISBNObrigatorio": "ISBN obrigatório",
+  "tituloObrigatorio": "Título obrigatório",
+  "autorObrigatorio": "Autores é obrigatório",
+  "editoraObrigatoria": "Editora obrigatória",
+  "anoPublicacaoObrigatorio": "Ano de publicação deve ter exatamente 4 números",
+  "numeroDePaginasObrigatorio": "Número de páginas deve ter no mínimo 1 dígito",
+  "sinopseObrigatorio": "Sinopse deve ter 50 caracteres no mínimo",
+  "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente."
 }
