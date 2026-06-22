@@ -2,13 +2,17 @@
 
 import { SearchBookResponseDTO } from '@/core/application/book/search-book-response.dto';
 import { BookSearchCard } from '@/presentation/shared/components/bookSearchCard/BookSearchCard';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { BookSearchDetailedCard } from '@/presentation/shared/components/bookSearchDetailedCard/BookSearchDetailedCard';
 
 interface SearchResultsProps {
   livros: SearchBookResponseDTO[];
   isLoading: boolean;
   totalPages: number;
+  totalElements: number;
   currentPage: number;
+  isExpanded: boolean;
+  onExpand: () => void;
   onPageChange: (novaPagina: number) => void;
 }
 
@@ -16,7 +20,10 @@ export function SearchResults({
   livros,
   isLoading,
   totalPages,
+  totalElements,
   currentPage,
+  isExpanded,
+  onExpand,
   onPageChange,
 }: SearchResultsProps) {
   return (
@@ -33,19 +40,45 @@ export function SearchResults({
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             {livros.map((livro, _index) => {
+              if (isExpanded) {
+                return (
+                  <BookSearchDetailedCard
+                    key={`expanded-${livro.id}-${livro.titulo}`}
+                    id={String(livro.id)}
+                    title={livro.titulo}
+                    author={`${livro.autores && livro.autores.length > 0 ? (livro.autores.length <= 3 ? livro.autores.map((autor) => autor.nome).join(', ') : livro.autores[0].nome) : 'Autor Desconhecido'}`}
+                    cover={livro.urlCapaDoLivro}
+                    editora={livro.editora}
+                    numeroPaginas={livro.numeroDePaginas}
+                    anoPublicacao={livro.anoDePublicacao}
+                  />
+                );
+              }
               return (
                 <BookSearchCard
                   key={`${livro.editora}-${livro.titulo}`}
                   id={String(livro.id)}
                   title={livro.titulo}
-                  author={livro.autores[0].nome}
+                  author={`${livro.autores && livro.autores.length > 0 ? (livro.autores.length <= 3 ? livro.autores.map((autor) => autor.nome).join(', ') : `${livro.autores[0].nome}, e outros.`) : 'Autor desconhecido'}`}
                   cover={livro.urlCapaDoLivro}
                 />
               );
             })}
           </div>
 
-          {totalPages > 1 && (
+          {!isExpanded && totalElements > 5 && (
+            <div className="flex justify-center pt-2">
+              <button
+                onClick={onExpand}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-text-primary bg-search-border border border-border rounded-md hover:opacity-90 transition-all cursor-pointer shadow-xs"
+              >
+                <Maximize2 size={14} />
+                Ver todos os {totalElements} resultados
+              </button>
+            </div>
+          )}
+
+          {isExpanded && totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 pt-4 border-t border-border-default/50">
               <button
                 onClick={() => onPageChange(currentPage - 1)}

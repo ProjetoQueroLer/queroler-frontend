@@ -46,7 +46,7 @@ export function BookSearchCard({ title, author, cover }: BookSearchCardProps) {
         </h3>
         {author && (
           <p className="text-text-subtitle text-sm text-text-secondary truncate mt-1 font-normal">
-            {author}
+            {author || 'Autor desconhecido'}
           </p>
         )}
       </div>

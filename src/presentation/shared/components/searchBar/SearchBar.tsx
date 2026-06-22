@@ -1,8 +1,6 @@
 'use client';
 import { Search, ChevronDown, Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Modal } from '@/presentation/shared/components/modal/Modal';
-import { useRouter } from 'next/navigation';
 import { useDebounce } from '@/hooks/useBebounce';
 
 export enum Filtros {
@@ -22,8 +20,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
     'titulo' | 'autor' | 'editora' | 'isbn'
   >('titulo');
   const [query, setQuery] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter();
 
   const debouncedQuery = useDebounce(query, 400);
 
@@ -83,13 +79,6 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           )}
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={() => {
-          router.push('/cadastro-livro');
-        }}
-      />
     </div>
   );
 }

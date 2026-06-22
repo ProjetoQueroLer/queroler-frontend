@@ -17,8 +17,13 @@ import { Ban, BookHeart, BookOpen, CheckCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { findAllBooksByAttributeAction } from '@/app/actions/findAllBooksByAttribute.actions';
 import { SearchResults } from '@/presentation/shared/components/searchResults/SearchResults';
+import { useRouter } from 'next/navigation';
+import { Modal } from '@/presentation/shared/components/modal/Modal';
 
 export const Home = () => {
+  const [isModalCadastroOpen, setIsModalCadastroOpen] = useState(false);
+  const [ultimoTermoVerificado, setUltimoTermoVerificado] = useState('');
+  const router = useRouter();
   const [searchParams, setSearchParams] = useState({
     filtro: 'titulo' as keyof typeof Filtros,
     termo: '',
@@ -33,6 +38,7 @@ export const Home = () => {
     BookResponseDTO[] | undefined
   >([]);
   const [paginaAtual, setPaginaAtual] = useState(0);
+  const [modoExpandido, setModoExpandido] = useState(false);
 
   const estaPesquisando = searchParams.termo.trim().length > 0;
 
@@ -40,25 +46,42 @@ export const Home = () => {
     (filtro: keyof typeof Filtros, termo: string) => {
       setSearchParams({ filtro, termo });
       setPaginaAtual(0);
+      setModoExpandido(false);
     },
     []
   );
 
-  const { data: resultadosAutocomplete = [], isFetching: loadingAutocomplete } =
+  const { data: resultadosAutocomplete, isFetching: loadingAutocomplete } =
     useQuery({
       queryKey: [
         'books-search',
         searchParams.filtro,
         searchParams.termo,
         paginaAtual,
+        modoExpandido,
       ],
       queryFn: async () => {
         const res = await findAllBooksByAttributeAction({
           filtro: searchParams.filtro,
           termo: searchParams.termo,
           page: paginaAtual,
-          size: 4,
+          size: modoExpandido ? 15 : 5,
         });
+        if (res.success && res.response) {
+          const temLivros =
+            res.response.content && res.response.content.length > 0;
+
+          if (!temLivros && searchParams.termo !== ultimoTermoVerificado) {
+            setUltimoTermoVerificado(searchParams.termo);
+            setIsModalCadastroOpen(true);
+          }
+        } else if (
+          !res.success &&
+          searchParams.termo !== ultimoTermoVerificado
+        ) {
+          setUltimoTermoVerificado(searchParams.termo);
+          setIsModalCadastroOpen(true);
+        }
         return res.success ? res.response : null;
       },
       enabled: estaPesquisando,
@@ -159,7 +182,18 @@ export const Home = () => {
                   ? resultadosAutocomplete.totalPages
                   : 0
               }
+              totalElements={
+                resultadosAutocomplete &&
+                'totalElements' in resultadosAutocomplete
+                  ? resultadosAutocomplete.totalElements
+                  : 0
+              }
               currentPage={paginaAtual}
+              isExpanded={modoExpandido}
+              onExpand={() => {
+                setPaginaAtual(0);
+                setModoExpandido(true);
+              }}
               onPageChange={(novaPagina: number) => setPaginaAtual(novaPagina)}
             />
           )}
@@ -196,6 +230,16 @@ export const Home = () => {
           />
         </div>
       </main>
+      {isModalCadastroOpen && (
+        <Modal
+          isOpen={isModalCadastroOpen}
+          onClose={() => setIsModalCadastroOpen(false)}
+          onConfirm={() => {
+            setIsModalCadastroOpen(false);
+            router.push('/cadastro-livro');
+          }}
+        />
+      )}
     </div>
   );
 };
