@@ -13,10 +13,18 @@ export async function loadUserProfilePageAction() {
       success: true,
       response: response.data,
     };
-  } catch {
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : typeof error === 'object' && error !== null && 'error' in error
+          ? String(error.error)
+          : (error as string);
     return {
       success: false,
-      message: 'Não foi possível carregar a tela de perfil do usuário.',
+      message:
+        errorMessage ||
+        'Falha ao carregar perfil de usuário. Tente novamente mais tarde.',
     };
   }
 }
