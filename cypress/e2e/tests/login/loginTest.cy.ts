@@ -68,7 +68,8 @@ describe('Login', () => {
         .story('Validação de e-mail')
         .severity('critical');
 
-      loginPage.tocarCampoEmailESair().verificarErroEmail(msg.emailObrigatorio);
+      loginPage.tocarCampoEmailESair();
+      loginPage.verificarErroEmail(msg.emailObrigatorio);
     });
 
     it('Deve exibir erro para e-mail com formato inválido', () => {
@@ -103,9 +104,8 @@ describe('Login', () => {
         .story('Validação de senha')
         .severity('critical');
 
-      loginPage
-        .tocarCampoSenhaESair()
-        .verificarErroSenha(msg.senhaMinimaObrigatoria);
+      loginPage.tocarCampoSenhaESair();
+      loginPage.verificarErroSenha(msg.senhaMinimaObrigatoria);
     });
 
     it('Deve exibir erro para senha com menos de 8 caracteres', () => {

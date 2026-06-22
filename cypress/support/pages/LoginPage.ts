@@ -45,12 +45,14 @@ export class LoginPage {
   }
 
   tocarCampoEmailESair(): this {
-    cy.get(LoginElements.emailInput).focus().blur();
+    cy.get(LoginElements.emailInput).should('be.visible').click();
+    cy.get(LoginElements.senhaInput).should('be.visible').click();
     return this;
   }
 
   tocarCampoSenhaESair(): this {
-    cy.get(LoginElements.senhaInput).focus().blur();
+    cy.get(LoginElements.senhaInput).should('be.visible').click();
+    cy.get(LoginElements.emailInput).should('be.visible').click();
     return this;
   }
 
