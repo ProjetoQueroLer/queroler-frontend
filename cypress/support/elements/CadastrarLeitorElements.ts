@@ -4,6 +4,7 @@ export class CadastrarLeitorElements {
   static readonly registrarButton = '[data-testid="register-link"]';
   static readonly nomeInput = '[data-testid="input-nome"]';
   static readonly emailInput = '[data-testid="input-email"]';
+  static readonly confirmaEmailInput = '[data-testid="input-confirmar-email"]';
   static readonly senhaInput = '[data-testid="input-senha"]';
   static readonly confirmaSenhaInput = '[data-testid="input-confirmarSenha"]';
   static readonly cpfUsuarioInput = '[data-testid="input-cpf"]';

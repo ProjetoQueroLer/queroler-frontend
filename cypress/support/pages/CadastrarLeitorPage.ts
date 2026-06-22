@@ -2,6 +2,16 @@
 
 import { CadastrarLeitorElements } from '../elements/CadastrarLeitorElements';
 
+type DadosLeitor = {
+  nome: string;
+  email: string;
+  confirmarEmail: string;
+  senha: string;
+  confirmarSenha: string;
+  cpf: string;
+  dataNascimento: string;
+};
+
 export class CadastrarLeitorPage {
   visitarPaginaCadastrarDeLeitor(): this {
     cy.visit('/register');
@@ -9,17 +19,25 @@ export class CadastrarLeitorPage {
   }
 
   verificarPaginaCarregada(): this {
-    cy.get(CadastrarLeitorElements.logoQueroLer).should('be.visible');
-    cy.get(CadastrarLeitorElements.tituloCrieSuaConta).should('be.visible');
-    cy.get(CadastrarLeitorElements.nomeInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.emailInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.senhaInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.confirmaSenhaInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.cpfUsuarioInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.dataDeNascimentoInput).should('be.visible');
-    cy.get(CadastrarLeitorElements.aceitoOsTermosCheckbox).should('be.visible');
-    cy.get(CadastrarLeitorElements.aceitoOsTermosLabel).should('be.visible');
-    cy.get(CadastrarLeitorElements.cadastrarButton).should('be.visible');
+    const elementos = [
+      CadastrarLeitorElements.logoQueroLer,
+      CadastrarLeitorElements.tituloCrieSuaConta,
+      CadastrarLeitorElements.nomeInput,
+      CadastrarLeitorElements.emailInput,
+      CadastrarLeitorElements.confirmaEmailInput,
+      CadastrarLeitorElements.senhaInput,
+      CadastrarLeitorElements.confirmaSenhaInput,
+      CadastrarLeitorElements.cpfUsuarioInput,
+      CadastrarLeitorElements.dataDeNascimentoInput,
+      CadastrarLeitorElements.aceitoOsTermosCheckbox,
+      CadastrarLeitorElements.aceitoOsTermosLabel,
+      CadastrarLeitorElements.cadastrarButton,
+    ];
+
+    elementos.forEach((elemento) => {
+      cy.get(elemento).should('be.visible');
+    });
+
     return this;
   }
 
@@ -30,26 +48,28 @@ export class CadastrarLeitorPage {
     return this;
   }
 
-  preencherFormulario(
-    nome: string,
-    email: string,
-    senha: string,
-    confirmarSenha: string,
-    cpf: string,
-    dataNascimento: string
-  ): this {
-    cy.get(CadastrarLeitorElements.nomeInput).should('be.visible').type(nome);
-    cy.get(CadastrarLeitorElements.emailInput).should('be.visible').type(email);
-    cy.get(CadastrarLeitorElements.senhaInput).should('be.visible').type(senha);
+  preencherFormulario(dados: DadosLeitor): this {
+    cy.get(CadastrarLeitorElements.nomeInput)
+      .should('be.visible')
+      .type(dados.nome);
+    cy.get(CadastrarLeitorElements.emailInput)
+      .should('be.visible')
+      .type(dados.email);
+    cy.get(CadastrarLeitorElements.confirmaEmailInput)
+      .should('be.visible')
+      .type(dados.confirmarEmail);
+    cy.get(CadastrarLeitorElements.senhaInput)
+      .should('be.visible')
+      .type(dados.senha);
     cy.get(CadastrarLeitorElements.confirmaSenhaInput)
       .should('be.visible')
-      .type(confirmarSenha);
+      .type(dados.confirmarSenha);
     cy.get(CadastrarLeitorElements.cpfUsuarioInput)
       .should('be.visible')
-      .type(cpf);
+      .type(dados.cpf);
     cy.get(CadastrarLeitorElements.dataDeNascimentoInput)
       .should('be.visible')
-      .type(dataNascimento);
+      .type(dados.dataNascimento);
     return this;
   }
 
@@ -83,14 +103,23 @@ export class CadastrarLeitorPage {
   }
 
   clicaOsCamposObrigatorios(): this {
-    cy.get(CadastrarLeitorElements.nomeInput).click();
-    cy.get(CadastrarLeitorElements.emailInput).click();
-    cy.get(CadastrarLeitorElements.senhaInput).click();
-    cy.get(CadastrarLeitorElements.confirmaSenhaInput).click();
-    cy.get(CadastrarLeitorElements.cpfUsuarioInput).click();
-    cy.get(CadastrarLeitorElements.dataDeNascimentoInput).click();
+    const campos = [
+      CadastrarLeitorElements.nomeInput,
+      CadastrarLeitorElements.emailInput,
+      CadastrarLeitorElements.confirmaEmailInput,
+      CadastrarLeitorElements.senhaInput,
+      CadastrarLeitorElements.confirmaSenhaInput,
+      CadastrarLeitorElements.cpfUsuarioInput,
+      CadastrarLeitorElements.dataDeNascimentoInput,
+    ];
+
+    campos.forEach((campo) => {
+      cy.get(campo).click();
+    });
+
     cy.get(CadastrarLeitorElements.aceitoOsTermosCheckbox).dblclick();
     cy.get(CadastrarLeitorElements.confirmaSenhaInput).click();
+
     return this;
   }
 
