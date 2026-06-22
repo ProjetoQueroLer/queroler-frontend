@@ -9,15 +9,23 @@ export async function getBookImageAction(route: string) {
     const repository = new ApiBookRepository(api);
     const useCase = new GetBookImageUseCase(repository);
     const response = await useCase.execute(route);
+
     const blobDados = response.data;
-    const tipoDoArquivo = response.headers['content-type'];
-    const file = new File([blobDados], `capa.${tipoDoArquivo.split('/')[1]}`, {
+    const tipoHeader = response.headers['content-type'];
+
+    const tipoDoArquivo =
+      typeof tipoHeader === 'string' ? tipoHeader : 'image/jpeg';
+
+    const extensao = tipoDoArquivo.split('/')[1] || 'jpg';
+
+    const file = new File([blobDados], `capa.${extensao}`, {
       type: tipoDoArquivo,
     });
+
     return {
       success: true,
       response: file,
-      message: 'Imagem encontrado com sucesso.',
+      message: 'Imagem encontrada com sucesso.',
     };
   } catch (error) {
     return {
