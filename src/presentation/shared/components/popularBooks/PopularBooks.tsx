@@ -1,44 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { BookCard } from '@/presentation/shared/components/bookCard/BookCard';
-import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
+import { BookResponseDTO } from '@/core/application/book/book-response.dto';
 
-interface Livro {
-  id: string;
-  titulo: string;
-  autores: { nome: string }[];
-  capaUrl: string | null;
-}
-
-//interface RespostaBack {
-//  content: Livro[];
-//  totalElements: number;
-//}
-
-export function PopularBooks() {
-  const [livros, setLivros] = useState<Livro[]>([]);
-  const [total, setTotal] = useState(0);
-  const [erro, setErro] = useState('');
-
-  useEffect(() => {
-    async function listarPopulares() {
-      try {
-        setLivros([]);
-        setTotal(0);
-      } catch (error) {
-        if (error instanceof Error) {
-          setErro(error.message);
-        } else {
-          setErro('Erro inesperado.');
-        }
-      }
-    }
-
-    listarPopulares();
-  }, []);
-
+export function PopularBooks({
+  livros,
+}: {
+  livros: BookResponseDTO[] | undefined;
+}) {
   return (
     <div className="bg-card-bg border border-border rounded-xl px-4 py-3 lg:p-6 lg:py-6 mb-4">
       <div className="flex items-center justify-between mb-4">
@@ -51,21 +21,18 @@ export function PopularBooks() {
 
         <div className="flex items-center gap-3">
           <span className="text-xs font-thin px-2 py-1 rounded-xs">
-            {total} livros
+            {livros ? livros.length : 0} livros
           </span>
         </div>
       </div>
-
-      <FieldError message={erro} />
-
       <div className="flex gap-4 overflow-x-auto pt-2 pb-3 pl-2 custom-scroll">
-        {livros.slice(0, 5).map((livro) => (
+        {livros?.map((livro) => (
           <BookCard
             key={livro.id}
-            id={livro.id}
+            id={String(livro.id)}
             title={livro.titulo}
             author={livro.autores?.[0]?.nome || ''}
-            cover={livro.capaUrl || ''}
+            cover={livro.capaUrl}
           />
         ))}
       </div>
