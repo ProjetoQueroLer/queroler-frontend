@@ -19,11 +19,8 @@ export function UserProfile() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await loadUserProfilePageAction();
-        console.log('Resposta da API:', response);
-      } catch (error) {
-        console.error('Erro ao carregar perfil:', error);
-      }
+        const _response = await loadUserProfilePageAction();
+      } catch {}
     };
 
     loadData();
@@ -38,6 +35,15 @@ export function UserProfile() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let v = e.target.value.replace(/\D/g, '');
+
+    if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+    if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
+
+    setDate(v);
   };
 
   const triggerFileInput = () => {
@@ -143,12 +149,7 @@ export function UserProfile() {
                       placeholder="Ex: 01/02/1234"
                       maxLength={10}
                       value={date}
-                      onChange={(e) => {
-                        let v = e.target.value.replace(/\D/g, '');
-                        if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-                        if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
-                        setDate(v);
-                      }}
+                      onChange={handleDateChange}
                       className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                       id="data-picker"
                     />
