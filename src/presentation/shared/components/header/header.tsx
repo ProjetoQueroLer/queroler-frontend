@@ -1,10 +1,9 @@
 'use client';
 
-import { Bell, ChevronDown, User, LogOut } from 'lucide-react';
+import { Bell, ChevronDown, User, LogOut, NotebookPen } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { BookOpen } from 'lucide-react';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
 
 export interface HeaderProps {
@@ -18,7 +17,7 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
   const [menuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
       {fotoDePerfil ? (
         <Image
           src={fotoDePerfil}
@@ -38,11 +37,11 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
         />
       )}
 
-      <div className="flex items-center gap-3 lg:gap-6">
+      <div className="flex items-center gap-3">
         <div className="relative group">
-          <BookOpen size={20} className="text-color-text-primary" />
-          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Leitura
+          <NotebookPen size={20} className="text-color-text-primary" />
+          <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Diário de leitura
           </span>
         </div>
 
@@ -52,7 +51,7 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
             size={20}
             className="text-text-secondary opacity-40"
           />
-          <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Notificação
           </span>
         </div>
@@ -66,7 +65,13 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
             className="flex items-center gap-2 cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
-              <User size={16} className="text-white" />
+              <Image
+                src="/img1.png"
+                alt="User Profile"
+                width={150}
+                height={150}
+                className="rounded-full aspect-square object-cover"
+              />
             </div>
             <span className="text-text-primary text-sm hidden lg:block">
               {nomeUsuario} Nome do usuario
@@ -75,29 +80,34 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-3 w-36 bg-card-bg border border-border rounded-lg shadow-lg z-50 ">
-              <div className="gap-2 px-4 py-3 border-b border-border">
+            <div className="absolute right-0 mt-3 w-max bg-card-bg border border-border rounded-lg shadow-lg z-50">
+              <div className="gap-2 px-4 py-3">
                 <p className="text-text-primary text-sm font-medium">
                   {nomeUsuario} Nome do usuario
                 </p>
-                <p className="text-text-secondary text-xs">email do usuario</p>
+                <p className="text-text-secondary text-xs pt-1">
+                  email do usuario
+                </p>
               </div>
+              <div className="mx-4 h-px bg-text-secondary" />
 
-              <div className="border-b border-border hover:bg-border cursor-pointer">
+              <div className="cursor-pointer">
                 <button
                   data-testid="profile-button"
                   onClick={() => router.push('/perfil')}
-                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary"
+                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:text-brand"
                 >
                   <User size={14} />
                   Meu perfil
                 </button>
               </div>
-              <div className="border-b border-border hover:bg-border rounded-b-lg cursor-pointer">
+              <div className="mx-4 h-px bg-text-secondary" />
+
+              <div className="cursor-pointer">
                 <button
                   data-testid="logout-button"
                   onClick={logout}
-                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-brand"
+                  className="w-full flex items-center gap-2 px-4 py-3 text-sm text-text-primary hover:text-brand"
                 >
                   <LogOut size={14} />
                   Sair
