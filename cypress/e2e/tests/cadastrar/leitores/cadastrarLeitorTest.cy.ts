@@ -1,12 +1,10 @@
 /// <reference types="cypress" />
 
 import { faker } from '@faker-js/faker/locale/pt_BR';
-import { gerarCpf } from '../../../support/utils/geradorCpf';
-import { gerarSenha } from '../../../support/utils/geradorSenha';
-import { gerarDataNascimento } from '../../../support/utils/geradorData';
-import { CadastrarLeitorPage } from '../../../support/pages/CadastrarLeitorPage';
-
-const cadastrarLeitorPage = new CadastrarLeitorPage();
+import { gerarCpf } from '../../../../support/utils/geradorCpf';
+import { gerarSenha } from '../../../../support/utils/geradorSenha';
+import { gerarDataNascimento } from '../../../../support/utils/geradorData';
+import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
 
 type UsuarioCadastrado = {
   email: string;
@@ -23,6 +21,7 @@ type Mensagem = {
   cpfJaCadastrado: string;
   nomeObrigatorio: string;
   emailObrigatorio: string;
+  confirmacaoEmailObrigatoria: string;
   senhaObrigatoria: string;
   confirmacaoSenhaObrigatoria: string;
   cpfObrigatorio: string;
@@ -33,6 +32,7 @@ type Mensagem = {
 let dados: TestData;
 let msg: Mensagem;
 
+const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
 
 const dadosCadastro = {
@@ -73,14 +73,16 @@ describe('Cadastro de Leitor', () => {
       .story('Preenchimento do formulário')
       .severity('normal');
 
-    cadastrarLeitorPage.preencherFormulario(
-      dadosCadastro.nome,
-      dadosCadastro.email,
-      dadosCadastro.senha,
-      dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf,
-      dadosCadastro.dataNascimento
-    );
+    cadastrarLeitorPage.preencherFormulario({
+      nome: dadosCadastro.nome,
+      email: dadosCadastro.email,
+      confirmarEmail: dadosCadastro.email,
+      senha: dadosCadastro.senha,
+      confirmarSenha: dadosCadastro.confirmacaoSenha,
+      cpf: dadosCadastro.cpf,
+      dataNascimento: dadosCadastro.dataNascimento,
+    });
+
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
   });
 
@@ -90,14 +92,15 @@ describe('Cadastro de Leitor', () => {
       .story('Cadastro com sucesso')
       .severity('critical');
 
-    cadastrarLeitorPage.preencherFormulario(
-      dadosCadastro.nome,
-      dadosCadastro.email,
-      dadosCadastro.senha,
-      dadosCadastro.confirmacaoSenha,
-      dadosCadastro.cpf,
-      dadosCadastro.dataNascimento
-    );
+    cadastrarLeitorPage.preencherFormulario({
+      nome: dadosCadastro.nome,
+      email: dadosCadastro.email,
+      confirmarEmail: dadosCadastro.email,
+      senha: dadosCadastro.senha,
+      confirmarSenha: dadosCadastro.confirmacaoSenha,
+      cpf: dadosCadastro.cpf,
+      dataNascimento: dadosCadastro.dataNascimento,
+    });
 
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
     cadastrarLeitorPage.clicarEmCadastrar();
@@ -119,6 +122,7 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
       msg.nomeObrigatorio,
       msg.emailObrigatorio,
+      msg.confirmacaoEmailObrigatoria,
       msg.senhaObrigatoria,
       msg.confirmacaoSenhaObrigatoria,
       msg.cpfObrigatorio,
@@ -137,14 +141,15 @@ describe('Cadastro de Leitor', () => {
         .story('E-mail duplicado')
         .severity('critical');
 
-      cadastrarLeitorPage.preencherFormulario(
-        faker.person.fullName(),
-        dados.usuarioCadastrado.email,
-        senhaEmail,
-        senhaEmail,
-        gerarCpf(),
-        gerarDataNascimento()
-      );
+      cadastrarLeitorPage.preencherFormulario({
+        nome: faker.person.fullName(),
+        email: dados.usuarioCadastrado.email,
+        confirmarEmail: dados.usuarioCadastrado.email,
+        senha: senhaEmail,
+        confirmarSenha: senhaEmail,
+        cpf: gerarCpf(),
+        dataNascimento: gerarDataNascimento(),
+      });
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
@@ -157,14 +162,17 @@ describe('Cadastro de Leitor', () => {
         .story('CPF duplicado')
         .severity('critical');
 
-      cadastrarLeitorPage.preencherFormulario(
-        faker.person.fullName(),
-        faker.internet.email(),
-        senhaCpf,
-        senhaCpf,
-        dados.usuarioCadastrado.cpf,
-        gerarDataNascimento()
-      );
+      const emailFaker = faker.internet.email();
+
+      cadastrarLeitorPage.preencherFormulario({
+        nome: faker.person.fullName(),
+        email: emailFaker,
+        confirmarEmail: emailFaker,
+        senha: senhaCpf,
+        confirmarSenha: senhaCpf,
+        cpf: dados.usuarioCadastrado.cpf,
+        dataNascimento: gerarDataNascimento(),
+      });
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();

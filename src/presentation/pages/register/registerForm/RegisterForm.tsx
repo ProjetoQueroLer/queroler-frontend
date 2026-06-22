@@ -17,6 +17,10 @@ import { createUserAction } from '@/app/actions/createUser.actions';
 import { Mail } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { TermsModal } from '@/presentation/shared/components/modal/TermsModal';
+import { useState } from 'react';
+import { termsOfService } from '@/presentation/shared/components/modal/terms/termsOfService';
+import { privacyPolicy } from '@/presentation/shared/components/modal/terms/privacyPolicy';
 
 export function RegisterForm() {
   const hoje = new Date();
@@ -25,6 +29,22 @@ export function RegisterForm() {
   const dia = String(hoje.getDate() - 1).padStart(2, '0');
 
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+
+  const openTerms = () => {
+    setModalTitle('Termos de Serviço');
+    setModalContent(termsOfService);
+    setIsModalOpen(true);
+  };
+
+  const openPrivacy = () => {
+    setModalTitle('Política de Privacidade');
+    setModalContent(privacyPolicy);
+    setIsModalOpen(true);
+  };
+
   const {
     register,
     handleSubmit,
@@ -94,20 +114,6 @@ export function RegisterForm() {
                   message={errors.dataDeNascimento?.message as string}
                 />
               </div>
-
-              <div className="flex flex-col h-full gap-2 align-center flex-start">
-                <div className="mt-2">
-                  <Checkbox
-                    id="checkTermo"
-                    label="Aceito os termos de uso"
-                    error={!!errors.checkTermo}
-                    data-testid="input-termo"
-                    {...register('checkTermo')}
-                    aria-invalid={!!errors.checkTermo}
-                  />
-                </div>
-                <FieldError message={errors.checkTermo?.message as string} />
-              </div>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -156,6 +162,39 @@ export function RegisterForm() {
                   message={errors.confirmarSenha?.message as string}
                 />
               </div>
+              <div className="flex flex-col h-full gap-2 align-center flex-start">
+                <div className="mt-4">
+                  <Checkbox
+                    id="checkTermo"
+                    label={
+                      <>
+                        Ao continuar você concorda com os{' '}
+                        <button
+                          type="button"
+                          onClick={openTerms}
+                          className="text-[#E41B6F] underline hover:opacity-80 cursor-pointer"
+                        >
+                          Termos de Serviço
+                        </button>{' '}
+                        e{' '}
+                        <button
+                          type="button"
+                          onClick={openPrivacy}
+                          className="text-[#E41B6F] underline hover:opacity-80 cursor-pointer"
+                        >
+                          Política de Privacidade
+                        </button>
+                        .
+                      </>
+                    }
+                    error={!!errors.checkTermo}
+                    data-testid="input-termo"
+                    {...register('checkTermo')}
+                    aria-invalid={!!errors.checkTermo}
+                  />
+                </div>
+                <FieldError message={errors.checkTermo?.message as string} />
+              </div>
             </div>
 
             <div className="md:col-span-2 mt-8">
@@ -172,6 +211,12 @@ export function RegisterForm() {
           </form>
         </div>
       </div>
+      <TermsModal
+        isOpen={isModalOpen}
+        title={modalTitle}
+        content={modalContent}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

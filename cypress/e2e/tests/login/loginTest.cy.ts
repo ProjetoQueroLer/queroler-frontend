@@ -2,8 +2,6 @@
 
 import { LoginPage } from '../../../support/pages/LoginPage';
 
-const loginPage = new LoginPage();
-
 type Mensagem = {
   emailObrigatorio: string;
   emailInvalido: string;
@@ -29,6 +27,8 @@ type Perfil = {
 let msg: Mensagem;
 let dados: TestData;
 let dadosPerfil: Perfil;
+
+const loginPage = new LoginPage();
 
 describe('Login', () => {
   before(() => {
