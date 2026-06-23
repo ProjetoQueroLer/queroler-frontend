@@ -26,7 +26,10 @@ type Mensagem = {
   confirmacaoSenhaObrigatoria: string;
   cpfObrigatorio: string;
   dataNascimentoObrigatoria: string;
-  termosDeUsoObrigatorio: string;
+  termosObrigatorio: string;
+  concordaComOsTermos: string;
+  termosDeServiço: string;
+  politicaDePrivacidade: string;
 };
 
 let dados: TestData;
@@ -36,7 +39,7 @@ const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
 
 const dadosCadastro = {
-  nome: faker.person.fullName(),
+  nome: faker.person.firstName(),
   email: faker.internet.email(),
   senha: senha,
   confirmacaoSenha: senha,
@@ -65,6 +68,11 @@ describe('Cadastro de Leitor', () => {
       .severity('normal');
 
     cadastrarLeitorPage.verificarPaginaCarregada();
+    cadastrarLeitorPage.verificarOsTermosDeServico([
+      msg.concordaComOsTermos,
+      msg.termosDeServiço,
+      msg.politicaDePrivacidade,
+    ]);
   });
 
   it('Deve permitir o preenchimento do formulário de cadastro', () => {
@@ -127,8 +135,9 @@ describe('Cadastro de Leitor', () => {
       msg.confirmacaoSenhaObrigatoria,
       msg.cpfObrigatorio,
       msg.dataNascimentoObrigatoria,
-      msg.termosDeUsoObrigatorio
+      msg.termosObrigatorio
     );
+    cadastrarLeitorPage.verificarOBotaoCadastrarInativo();
   });
 
   describe('Duplicidade', () => {
@@ -177,6 +186,30 @@ describe('Cadastro de Leitor', () => {
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
       cadastrarLeitorPage.verificarMensagemJaCadastrado(msg.cpfJaCadastrado);
+    });
+  });
+
+  describe('Validação dos Termos de Serviço e Política de Privacidade', () => {
+    it('Deve exibir os Termos de Serviço', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Exibição dos Termos de Serviço')
+        .severity('normal');
+
+      cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
+        msg.termosDeServiço
+      );
+    });
+
+    it('Deve exibir a Política de Privacidade', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Exibição da Política de Privacidade')
+        .severity('normal');
+
+      cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
+        msg.politicaDePrivacidade
+      );
     });
   });
 });
