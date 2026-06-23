@@ -15,7 +15,7 @@
   "confirmacaoSenhaObrigatoria": "Confirmação obrigatória",
   "cpfObrigatorio": "CPF obrigatório",
   "dataNascimentoObrigatoria": "Data inválida",
-  "termosDeUsoObrigatorio": "É necessário aceitar os termos",
+  "termosObrigatorio": "É necessário aceitar os termos",
   "ISBNNaoEncontrado": "Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.",
   "registroDeLivroCancelado": "Registro de livro cancelado.",
   "registroDeLivroSucesso": "Livro criado com sucesso! Redirecionando para tela inicial...",
@@ -27,5 +27,8 @@
   "anoPublicacaoObrigatorio": "Ano de publicação deve ter exatamente 4 números",
   "numeroDePaginasObrigatorio": "Número de páginas deve ter no mínimo 1 dígito",
   "sinopseObrigatorio": "Sinopse deve ter 50 caracteres no mínimo",
-  "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente."
+  "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente.",
+  "concordaComOsTermos": "Ao continuar você concorda com os",
+  "termosDeServiço": "Termos de Serviço",
+  "politicaDePrivacidade": "Política de Privacidade"
 }
