@@ -12,7 +12,7 @@ export class LoginElements {
   static readonly cadastreSeLink = '[data-testid="register-link"]';
   static readonly cadastreSeSecao = '[data-testid="register-section"]';
 
-  static readonly erroMensagem = '[role="alert"]';
+  static readonly erroMensagem = '.mt-1.text-xs.text-red-400';
 
   static readonly mostrarSenhaButton = '[aria-label="Mostrar senha"]';
   static readonly ocultarSenhaButton = '[aria-label="Ocultar senha"]';

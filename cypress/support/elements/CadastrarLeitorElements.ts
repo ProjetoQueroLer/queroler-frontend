@@ -12,11 +12,15 @@ export class CadastrarLeitorElements {
     '[data-testid="input-data-nascimento"]';
   static readonly aceitoOsTermosCheckbox =
     '.relative.flex.items-center.justify-center';
-  static readonly aceitoOsTermosLabel = '.text-xs.text-zinc-300';
+  static readonly osTermosEPoliticaLabel = '.text-xs.text-zinc-300';
   static readonly cadastrarButton = '[data-testid="register-submit-button"]';
   static readonly erroMensagemToastLabel =
     '.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--error';
   static readonly sucessoMensagemToastLabel =
     '.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--success';
   static readonly campoObrigatorioLabel = '.mt-1.text-xs.text-red-400';
+  static readonly modalTermosEPolitica = '.bg-card-bg.border.border-border';
+  static readonly tituloModal = '.text-text-primary.mb-4';
+  static readonly textoModal = '.flex-1.overflow-y-auto.whitespace-pre-line';
+  static readonly fechaModal = '.bg-background-secondary.border';
 }

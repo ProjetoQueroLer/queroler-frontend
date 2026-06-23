@@ -30,7 +30,7 @@ export class CadastrarLeitorPage {
       CadastrarLeitorElements.cpfUsuarioInput,
       CadastrarLeitorElements.dataDeNascimentoInput,
       CadastrarLeitorElements.aceitoOsTermosCheckbox,
-      CadastrarLeitorElements.aceitoOsTermosLabel,
+      CadastrarLeitorElements.osTermosEPoliticaLabel,
       CadastrarLeitorElements.cadastrarButton,
     ];
 
@@ -73,8 +73,18 @@ export class CadastrarLeitorPage {
     return this;
   }
 
+  verificarOsTermosDeServico(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLeitorElements.osTermosEPoliticaLabel).should(
+        'contain.text',
+        txt
+      );
+    });
+
+    return this;
+  }
+
   clicarEmAceitarTermosDeUso(): this {
-    cy.get(CadastrarLeitorElements.aceitoOsTermosLabel).should('be.visible');
     cy.get(CadastrarLeitorElements.aceitoOsTermosCheckbox)
       .should('be.visible')
       .click();
@@ -130,5 +140,35 @@ export class CadastrarLeitorPage {
         .and('contain.text', msg);
     });
     return this;
+  }
+
+  verificarOBotaoCadastrarInativo(): this {
+    cy.get(CadastrarLeitorElements.cadastrarButton).should('be.disabled');
+    return this;
+  }
+
+  verificaAcessaOModalOsTermosEPolitica(txt: string): this {
+    cy.contains('button', new RegExp(`^${txt}$`))
+      .should('be.visible')
+      .click();
+    cy.get(CadastrarLeitorElements.modalTermosEPolitica).should('be.visible');
+    cy.get(CadastrarLeitorElements.tituloModal)
+      .should('be.visible')
+      .and('contain.text', txt);
+
+    this.scrollModalAteOFinal();
+
+    cy.get(CadastrarLeitorElements.fechaModal).should('be.visible').click();
+    return this;
+  }
+
+  private scrollModalAteOFinal(): void {
+    cy.get(CadastrarLeitorElements.textoModal)
+      .should('be.visible')
+      .scrollTo('bottom')
+      .then(($el) => {
+        const scrollTop = $el[0].scrollTop;
+        expect(scrollTop).to.be.greaterThan(0);
+      });
   }
 }
