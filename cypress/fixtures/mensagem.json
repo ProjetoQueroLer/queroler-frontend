@@ -30,5 +30,12 @@
   "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente.",
   "concordaComOsTermos": "Ao continuar você concorda com os",
   "termosDeServiço": "Termos de Serviço",
-  "politicaDePrivacidade": "Política de Privacidade"
+  "politicaDePrivacidade": "Política de Privacidade",
+  "campoNomeInvalido": "O nome não deve conter números ou caracteres especiais",
+  "emailsNaoCoincidem": "mails não coincidem",
+  "cpfInvalido": "",
+  "senhaMinimoCaracteres": "Mínimo 8 caracteres",
+  "senhaDeveConterCaractereEspecial": "A senha deve conter pelo menos um caractere especial.",
+  "senhaDeveConterNumero": "A senha deve conter pelo menos um número.",
+  "senhasNaoCoincidem": "As senhas não coincidem"
 }
