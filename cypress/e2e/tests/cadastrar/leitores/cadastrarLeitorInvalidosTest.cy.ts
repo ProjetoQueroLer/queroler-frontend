@@ -81,7 +81,8 @@ describe('Cadastro de Leitor', () => {
         cpf: dados.cadastrarLeitorInvalidos.cpfCurto,
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
-      // TODO: aguardando dev implementar mensagem de validação de CPF inválido
+      // TODO:
+      // aguardando dev implementar mensagem de validação de CPF inválido
       // cadastrarLeitorPage.verificarMensagensCamposObrigatorios(msg.cpfInvalido);
     });
 
