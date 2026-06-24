@@ -151,7 +151,7 @@ describe('Cadastro de Leitor', () => {
         .severity('critical');
 
       cadastrarLeitorPage.preencherFormulario({
-        nome: faker.person.fullName(),
+        nome: faker.person.firstName(),
         email: dados.usuarioCadastrado.email,
         confirmarEmail: dados.usuarioCadastrado.email,
         senha: senhaEmail,
@@ -174,7 +174,7 @@ describe('Cadastro de Leitor', () => {
       const emailFaker = faker.internet.email();
 
       cadastrarLeitorPage.preencherFormulario({
-        nome: faker.person.fullName(),
+        nome: faker.person.firstName(),
         email: emailFaker,
         confirmarEmail: emailFaker,
         senha: senhaCpf,
