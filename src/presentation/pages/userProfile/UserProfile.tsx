@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { useEffect } from 'react';
+import { LoadUserProfileResponseDTO } from '@/core/application/user/load-user-profile-page-response.dto';
 
 export function UserProfile() {
   const router = useRouter();
@@ -15,15 +16,52 @@ export function UserProfile() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [formDesabilitado] = useState(true);
   const [_isPending, startTransition] = useTransition();
+  const [userProfile, setUserProfile] =
+    useState<LoadUserProfileResponseDTO | null>(null);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [cidade, setCidade] = useState('');
+  const [estado, setEstado] = useState('');
+  const [pais, setPais] = useState('');
+  const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
+    useState(false);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const _response = await loadUserProfilePageAction();
-      } catch {}
-    };
+    async function carregarTelaDePerfil() {
+      const result = await loadUserProfilePageAction();
 
-    loadData();
+      if (!result.success) {
+        toast.error(result.message);
+        setPerfilCarregadoComSucesso(false);
+        return;
+      }
+
+      if (!result.response) {
+        setPerfilCarregadoComSucesso(false);
+        return;
+      }
+
+      setUserProfile(result.response);
+      setNome(result.response.nome);
+      setEmail(result.response.email);
+      setDate(result.response.dataDeNascimento);
+      setCidade(result.response.cidade ?? '');
+      setEstado(result.response.estado ?? '');
+      setPais(result.response.pais ?? '');
+
+      if (
+        result.response.fotoUrl &&
+        result.response.fotoUrl !== 'Foto não encontrada.'
+      ) {
+        setPreviewImage(
+          `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
+        );
+      }
+
+      setPerfilCarregadoComSucesso(true);
+    }
+
+    carregarTelaDePerfil();
   }, []);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -87,6 +125,7 @@ export function UserProfile() {
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100px, 200px"
+                      loading="eager"
                     />
                   </div>
                 ) : (
@@ -110,9 +149,10 @@ export function UserProfile() {
                   </label>
                   <input
                     data-testid="input-nome"
-                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
+                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="nome"
-                    placeholder="Ex: João da Silva"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
@@ -123,6 +163,8 @@ export function UserProfile() {
                     data-testid="input-email"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -135,7 +177,8 @@ export function UserProfile() {
                     data-testid="input-cpf"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cpf"
-                    maxLength={11}
+                    value={userProfile?.cpf ?? ''}
+                    readOnly
                   />
                 </div>
                 <div className="relative flex-1 flex flex-col gap-1">
@@ -146,7 +189,6 @@ export function UserProfile() {
                     <input
                       type="text"
                       data-testid="input-nascimento"
-                      placeholder="Ex: 01/02/1234"
                       maxLength={10}
                       value={date}
                       onChange={handleDateChange}
@@ -166,24 +208,21 @@ export function UserProfile() {
                     data-testid="input-cidade"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cidade"
+                    value={cidade}
+                    onChange={(e) => setCidade(e.target.value)}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
                   <label className="text-text-primary text-xs tracking-widest">
                     Estado
                   </label>
-                  <div className="relative">
-                    <select
-                      data-testid="input-estado"
-                      className="w-full appearance-none bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                      id="estado"
-                    >
-                      <option value="">Selecione o estado</option>
-                    </select>
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                      ▾
-                    </span>
-                  </div>
+                  <input
+                    data-testid="input-estado"
+                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                    id="estado"
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -191,24 +230,20 @@ export function UserProfile() {
                 <label className="text-text-primary text-xs tracking-widest">
                   País
                 </label>
-                <div className="relative">
-                  <select
-                    data-testid="input-pais"
-                    className="w-full appearance-none bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                    id="pais"
-                  >
-                    <option value="">Selecione um país</option>
-                  </select>
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                    ▾
-                  </span>
-                </div>
+                <input
+                  data-testid="input-pais"
+                  className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                  id="pais"
+                  value={pais}
+                  onChange={(e) => setPais(e.target.value)}
+                />
               </div>
 
               <div className="flex justify-end gap-4 mt-2">
                 <button
                   type="button"
                   data-testid="btn-excluir-perfil"
+                  disabled={!perfilCarregadoComSucesso}
                   onClick={() => {
                     toast.success('Perfil excluído.', {
                       autoClose: 1500,
@@ -218,7 +253,7 @@ export function UserProfile() {
                       router.back();
                     });
                   }}
-                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold"
+                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Excluir perfil
                 </button>
@@ -226,10 +261,7 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-voltar"
                   onClick={() => {
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
+                    router.back();
                   }}
                   className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
                 >
@@ -238,8 +270,8 @@ export function UserProfile() {
                 <button
                   data-testid="btn-salvar"
                   type="submit"
-                  disabled={formDesabilitado}
-                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand font-bold"
+                  disabled={!perfilCarregadoComSucesso}
+                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Salvar
                 </button>
