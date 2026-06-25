@@ -7,24 +7,23 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { useEffect } from 'react';
-import { LoadUserProfileResponseDTO } from '@/core/application/user/load-user-profile-page-response.dto';
+import { useUserProfileForm } from '@/presentation/pages/userProfile/useUserProfileForm';
 
 export function UserProfile() {
   const router = useRouter();
-  const [date, setDate] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [formDesabilitado] = useState(true);
   const [_isPending, startTransition] = useTransition();
-  const [userProfile, setUserProfile] =
-    useState<LoadUserProfileResponseDTO | null>(null);
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [estado, setEstado] = useState('');
-  const [pais, setPais] = useState('');
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting, isValid },
+  } = useUserProfileForm();
 
   useEffect(() => {
     async function carregarTelaDePerfil() {
@@ -41,13 +40,13 @@ export function UserProfile() {
         return;
       }
 
-      setUserProfile(result.response);
-      setNome(result.response.nome);
-      setEmail(result.response.email);
-      setDate(result.response.dataDeNascimento);
-      setCidade(result.response.cidade ?? '');
-      setEstado(result.response.estado ?? '');
-      setPais(result.response.pais ?? '');
+      setValue('nome', result.response.nome);
+      setValue('email', result.response.email);
+      setValue('cpf', result.response.cpf);
+      setValue('dataDeNascimento', result.response.dataDeNascimento);
+      setValue('cidade', result.response.cidade ?? '');
+      setValue('estado', result.response.estado ?? '');
+      setValue('pais', result.response.pais ?? '');
 
       if (
         result.response.fotoUrl &&
@@ -81,7 +80,7 @@ export function UserProfile() {
     if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
     if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
 
-    setDate(v);
+    setValue('dataDeNascimento', v);
   };
 
   const triggerFileInput = () => {
@@ -151,8 +150,7 @@ export function UserProfile() {
                     data-testid="input-nome"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="nome"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
+                    {...register('nome')}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
@@ -163,8 +161,7 @@ export function UserProfile() {
                     data-testid="input-email"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register('email')}
                   />
                 </div>
               </div>
@@ -177,7 +174,7 @@ export function UserProfile() {
                     data-testid="input-cpf"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cpf"
-                    value={userProfile?.cpf ?? ''}
+                    {...register('cpf')}
                     readOnly
                   />
                 </div>
@@ -190,10 +187,11 @@ export function UserProfile() {
                       type="text"
                       data-testid="input-nascimento"
                       maxLength={10}
-                      value={date}
-                      onChange={handleDateChange}
                       className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                       id="data-picker"
+                      {...register('dataDeNascimento', {
+                        onChange: handleDateChange,
+                      })}
                     />
                   </div>
                 </div>
@@ -208,8 +206,7 @@ export function UserProfile() {
                     data-testid="input-cidade"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cidade"
-                    value={cidade}
-                    onChange={(e) => setCidade(e.target.value)}
+                    {...register('cidade')}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
@@ -220,8 +217,7 @@ export function UserProfile() {
                     data-testid="input-estado"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="estado"
-                    value={estado}
-                    onChange={(e) => setEstado(e.target.value)}
+                    {...register('estado')}
                   />
                 </div>
               </div>
@@ -234,8 +230,7 @@ export function UserProfile() {
                   data-testid="input-pais"
                   className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                   id="pais"
-                  value={pais}
-                  onChange={(e) => setPais(e.target.value)}
+                  {...register('pais')}
                 />
               </div>
 
