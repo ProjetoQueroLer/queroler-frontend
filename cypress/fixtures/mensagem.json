@@ -19,7 +19,7 @@
   "ISBNNaoEncontrado": "Livro de mesmo ISBN não encontrado. Preencha os dados manualmente.",
   "registroDeLivroCancelado": "Registro de livro cancelado.",
   "registroDeLivroSucesso": "Livro criado com sucesso! Redirecionando para tela inicial...",
-  "ISBNJaCadastrado": "Isbn já cadastrado",
+  "ISBNJaCadastrado": "ISBN já cadastrado",
   "ISBNObrigatorio": "ISBN obrigatório",
   "tituloObrigatorio": "Título obrigatório",
   "autorObrigatorio": "Autores é obrigatório",
