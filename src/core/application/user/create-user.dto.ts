@@ -37,7 +37,10 @@ export const createUserSchema = z
         message: 'A senha deve conter pelo menos um caractere especial.',
       }),
     confirmarSenha: z.string().min(8, 'Confirmação obrigatória'),
-    cpf: z.string().min(11, 'CPF obrigatório').max(14, 'CPF inválido'),
+    cpf: z
+      .string()
+      .min(1, 'CPF obrigatório')
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF incompleto ou inválido'),
     dataDeNascimento: z.iso.date({ error: 'Data inválida' }).refine(
       (val) => {
         const apenasData = val.split('T')[0];
