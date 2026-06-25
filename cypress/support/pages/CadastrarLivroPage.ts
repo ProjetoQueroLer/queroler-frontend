@@ -72,37 +72,59 @@ export class CadastrarLivroPage {
     return this;
   }
 
-  preencherFormularioObrigatorio(msg: string): this {
-    this.dadosLivro = GeradorDadosLivro.criar();
+  preencherFormularioObrigatorio(
+    msg: string,
+    dadosCustomizados: DadosLivro = {}
+  ): this {
+    this.dadosLivro = GeradorDadosLivro.criar(dadosCustomizados);
 
     cy.get(CadastrarLivroElements.isbnInput)
       .should('be.visible')
-      .type(this.dadosLivro.isbn);
+      .type(this.dadosLivro.isbn!);
     this.fecharToast();
     this.verificarToastErro(msg);
-    cy.get(CadastrarLivroElements.tituloDoLivroInput)
-      .should('be.visible')
-      .type(this.dadosLivro.titulo);
-    cy.get(CadastrarLivroElements.autorInput)
-      .should('be.visible')
-      .type(this.dadosLivro.autor);
-    cy.get(CadastrarLivroElements.editoraInput)
-      .should('be.visible')
-      .type(this.dadosLivro.editora);
-    cy.get(CadastrarLivroElements.anoDePublicacaoInput)
-      .should('be.visible')
-      .type(this.dadosLivro.ano);
-    cy.get(CadastrarLivroElements.numeroDePaginasInput)
-      .should('be.visible')
-      .type(this.dadosLivro.paginas);
-    this.selecionarIdiomaAleatorio();
-    cy.get(CadastrarLivroElements.sinopseInput)
-      .should('be.visible')
-      .type(this.dadosLivro.sinopse);
+
+    if (this.dadosLivro.titulo) {
+      cy.get(CadastrarLivroElements.tituloDoLivroInput)
+        .should('be.visible')
+        .type(this.dadosLivro.titulo);
+    }
+    if (this.dadosLivro.autor) {
+      cy.get(CadastrarLivroElements.autorInput)
+        .should('be.visible')
+        .type(this.dadosLivro.autor);
+    }
+    if (this.dadosLivro.editora) {
+      cy.get(CadastrarLivroElements.editoraInput)
+        .should('be.visible')
+        .type(this.dadosLivro.editora);
+    }
+    if (this.dadosLivro.ano) {
+      cy.get(CadastrarLivroElements.anoDePublicacaoInput)
+        .should('be.visible')
+        .type(this.dadosLivro.ano);
+    }
+    if (this.dadosLivro.paginas) {
+      cy.get(CadastrarLivroElements.numeroDePaginasInput)
+        .should('be.visible')
+        .type(this.dadosLivro.paginas);
+    }
+    if (this.dadosLivro.sinopse) {
+      this.selecionarIdiomaAleatorio();
+      cy.get(CadastrarLivroElements.sinopseInput)
+        .should('be.visible')
+        .type(this.dadosLivro.sinopse);
+    }
+
     return this;
   }
 
   getIsbnCadastrado(): string {
+    if (!this.dadosLivro.isbn) {
+      throw new Error(
+        'ISBN não foi gerado ainda. Chame preencherFormularioObrigatorio() antes.'
+      );
+    }
     return this.dadosLivro.isbn;
   }
 
@@ -145,17 +167,16 @@ export class CadastrarLivroPage {
 
   validarOCampoISBNObrigatorio(msg: string): this {
     this.dadosLivro = GeradorDadosLivro.criar();
-    cy.get(CadastrarLivroElements.isbnInput)
-      .should('be.visible')
-      .type(this.dadosLivro.isbn);
+    const isbn = this.dadosLivro.isbn!;
+
+    cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
     cy.get(CadastrarLivroElements.fechaToastButton).click();
     cy.get(CadastrarLivroElements.isbnInput).clear();
     cy.get(CadastrarLivroElements.campoObrigatorioLabel)
       .should('be.visible')
       .and('contain.text', msg);
-    cy.get(CadastrarLivroElements.isbnInput)
-      .should('be.visible')
-      .type(this.dadosLivro.isbn);
+    cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
+
     return this;
   }
 
