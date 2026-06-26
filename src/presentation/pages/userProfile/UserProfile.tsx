@@ -4,23 +4,33 @@ import { useRef, useState, useTransition, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { useEffect } from 'react';
+import { DeleteProfileModal } from '@/presentation/shared/components/deleteProfileModal/DeleteProfileModal';
+import { deleteUserProfileAction } from '@/app/actions/deleteUserProfile.actions';
+import { toast } from 'react-toastify';
+import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { Profile } from '@/core/domain/user/profile.enum';
 
 export function UserProfile() {
   const router = useRouter();
+  const { logout } = useAuth();
   const [date, setDate] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [formDesabilitado] = useState(true);
   const [_isPending, startTransition] = useTransition();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await loadUserProfilePageAction();
-        console.log('Resposta da API:', response);
+        const result = await loadUserProfilePageAction();
+        console.log('Resposta da API:', result);
+        if (result.success && result.response) {
+          setUserProfile(result.response.profile);
+        }
       } catch (error) {
         console.error('Erro ao carregar perfil:', error);
       }
@@ -37,6 +47,25 @@ export function UserProfile() {
         setPreviewImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let v = e.target.value.replace(/\D/g, '');
+
+    if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+    if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
+
+    setDate(v);
+  };
+
+  const handleConfirmDelete = async () => {
+    const result = await deleteUserProfileAction();
+    if (result.success) {
+      setIsDeleteModalOpen(false);
+      logout();
+    } else {
+      toast.error(result.message || 'Erro ao excluir perfil.');
     }
   };
 
@@ -143,12 +172,7 @@ export function UserProfile() {
                       placeholder="Ex: 01/02/1234"
                       maxLength={10}
                       value={date}
-                      onChange={(e) => {
-                        let v = e.target.value.replace(/\D/g, '');
-                        if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-                        if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
-                        setDate(v);
-                      }}
+                      onChange={handleDateChange}
                       className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                       id="data-picker"
                     />
@@ -208,16 +232,9 @@ export function UserProfile() {
                 <button
                   type="button"
                   data-testid="btn-excluir-perfil"
-                  onClick={() => {
-                    toast.success('Perfil excluído.', {
-                      autoClose: 1500,
-                    });
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
-                  }}
-                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  disabled={userProfile !== Profile.LEITOR}
+                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Excluir perfil
                 </button>
@@ -247,6 +264,11 @@ export function UserProfile() {
           </form>
         </main>
       </div>
+      <DeleteProfileModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }
