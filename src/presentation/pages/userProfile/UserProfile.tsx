@@ -22,7 +22,7 @@ export function UserProfile() {
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [userProfile, _setUserProfile] = useState<Profile | null>(null);
+  const [userProfile, setUserProfile] = useState<Profile | null>(null);
   const {
     register,
     handleSubmit,
@@ -45,21 +45,25 @@ export function UserProfile() {
         return;
       }
 
-      setValue('nome', result.response.nome);
-      setValue('email', result.response.email);
-      setValue('cpf', result.response.cpf);
-      setValue('dataDeNascimento', result.response.dataDeNascimento);
-      setValue('cidade', result.response.cidade ?? '');
-      setValue('estado', result.response.estado ?? '');
-      setValue('pais', result.response.pais ?? '');
+      setValue('nome', result.response?.nome ?? '');
+      setValue('email', result.response?.email ?? '');
+      setValue('cpf', result.response?.cpf ?? '');
+      setValue('dataDeNascimento', result.response?.dataDeNascimento ?? '');
+      setValue('cidade', result.response?.cidade ?? '');
+      setValue('estado', result.response?.estado ?? '');
+      setValue('pais', result.response?.pais ?? '');
 
       if (
-        result.response.fotoUrl &&
+        result.response?.fotoUrl &&
         result.response.fotoUrl !== 'Foto não encontrada.'
       ) {
         setPreviewImage(
           `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
         );
+      }
+
+      if (result.response?.profile) {
+        setUserProfile(result.response.profile);
       }
 
       setPerfilCarregadoComSucesso(true);
@@ -254,9 +258,7 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-excluir-perfil"
                   onClick={() => setIsDeleteModalOpen(true)}
-                  disabled={
-                    userProfile !== Profile.LEITOR || !perfilCarregadoComSucesso
-                  }
+                  disabled={ !perfilCarregadoComSucesso || userProfile !== Profile.LEITOR }
                   className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Excluir perfil
