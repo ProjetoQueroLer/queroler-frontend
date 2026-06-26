@@ -7,5 +7,10 @@
   "perfilModerador": {
     "email": "moderador@queroler.com",
     "senha": "Pa55word@"
+  },
+
+  "perfilLeitor": {
+    "email": "user.sucesso@queroler.com.br",
+    "senha": "Teste123@"
   }
 }

@@ -105,4 +105,11 @@ export class LoginPage {
     cy.get(LoginElements.entrarButton).should('be.disabled');
     return this;
   }
+
+  verificarToast(mensagem: string): this {
+    cy.get(LoginElements.toast)
+      .should('be.visible')
+      .and('contain.text', mensagem);
+    return this;
+  }
 }
