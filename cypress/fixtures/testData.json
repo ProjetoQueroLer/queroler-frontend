@@ -8,10 +8,6 @@
     "email": "usuario.invalido@queroler.com",
     "senha": "SenhaErrada123"
   },
-  "loginNaoPreenchido": {
-    "email": " ",
-    "senha": " "
-  },
   "usuarioCadastrado": {
     "email": "qateste@yopmail.com",
     "cpf": "50636777030"
