@@ -3,13 +3,13 @@
 import { CadastrarLeitorElements } from '../elements/CadastrarLeitorElements';
 
 type DadosLeitor = {
-  nome: string;
-  email: string;
-  confirmarEmail: string;
-  senha: string;
-  confirmarSenha: string;
-  cpf: string;
-  dataNascimento: string;
+  nome?: string;
+  email?: string;
+  confirmarEmail?: string;
+  senha?: string;
+  confirmarSenha?: string;
+  cpf?: string;
+  dataNascimento?: string;
 };
 
 export class CadastrarLeitorPage {
@@ -49,27 +49,41 @@ export class CadastrarLeitorPage {
   }
 
   preencherFormulario(dados: DadosLeitor): this {
-    cy.get(CadastrarLeitorElements.nomeInput)
-      .should('be.visible')
-      .type(dados.nome);
-    cy.get(CadastrarLeitorElements.emailInput)
-      .should('be.visible')
-      .type(dados.email);
-    cy.get(CadastrarLeitorElements.confirmaEmailInput)
-      .should('be.visible')
-      .type(dados.confirmarEmail);
-    cy.get(CadastrarLeitorElements.senhaInput)
-      .should('be.visible')
-      .type(dados.senha);
-    cy.get(CadastrarLeitorElements.confirmaSenhaInput)
-      .should('be.visible')
-      .type(dados.confirmarSenha);
-    cy.get(CadastrarLeitorElements.cpfUsuarioInput)
-      .should('be.visible')
-      .type(dados.cpf);
-    cy.get(CadastrarLeitorElements.dataDeNascimentoInput)
-      .should('be.visible')
-      .type(dados.dataNascimento);
+    if (dados.nome) {
+      cy.get(CadastrarLeitorElements.nomeInput)
+        .should('be.visible')
+        .type(dados.nome);
+    }
+    if (dados.email) {
+      cy.get(CadastrarLeitorElements.emailInput)
+        .should('be.visible')
+        .type(dados.email);
+    }
+    if (dados.confirmarEmail) {
+      cy.get(CadastrarLeitorElements.confirmaEmailInput)
+        .should('be.visible')
+        .type(dados.confirmarEmail);
+    }
+    if (dados.senha) {
+      cy.get(CadastrarLeitorElements.senhaInput)
+        .should('be.visible')
+        .type(dados.senha);
+    }
+    if (dados.confirmarSenha) {
+      cy.get(CadastrarLeitorElements.confirmaSenhaInput)
+        .should('be.visible')
+        .type(dados.confirmarSenha);
+    }
+    if (dados.cpf) {
+      cy.get(CadastrarLeitorElements.cpfUsuarioInput)
+        .should('be.visible')
+        .type(dados.cpf);
+    }
+    if (dados.dataNascimento) {
+      cy.get(CadastrarLeitorElements.dataDeNascimentoInput)
+        .should('be.visible')
+        .type(dados.dataNascimento);
+    }
     return this;
   }
 
@@ -170,5 +184,44 @@ export class CadastrarLeitorPage {
         const scrollTop = $el[0].scrollTop;
         expect(scrollTop).to.be.greaterThan(0);
       });
+  }
+
+  verificarLabelsDosCampos(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLeitorElements.campoLabel).should('contain.text', txt);
+    });
+    return this;
+  }
+
+  visibilidadeDaSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  visibilidadeConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .eq(1)
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultaConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .eq(0)
+      .should('be.visible')
+      .click();
+    return this;
   }
 }

@@ -95,4 +95,21 @@ export class LoginPage {
     cy.get(LoginElements.senhaInput).should('have.attr', 'type', 'password');
     return this;
   }
+
+  verificarToastError(): this {
+    cy.get(LoginElements.toastErrorLabel).should('be.visible');
+    return this;
+  }
+
+  clicarEmEntrarDesativa(): this {
+    cy.get(LoginElements.entrarButton).should('be.disabled');
+    return this;
+  }
+
+  verificarToast(mensagem: string): this {
+    cy.get(LoginElements.toast)
+      .should('be.visible')
+      .and('contain.text', mensagem);
+    return this;
+  }
 }
