@@ -19,17 +19,6 @@ type Mensagem = {
   usuarioCadastradoSucesso: string;
   emailJaCadastrado: string;
   cpfJaCadastrado: string;
-  nomeObrigatorio: string;
-  emailObrigatorio: string;
-  confirmacaoEmailObrigatoria: string;
-  senhaObrigatoria: string;
-  confirmacaoSenhaObrigatoria: string;
-  cpfObrigatorio: string;
-  dataNascimentoObrigatoria: string;
-  termosObrigatorio: string;
-  concordaComOsTermos: string;
-  termosDeServiço: string;
-  politicaDePrivacidade: string;
 };
 
 let dados: TestData;
@@ -61,39 +50,6 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.visitarPaginaCadastrarDeLeitor();
   });
 
-  it('Deve exibir todos os elementos do formulário de cadastro', () => {
-    cy.allure()
-      .feature('Cadastro de Leitor')
-      .story('Estrutura da tela')
-      .severity('normal');
-
-    cadastrarLeitorPage.verificarPaginaCarregada();
-    cadastrarLeitorPage.verificarOsTermosDeServico([
-      msg.concordaComOsTermos,
-      msg.termosDeServiço,
-      msg.politicaDePrivacidade,
-    ]);
-  });
-
-  it('Deve permitir o preenchimento do formulário de cadastro', () => {
-    cy.allure()
-      .feature('Cadastro de Leitor')
-      .story('Preenchimento do formulário')
-      .severity('normal');
-
-    cadastrarLeitorPage.preencherFormulario({
-      nome: dadosCadastro.nome,
-      email: dadosCadastro.email,
-      confirmarEmail: dadosCadastro.email,
-      senha: dadosCadastro.senha,
-      confirmarSenha: dadosCadastro.confirmacaoSenha,
-      cpf: dadosCadastro.cpf,
-      dataNascimento: dadosCadastro.dataNascimento,
-    });
-
-    cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
-  });
-
   it('Deve cadastrar leitor com sucesso', () => {
     cy.allure()
       .feature('Cadastro de Leitor')
@@ -118,26 +74,6 @@ describe('Cadastro de Leitor', () => {
 
     dados.usuarioCadastrado.email = dadosCadastro.email;
     dados.usuarioCadastrado.cpf = dadosCadastro.cpf;
-  });
-
-  it('Deve exibir mensagens de campos obrigatórios quando o formulário for submetido vazio', () => {
-    cy.allure()
-      .feature('Cadastro de Leitor')
-      .story('Validação de campos obrigatórios')
-      .severity('critical');
-
-    cadastrarLeitorPage.clicaOsCamposObrigatorios();
-    cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-      msg.nomeObrigatorio,
-      msg.emailObrigatorio,
-      msg.confirmacaoEmailObrigatoria,
-      msg.senhaObrigatoria,
-      msg.confirmacaoSenhaObrigatoria,
-      msg.cpfObrigatorio,
-      msg.dataNascimentoObrigatoria,
-      msg.termosObrigatorio
-    );
-    cadastrarLeitorPage.verificarOBotaoCadastrarInativo();
   });
 
   describe('Duplicidade', () => {
@@ -186,30 +122,6 @@ describe('Cadastro de Leitor', () => {
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
       cadastrarLeitorPage.verificarMensagemJaCadastrado(msg.cpfJaCadastrado);
-    });
-  });
-
-  describe('Validação dos Termos de Serviço e Política de Privacidade', () => {
-    it('Deve exibir os Termos de Serviço', () => {
-      cy.allure()
-        .feature('Cadastro de Leitor')
-        .story('Exibição dos Termos de Serviço')
-        .severity('normal');
-
-      cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
-        msg.termosDeServiço
-      );
-    });
-
-    it('Deve exibir a Política de Privacidade', () => {
-      cy.allure()
-        .feature('Cadastro de Leitor')
-        .story('Exibição da Política de Privacidade')
-        .severity('normal');
-
-      cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
-        msg.politicaDePrivacidade
-      );
     });
   });
 });

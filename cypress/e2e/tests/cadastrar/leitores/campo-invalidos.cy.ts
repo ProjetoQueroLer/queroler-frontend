@@ -6,7 +6,6 @@ import { gerarSenha } from '../../../../support/utils/geradorSenha';
 type CadastrarLeitorInvalidos = {
   nome: string;
   email: string;
-  emailInvalido: string;
   emailNaoCoincidem: string;
   senhaInvalida: string;
   senhaNaoCoincidem: string;
@@ -81,9 +80,7 @@ describe('Cadastro de Leitor', () => {
         cpf: dados.cadastrarLeitorInvalidos.cpfCurto,
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
-      // TODO:
-      // aguardando dev implementar mensagem de validação de CPF inválido
-      // cadastrarLeitorPage.verificarMensagensCamposObrigatorios(msg.cpfInvalido);
+      cadastrarLeitorPage.verificarMensagensCamposObrigatorios(msg.cpfInvalido);
     });
 
     it('Deve exibir mensagem de erro quando o E-mail invalido', () => {
