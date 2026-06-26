@@ -3,12 +3,7 @@
 import { LoginPage } from '../../../support/pages/LoginPage';
 
 type TestData = {
-  emailInvalido: string;
-  emailSemArroba: string;
-  emailMuitoLongo: string;
-  senhaCurta: string;
   credenciaisInvalidas: { email: string; senha: string };
-  loginNaoPreenchidos: { email: string; senha: string };
 };
 
 type Perfil = {

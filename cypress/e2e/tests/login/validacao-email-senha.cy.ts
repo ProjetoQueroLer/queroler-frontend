@@ -5,7 +5,6 @@ import { LoginPage } from '../../../support/pages/LoginPage';
 type Mensagem = {
   emailObrigatorio: string;
   emailInvalido: string;
-  emailMuitoLongo: string;
   senhaMinimaObrigatoria: string;
   senhaMuitoCurta: string;
 };
@@ -13,10 +12,8 @@ type Mensagem = {
 type TestData = {
   emailInvalido: string;
   emailSemArroba: string;
-  emailMuitoLongo: string;
   senhaCurta: string;
   credenciaisInvalidas: { email: string; senha: string };
-  loginNaoPreenchidos: { email: string; senha: string };
 };
 
 let msg: Mensagem;
