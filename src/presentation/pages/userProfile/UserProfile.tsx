@@ -6,37 +6,66 @@ import { Header } from '@/presentation/shared/components/header/header';
 import { useRouter } from 'next/navigation';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { useEffect } from 'react';
-import { DeleteProfileModal } from '@/presentation/shared/components/deleteProfileModal/DeleteProfileModal';
-import { deleteUserProfileAction } from '@/app/actions/deleteUserProfile.actions';
-import { toast } from 'react-toastify';
+import { useUserProfileForm } from '@/presentation/pages/userProfile/useUserProfileForm';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
 import { Profile } from '@/core/domain/user/profile.enum';
+import { toast } from 'react-toastify';
+import { deleteUserProfileAction } from '@/app/actions/deleteUserProfile.actions';
+import { DeleteProfileModal } from '@/presentation/shared/components/deleteProfileModal/DeleteProfileModal';
 
 export function UserProfile() {
-  const router = useRouter();
   const { logout } = useAuth();
-  const [date, setDate] = useState('');
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [formDesabilitado] = useState(true);
-  const [_isPending, startTransition] = useTransition();
+  const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
+    useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState<Profile | null>(null);
+  const [userProfile, _setUserProfile] = useState<Profile | null>(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting, isValid },
+  } = useUserProfileForm();
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const result = await loadUserProfilePageAction();
-        console.log('Resposta da API:', result);
-        if (result.success && result.response) {
-          setUserProfile(result.response.profile);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar perfil:', error);
-      }
-    };
+    async function carregarTelaDePerfil() {
+      const result = await loadUserProfilePageAction();
 
-    loadData();
+      if (!result.success) {
+        toast.error(result.message);
+        setPerfilCarregadoComSucesso(false);
+        return;
+      }
+
+      if (!result.response) {
+        setPerfilCarregadoComSucesso(false);
+        return;
+      }
+
+      setValue('nome', result.response.nome);
+      setValue('email', result.response.email);
+      setValue('cpf', result.response.cpf);
+      setValue('dataDeNascimento', result.response.dataDeNascimento);
+      setValue('cidade', result.response.cidade ?? '');
+      setValue('estado', result.response.estado ?? '');
+      setValue('pais', result.response.pais ?? '');
+
+      if (
+        result.response.fotoUrl &&
+        result.response.fotoUrl !== 'Foto não encontrada.'
+      ) {
+        setPreviewImage(
+          `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
+        );
+      }
+
+      setPerfilCarregadoComSucesso(true);
+    }
+
+    carregarTelaDePerfil();
   }, []);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +85,7 @@ export function UserProfile() {
     if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
     if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
 
-    setDate(v);
+    setValue('dataDeNascimento', v);
   };
 
   const handleConfirmDelete = async () => {
@@ -110,6 +139,7 @@ export function UserProfile() {
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100px, 200px"
+                      loading="eager"
                     />
                   </div>
                 ) : (
@@ -133,9 +163,9 @@ export function UserProfile() {
                   </label>
                   <input
                     data-testid="input-nome"
-                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
+                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="nome"
-                    placeholder="Ex: João da Silva"
+                    {...register('nome')}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
@@ -146,6 +176,7 @@ export function UserProfile() {
                     data-testid="input-email"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="email"
+                    {...register('email')}
                   />
                 </div>
               </div>
@@ -158,7 +189,8 @@ export function UserProfile() {
                     data-testid="input-cpf"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cpf"
-                    maxLength={11}
+                    {...register('cpf')}
+                    readOnly
                   />
                 </div>
                 <div className="relative flex-1 flex flex-col gap-1">
@@ -169,12 +201,12 @@ export function UserProfile() {
                     <input
                       type="text"
                       data-testid="input-nascimento"
-                      placeholder="Ex: 01/02/1234"
                       maxLength={10}
-                      value={date}
-                      onChange={handleDateChange}
                       className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                       id="data-picker"
+                      {...register('dataDeNascimento', {
+                        onChange: handleDateChange,
+                      })}
                     />
                   </div>
                 </div>
@@ -189,24 +221,19 @@ export function UserProfile() {
                     data-testid="input-cidade"
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cidade"
+                    {...register('cidade')}
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
                   <label className="text-text-primary text-xs tracking-widest">
                     Estado
                   </label>
-                  <div className="relative">
-                    <select
-                      data-testid="input-estado"
-                      className="w-full appearance-none bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                      id="estado"
-                    >
-                      <option value="">Selecione o estado</option>
-                    </select>
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                      ▾
-                    </span>
-                  </div>
+                  <input
+                    data-testid="input-estado"
+                    className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                    id="estado"
+                    {...register('estado')}
+                  />
                 </div>
               </div>
 
@@ -214,18 +241,12 @@ export function UserProfile() {
                 <label className="text-text-primary text-xs tracking-widest">
                   País
                 </label>
-                <div className="relative">
-                  <select
-                    data-testid="input-pais"
-                    className="w-full appearance-none bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
-                    id="pais"
-                  >
-                    <option value="">Selecione um país</option>
-                  </select>
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                    ▾
-                  </span>
-                </div>
+                <input
+                  data-testid="input-pais"
+                  className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
+                  id="pais"
+                  {...register('pais')}
+                />
               </div>
 
               <div className="flex justify-end gap-4 mt-2">
@@ -233,7 +254,9 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-excluir-perfil"
                   onClick={() => setIsDeleteModalOpen(true)}
-                  disabled={userProfile !== Profile.LEITOR}
+                  disabled={
+                    userProfile !== Profile.LEITOR || !perfilCarregadoComSucesso
+                  }
                   className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Excluir perfil
@@ -242,10 +265,7 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-voltar"
                   onClick={() => {
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
+                    router.back();
                   }}
                   className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
                 >
@@ -254,8 +274,8 @@ export function UserProfile() {
                 <button
                   data-testid="btn-salvar"
                   type="submit"
-                  disabled={formDesabilitado}
-                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand font-bold"
+                  disabled={!perfilCarregadoComSucesso}
+                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Salvar
                 </button>
