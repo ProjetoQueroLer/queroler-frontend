@@ -113,4 +113,60 @@ describe('Cadastro de Leitor', () => {
     );
     cadastrarLeitorPage.verificarOBotaoCadastrarInativo();
   });
+
+  describe('Visibilidade da senha e confirmar senha', () => {
+    it('Deve exibir a senha em texto ao clicar no ícone de mostrar senha', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Visibilidade do campo senha')
+        .severity('critical');
+
+      cadastrarLeitorPage.preencherFormulario({
+        senha: dadosCadastro.senha,
+      });
+
+      cadastrarLeitorPage.visibilidadeDaSenha();
+    });
+
+    it('Deve ocultar a senha ao clicar novamente no ícone', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Ocultar o campo senha')
+        .severity('critical');
+
+      cadastrarLeitorPage.preencherFormulario({
+        senha: dadosCadastro.senha,
+      });
+
+      cadastrarLeitorPage.visibilidadeDaSenha();
+      cadastrarLeitorPage.ocultarSenha();
+    });
+
+    it('Deve exibir a senha em texto ao clicar no ícone de mostrar confirmar senha', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Visibilidade do campo confirmar senha')
+        .severity('critical');
+
+      cadastrarLeitorPage.preencherFormulario({
+        confirmarSenha: dadosCadastro.senha,
+      });
+
+      cadastrarLeitorPage.visibilidadeConfirmarSenha();
+    });
+
+    it('Deve ocultar a confirmar senha ao clicar novamente no ícone', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Ocultar o campo confirmar senha')
+        .severity('critical');
+
+      cadastrarLeitorPage.preencherFormulario({
+        confirmarSenha: dadosCadastro.senha,
+      });
+
+      cadastrarLeitorPage.visibilidadeConfirmarSenha();
+      cadastrarLeitorPage.ocultaConfirmarSenha();
+    });
+  });
 });

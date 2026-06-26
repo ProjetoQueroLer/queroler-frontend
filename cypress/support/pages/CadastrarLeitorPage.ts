@@ -190,7 +190,38 @@ export class CadastrarLeitorPage {
     msg.forEach((txt) => {
       cy.get(CadastrarLeitorElements.campoLabel).should('contain.text', txt);
     });
+    return this;
+  }
 
+  visibilidadeDaSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  visibilidadeConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .eq(1)
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultaConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .eq(0)
+      .should('be.visible')
+      .click();
     return this;
   }
 }
