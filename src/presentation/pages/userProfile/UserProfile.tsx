@@ -47,6 +47,7 @@ export function UserProfile() {
       setValue('cidade', result.response.cidade ?? '');
       setValue('estado', result.response.estado ?? '');
       setValue('pais', result.response.pais ?? '');
+      setValue('fotoUrl', result.response.fotoUrl ?? '');
 
       if (
         result.response.fotoUrl &&
@@ -65,7 +66,10 @@ export function UserProfile() {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
+      setValue('imagem', file, { shouldValidate: true });
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
@@ -106,14 +110,13 @@ export function UserProfile() {
               </span>
               <div
                 onClick={triggerFileInput}
-                className={`w-[100px] h-[140px] lg:w-[200px] lg:h-[290px] bg-border border-2 border-dashed border-text-secondary flex flex-col items-center justify-center hover:opacity-80 relative overflow-hidden ${formDesabilitado ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                className="w-[100px] h-[140px] lg:w-[200px] lg:h-[290px] bg-border border-2 border-dashed border-text-secondary flex flex-col items-center justify-center hover:opacity-80 cursor-pointer relative overflow-hidden"
               >
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/jpg"
                   className="hidden"
                   ref={fileInputRef}
-                  disabled={formDesabilitado}
                   onChange={handleFileChange}
                 />
                 {previewImage ? (

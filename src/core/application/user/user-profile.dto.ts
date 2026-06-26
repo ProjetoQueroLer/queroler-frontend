@@ -9,6 +9,7 @@ export const userProfileSchema = z.object({
   estado: z.string(),
   pais: z.string(),
   fotoUrl: z.string().nullable().optional(),
+  imagem: z.any().optional(),
 });
 
 export type UserProfileFormDTO = z.input<typeof userProfileSchema>;
