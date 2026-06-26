@@ -185,4 +185,12 @@ export class CadastrarLeitorPage {
         expect(scrollTop).to.be.greaterThan(0);
       });
   }
+
+  verificarLabelsDosCampos(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLeitorElements.campoLabel).should('contain.text', txt);
+    });
+
+    return this;
+  }
 }

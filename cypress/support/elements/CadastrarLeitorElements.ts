@@ -23,4 +23,5 @@ export class CadastrarLeitorElements {
   static readonly tituloModal = '.text-text-primary.mb-4';
   static readonly textoModal = '.flex-1.overflow-y-auto.whitespace-pre-line';
   static readonly fechaModal = '.bg-background-secondary.border';
+  static readonly campoLabel = 'text-xs.font-medium';
 }
