@@ -33,9 +33,16 @@
   "politicaDePrivacidade": "Política de Privacidade",
   "campoNomeInvalido": "O nome não deve conter números ou caracteres especiais",
   "emailsNaoCoincidem": "mails não coincidem",
-  "cpfInvalido": "",
+  "cpfInvalido": "CPF incompleto ou inválido",
   "senhaMinimoCaracteres": "Mínimo 8 caracteres",
   "senhaDeveConterCaractereEspecial": "A senha deve conter pelo menos um caractere especial.",
   "senhaDeveConterNumero": "A senha deve conter pelo menos um número.",
-  "senhasNaoCoincidem": "As senhas não coincidem"
+  "senhasNaoCoincidem": "As senhas não coincidem",
+  "nome": "Nome",
+  "cpf": "CPF",
+  "email": "Email",
+  "confirmarEmail": "Confirmar E-mail",
+  "senha": "Senha",
+  "confirmarSenha": "Confirmar Senha",
+  "dataDeNascimento": "Data de Nascimento"
 }
