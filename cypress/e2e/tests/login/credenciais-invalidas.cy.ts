@@ -3,12 +3,7 @@
 import { LoginPage } from '../../../support/pages/LoginPage';
 
 type TestData = {
-  emailInvalido: string;
-  emailSemArroba: string;
-  emailMuitoLongo: string;
-  senhaCurta: string;
   credenciaisInvalidas: { email: string; senha: string };
-  loginNaoPreenchidos: { email: string; senha: string };
 };
 
 let dados: TestData;
@@ -38,7 +33,16 @@ describe('Login', () => {
         .preencherSenha(dados.credenciaisInvalidas.senha)
         .clicarEmEntrar();
 
-      cy.get('.Toastify__toast--error').should('be.visible');
+      loginPage.verificarToastError();
+    });
+
+    it('Deve impedir o acesso sem o preenchimento das credenciais', () => {
+      cy.allure()
+        .feature('Autenticação')
+        .story('Sem o preenchimento das credenciais')
+        .severity('critical');
+
+      loginPage.clicarEmEntrarDesativa();
     });
   });
 });

@@ -16,4 +16,6 @@ export class LoginElements {
 
   static readonly mostrarSenhaButton = '[aria-label="Mostrar senha"]';
   static readonly ocultarSenhaButton = '[aria-label="Ocultar senha"]';
+
+  static readonly toastErrorLabel = '.Toastify__toast--error';
 }
