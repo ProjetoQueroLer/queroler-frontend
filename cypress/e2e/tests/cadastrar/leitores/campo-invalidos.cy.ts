@@ -174,5 +174,14 @@ describe('Cadastro de Leitor', () => {
         msg.senhasNaoCoincidem
       );
     });
+
+    it('Deve impedir o cadastro de um leitor sem o preenchimento dos campos obrigatórios', () => {
+      cy.allure()
+        .feature('Cadastro de Leitor')
+        .story('Impedir o cadastro de um leitor')
+        .severity('normal');
+
+      cadastrarLeitorPage.verificarOBotaoCadastrarInativo();
+    });
   });
 });
