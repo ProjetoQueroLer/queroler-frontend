@@ -3,17 +3,19 @@
 import { useRef, useState, useTransition, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
+import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
+import { updateUserProfileAction } from '@/app/actions/updateUser.actions';
 import { useEffect } from 'react';
 import { useUserProfileForm } from '@/presentation/pages/userProfile/useUserProfileForm';
+import { UserProfileRequestDTO } from '@/core/application/user/user-profile.dto';
 
 export function UserProfile() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [formDesabilitado] = useState(true);
   const [_isPending, startTransition] = useTransition();
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
@@ -62,7 +64,7 @@ export function UserProfile() {
     }
 
     carregarTelaDePerfil();
-  }, []);
+  }, [setValue]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -91,6 +93,17 @@ export function UserProfile() {
     fileInputRef.current?.click();
   };
 
+  const submitData = async (data: UserProfileRequestDTO) => {
+    const result = await updateUserProfileAction(data);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    toast.success('Perfil atualizado com sucesso!');
+  };
+
   return (
     <div>
       <Header />
@@ -103,7 +116,13 @@ export function UserProfile() {
             Cadastre e edite as informações do seu perfil.
           </p>
 
-          <form className="flex flex-col lg:flex-row gap-6">
+          <form
+            className="flex flex-col lg:flex-row gap-6"
+            onSubmit={handleSubmit((data) =>
+              submitData(data as UserProfileRequestDTO)
+            )}
+            noValidate
+          >
             <div className="flex flex-col gap-3 w-full lg:w-[220px]">
               <span className="text-brand text-xs tracking-widest">
                 Foto de perfil
@@ -141,6 +160,7 @@ export function UserProfile() {
                   </>
                 )}
               </div>
+              <FieldError message={errors.imagem?.message as string} />
             </div>
 
             <div className="flex-1 flex flex-col gap-4">
@@ -154,7 +174,9 @@ export function UserProfile() {
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="nome"
                     {...register('nome')}
+                    aria-invalid={!!errors.nome}
                   />
+                  <FieldError message={errors.nome?.message as string} />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
                   <label className="text-text-primary text-xs tracking-widest">
@@ -165,7 +187,9 @@ export function UserProfile() {
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="email"
                     {...register('email')}
+                    aria-invalid={!!errors.email}
                   />
+                  <FieldError message={errors.email?.message as string} />
                 </div>
               </div>
               <div className="flex flex-col lg:flex-row gap-4">
@@ -195,6 +219,10 @@ export function UserProfile() {
                       {...register('dataDeNascimento', {
                         onChange: handleDateChange,
                       })}
+                      aria-invalid={!!errors.dataDeNascimento}
+                    />
+                    <FieldError
+                      message={errors.dataDeNascimento?.message as string}
                     />
                   </div>
                 </div>
@@ -210,7 +238,9 @@ export function UserProfile() {
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="cidade"
                     {...register('cidade')}
+                    aria-invalid={!!errors.cidade}
                   />
+                  <FieldError message={errors.cidade?.message as string} />
                 </div>
                 <div className="flex-1 flex flex-col gap-1">
                   <label className="text-text-primary text-xs tracking-widest">
@@ -221,7 +251,9 @@ export function UserProfile() {
                     className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                     id="estado"
                     {...register('estado')}
+                    aria-invalid={!!errors.estado}
                   />
+                  <FieldError message={errors.estado?.message as string} />
                 </div>
               </div>
 
@@ -234,7 +266,9 @@ export function UserProfile() {
                   className="w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none"
                   id="pais"
                   {...register('pais')}
+                  aria-invalid={!!errors.pais}
                 />
+                <FieldError message={errors.pais?.message as string} />
               </div>
 
               <div className="flex justify-end gap-4 mt-2">
@@ -268,8 +302,13 @@ export function UserProfile() {
                 <button
                   data-testid="btn-salvar"
                   type="submit"
-                  disabled={!perfilCarregadoComSucesso}
-                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-brand font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isSubmitting || !isValid}
+                  className={`px-9 py-3 text-sm text-white rounded-lg bg-brand font-bold
+                  ${
+                    isSubmitting || !isValid
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:opacity-80'
+                  }`}
                 >
                   Salvar
                 </button>

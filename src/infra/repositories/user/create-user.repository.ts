@@ -31,4 +31,22 @@ export class ApiUserRepository implements UserRepository {
       );
     }
   }
+
+  async updateProfile(dados: string, imagem?: File): Promise<void> {
+    try {
+      const formData = new FormData();
+
+      if (imagem) {
+        formData.append('imagem', imagem);
+      }
+
+      formData.append('dados', dados);
+
+      await this.api.put('/usuarios', formData);
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
 }
