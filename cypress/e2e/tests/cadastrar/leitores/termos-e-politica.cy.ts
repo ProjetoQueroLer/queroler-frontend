@@ -4,7 +4,7 @@ import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPa
 
 type Mensagem = {
   termosEPolitica: {
-    termosDeServiço: string;
+    termosDeServico: string;
     politicaDePrivacidade: string;
   };
 };
@@ -32,7 +32,7 @@ describe('Cadastro de Leitor', () => {
         .severity('normal');
 
       cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
-        msg.termosEPolitica.termosDeServiço
+        msg.termosEPolitica.termosDeServico
       );
     });
 
