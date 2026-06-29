@@ -4,8 +4,10 @@ import { LoginPage } from '../../../support/pages/LoginPage';
 import { HomePage } from '../../../support/pages/HomePage';
 
 type Mensagem = {
-  toastLoginSucesso: string;
-  toastLogoutSucesso: string;
+  mensagemToast: {
+    toastLoginSucesso: string;
+    toastLogoutSucesso: string;
+  };
 };
 
 let msg: Mensagem;
@@ -30,7 +32,7 @@ describe('Tela Inicial', () => {
       .story('Login válido')
       .severity('critical');
 
-    homePage.verificarToast(msg.toastLoginSucesso);
+    homePage.verificarToast(msg.mensagemToast.toastLoginSucesso);
   });
 
   it('Deve exibir o logo da aplicação', () => {
@@ -58,7 +60,7 @@ describe('Tela Inicial', () => {
       .fecharToast()
       .abrirMenuUsuario()
       .clicarEmSair()
-      .verificarToast(msg.toastLogoutSucesso);
+      .verificarToast(msg.mensagemToast.toastLogoutSucesso);
 
     loginPage.verificarPaginaCarregada();
   });
@@ -77,7 +79,7 @@ describe('Tela Inicial', () => {
       .verificarNomeDoUsuarioVisivel('Nome do usuário')
       .abrirMenuUsuario()
       .clicarEmSair()
-      .verificarToast(msg.toastLogoutSucesso);
+      .verificarToast(msg.mensagemToast.toastLogoutSucesso);
 
     loginPage.verificarPaginaCarregada();
   });

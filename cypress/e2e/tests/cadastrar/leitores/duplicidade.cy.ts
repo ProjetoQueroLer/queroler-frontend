@@ -16,9 +16,13 @@ type TestData = {
 };
 
 type Mensagem = {
-  usuarioCadastradoSucesso: string;
-  emailJaCadastrado: string;
-  cpfJaCadastrado: string;
+  dadosJaCadastrado: {
+    emailJaCadastrado: string;
+    cpfJaCadastrado: string;
+  };
+  cadastradoComSucesso: {
+    usuarioCadastradoSucesso: string;
+  };
 };
 
 let dados: TestData;
@@ -69,7 +73,7 @@ describe('Cadastro de Leitor', () => {
     cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
     cadastrarLeitorPage.clicarEmCadastrar();
     cadastrarLeitorPage.verificarMensagemCadastroSucesso(
-      msg.usuarioCadastradoSucesso
+      msg.cadastradoComSucesso.usuarioCadastradoSucesso
     );
 
     dados.usuarioCadastrado.email = dadosCadastro.email;
@@ -98,7 +102,9 @@ describe('Cadastro de Leitor', () => {
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
-      cadastrarLeitorPage.verificarMensagemJaCadastrado(msg.emailJaCadastrado);
+      cadastrarLeitorPage.verificarMensagemJaCadastrado(
+        msg.dadosJaCadastrado.emailJaCadastrado
+      );
     });
 
     it('Não deve permitir cadastro com CPF já existente', () => {
@@ -121,7 +127,9 @@ describe('Cadastro de Leitor', () => {
 
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.clicarEmCadastrar();
-      cadastrarLeitorPage.verificarMensagemJaCadastrado(msg.cpfJaCadastrado);
+      cadastrarLeitorPage.verificarMensagemJaCadastrado(
+        msg.dadosJaCadastrado.cpfJaCadastrado
+      );
     });
   });
 });

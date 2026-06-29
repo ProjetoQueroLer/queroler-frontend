@@ -7,10 +7,13 @@ type TestData = {
 };
 
 type Mensagem = {
-  ISBNNaoEncontrado: string;
-  registroDeLivroSucesso: string;
-  registroDeLivroCancelado: string;
-  ISBNJaCadastrado: string;
+  mensagemToastNoCadastraLivro: {
+    ISBNNaoEncontrado: string;
+    registroDeLivroSucesso: string;
+    registroDeLivroCancelado: string;
+    ISBNJaCadastrado: string;
+    ISBNEncontrado: string;
+  };
 };
 
 let dados: TestData;
@@ -42,10 +45,12 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
       );
       cadastrarLivroPage.selecionarImagemLivro();
-      cadastrarLivroPage.salvarCadastro(mensagens.registroDeLivroSucesso);
+      cadastrarLivroPage.salvarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroSucesso
+      );
 
       isbnCadastrado = cadastrarLivroPage.getIsbnCadastrado();
     });
@@ -58,7 +63,9 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherISBNJaCadastrado(isbnCadastrado);
-      cadastrarLivroPage.salvarCadastroDuplicado(mensagens.ISBNJaCadastrado);
+      cadastrarLivroPage.salvarCadastroDuplicado(
+        mensagens.mensagemToastNoCadastraLivro.ISBNJaCadastrado
+      );
     });
 
     it('Deve exibir mensagem ao cancelar o cadastro de um livro', () => {
@@ -69,10 +76,12 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
       );
       cadastrarLivroPage.selecionarImagemLivro();
-      cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+      cadastrarLivroPage.cancelarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroCancelado
+      );
     });
   });
 });

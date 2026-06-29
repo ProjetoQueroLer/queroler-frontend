@@ -7,11 +7,13 @@ type TestData = {
 };
 
 type Mensagem = {
-  ISBNNaoEncontrado: string;
-  registroDeLivroSucesso: string;
-  registroDeLivroCancelado: string;
-  ISBNJaCadastrado: string;
-  ISBNEncontrado: string;
+  mensagemToastNoCadastraLivro: {
+    ISBNNaoEncontrado: string;
+    registroDeLivroSucesso: string;
+    registroDeLivroCancelado: string;
+    ISBNJaCadastrado: string;
+    ISBNEncontrado: string;
+  };
 };
 
 let dados: TestData;
@@ -43,9 +45,11 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
       );
-      cadastrarLivroPage.salvarCadastro(mensagens.registroDeLivroSucesso);
+      cadastrarLivroPage.salvarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroSucesso
+      );
 
       isbnCadastrado = cadastrarLivroPage.getIsbnCadastrado();
     });
@@ -58,8 +62,12 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherISBNJaCadastrado(isbnCadastrado);
-      cadastrarLivroPage.salvarCadastroDuplicado(mensagens.ISBNJaCadastrado);
-      cadastrarLivroPage.verificarToastSucesso(mensagens.ISBNEncontrado);
+      cadastrarLivroPage.salvarCadastroDuplicado(
+        mensagens.mensagemToastNoCadastraLivro.ISBNJaCadastrado
+      );
+      cadastrarLivroPage.verificarToastSucesso(
+        mensagens.mensagemToastNoCadastraLivro.ISBNEncontrado
+      );
     });
 
     it('Deve exibir mensagem ao cancelar o cadastro de um livro sem imagem', () => {
@@ -70,9 +78,11 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
       );
-      cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+      cadastrarLivroPage.cancelarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroCancelado
+      );
     });
   });
 });

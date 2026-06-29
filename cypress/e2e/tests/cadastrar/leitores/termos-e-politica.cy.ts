@@ -3,8 +3,10 @@
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
 
 type Mensagem = {
-  termosDeServiço: string;
-  politicaDePrivacidade: string;
+  termosEPolitica: {
+    termosDeServiço: string;
+    politicaDePrivacidade: string;
+  };
 };
 
 let msg: Mensagem;
@@ -30,7 +32,7 @@ describe('Cadastro de Leitor', () => {
         .severity('normal');
 
       cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
-        msg.termosDeServiço
+        msg.termosEPolitica.termosDeServiço
       );
     });
 
@@ -41,7 +43,7 @@ describe('Cadastro de Leitor', () => {
         .severity('normal');
 
       cadastrarLeitorPage.verificaAcessaOModalOsTermosEPolitica(
-        msg.politicaDePrivacidade
+        msg.termosEPolitica.politicaDePrivacidade
       );
     });
   });

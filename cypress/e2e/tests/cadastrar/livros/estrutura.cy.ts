@@ -7,14 +7,18 @@ type TestData = {
 };
 
 type Mensagem = {
-  ISBNNaoEncontrado: string;
-  ISBNObrigatorio: string;
-  tituloObrigatorio: string;
-  autorObrigatorio: string;
-  editoraObrigatoria: string;
-  anoPublicacaoObrigatorio: string;
-  numeroDePaginasObrigatorio: string;
-  sinopseObrigatorio: string;
+  mensagemToastNoCadastraLivro: {
+    ISBNNaoEncontrado: string;
+  };
+  campoObrigatorioCadastrarLivro: {
+    ISBNObrigatorio: string;
+    tituloObrigatorio: string;
+    autorObrigatorio: string;
+    editoraObrigatoria: string;
+    anoPublicacaoObrigatorio: string;
+    numeroDePaginasObrigatorio: string;
+    sinopseObrigatorio: string;
+  };
 };
 
 let dados: TestData;
@@ -54,7 +58,7 @@ describe('Cadastrar Livro', () => {
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
     cadastrarLivroPage.preencherFormularioObrigatorio(
-      mensagens.ISBNNaoEncontrado
+      mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
     );
     cadastrarLivroPage.selecionarImagemLivro();
   });
@@ -66,15 +70,17 @@ describe('Cadastrar Livro', () => {
       .severity('normal');
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.validarOCampoISBNObrigatorio(mensagens.ISBNObrigatorio);
+    cadastrarLivroPage.validarOCampoISBNObrigatorio(
+      mensagens.campoObrigatorioCadastrarLivro.ISBNObrigatorio
+    );
     cadastrarLivroPage.clicaOsCampos();
     cadastrarLivroPage.verificarCampoObrigatorio(
-      mensagens.tituloObrigatorio,
-      mensagens.autorObrigatorio,
-      mensagens.editoraObrigatoria,
-      mensagens.anoPublicacaoObrigatorio,
-      mensagens.numeroDePaginasObrigatorio,
-      mensagens.sinopseObrigatorio
+      mensagens.campoObrigatorioCadastrarLivro.tituloObrigatorio,
+      mensagens.campoObrigatorioCadastrarLivro.autorObrigatorio,
+      mensagens.campoObrigatorioCadastrarLivro.editoraObrigatoria,
+      mensagens.campoObrigatorioCadastrarLivro.anoPublicacaoObrigatorio,
+      mensagens.campoObrigatorioCadastrarLivro.numeroDePaginasObrigatorio,
+      mensagens.campoObrigatorioCadastrarLivro.sinopseObrigatorio
     );
   });
 });
