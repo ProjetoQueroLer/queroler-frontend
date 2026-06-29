@@ -22,4 +22,8 @@ export class MockUserRepository implements UserRepository {
       livros: undefined,
     };
   }
+
+  public async updateProfile(_dados: string, _imagem?: File): Promise<void> {
+    return;
+  }
 }
