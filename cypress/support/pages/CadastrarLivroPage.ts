@@ -78,12 +78,13 @@ export class CadastrarLivroPage {
   ): this {
     this.dadosLivro = GeradorDadosLivro.criar(dadosCustomizados);
 
-    cy.get(CadastrarLivroElements.isbnInput)
-      .should('be.visible')
-      .type(this.dadosLivro.isbn!);
-    this.fecharToast();
-    this.verificarToastErro(msg);
-
+    if (this.dadosLivro.isbn) {
+      cy.get(CadastrarLivroElements.isbnInput)
+        .should('be.visible')
+        .type(this.dadosLivro.isbn);
+      this.fecharToast();
+      this.verificarToastErro(msg);
+    }
     if (this.dadosLivro.titulo) {
       cy.get(CadastrarLivroElements.tituloDoLivroInput)
         .should('be.visible')
@@ -204,6 +205,27 @@ export class CadastrarLivroPage {
         .should('be.visible')
         .and('contain.text', msg);
     });
+    return this;
+  }
+
+  verificaSeExistemOsCamposLabels(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLivroElements.camposLabel)
+        .should('be.visible')
+        .and('contain.text', txt);
+    });
+    return this;
+  }
+
+  verificarLabelDaCapaDoLivro(msg: string): this {
+    cy.get(CadastrarLivroElements.capaDoLivroLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
+    return this;
+  }
+
+  botaoSalvarDesativa(): this {
+    cy.get(CadastrarLivroElements.cadastrarLivroButton).should('be.disabled');
     return this;
   }
 }
