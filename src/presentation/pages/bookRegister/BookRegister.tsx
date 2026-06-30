@@ -12,8 +12,8 @@ import { LIVRO_IDIOMA_OPCOES } from '@/core/domain/book/language.enum';
 import { createBookAction } from '@/app/actions/createBook.actions';
 import { useRef } from 'react';
 import { findBookByIsbnAction } from '@/app/actions/findBookByIsbn.actions';
-import { AutorResponse } from '@/core/application/book/find-book-by-isbn-response.dto';
 import { getBookImageAction } from '@/app/actions/getBookImage.actions';
+import { AutorResponse } from '@/core/application/book/book-response.dto';
 
 export function BookRegister() {
   const router = useRouter();
@@ -52,7 +52,12 @@ export function BookRegister() {
     const isbn = getValues('isbn');
     const cleanIsbn = isbn.trim().replace(/\D/g, '');
 
-    if (!cleanIsbn || cleanIsbn.length < 13 || carregandoIsbn) return;
+    if (
+      !cleanIsbn ||
+      (cleanIsbn.length !== 10 && cleanIsbn.length !== 13) ||
+      carregandoIsbn
+    )
+      return;
 
     setCarregandoIsbn(true);
 
@@ -135,6 +140,7 @@ export function BookRegister() {
   return (
     <div>
       <Header />
+
       <div className="min-h-screen lg:mx-50 flex flex-col">
         <main className="flex-1 px-4 py-6 lg:px-8">
           <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
@@ -201,10 +207,10 @@ export function BookRegister() {
                   <input
                     data-testid="input-isbn"
                     inputMode="numeric"
-                    placeholder="Ex: 978-3-16-148410-0"
+                    placeholder="Ex: 9783161484100"
                     className="bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none placeholder:text-text-secondary"
                     id="isbn"
-                    maxLength={17}
+                    maxLength={13}
                     {...register('isbn', {
                       onBlur: (_e) => handleBlurIsbn(),
                     })}
@@ -223,9 +229,9 @@ export function BookRegister() {
                   </label>
                   <input
                     data-testid="input-titulo"
-                    placeholder="Ex: O Morro dos Ventos Uivantes"
                     className={`bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary placeholder:text-text-secondary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                     disabled={formDesabilitado}
+                    placeholder="Ex: O Alquimista"
                     id="titulo"
                     {...register('titulo')}
                     aria-invalid={!!errors.titulo}
@@ -240,6 +246,7 @@ export function BookRegister() {
                     <input
                       data-testid="input-autor"
                       className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
+                      placeholder="Ex: Paulo Coelho, Carla Madeira"
                       disabled={formDesabilitado}
                       id="autores"
                       {...register('autores')}
@@ -255,7 +262,8 @@ export function BookRegister() {
                       data-testid="input-editora"
                       className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                       disabled={formDesabilitado}
-                      id="editora"
+                      placeholder="Ex: Paralela"
+                      id="titulo"
                       {...register('editora')}
                       aria-invalid={!!errors.editora}
                     />
@@ -271,6 +279,8 @@ export function BookRegister() {
                       data-testid="input-ano"
                       className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                       disabled={formDesabilitado}
+                      placeholder="Ex: 1987"
+                      maxLength={4}
                       id="ano-de-publicacao"
                       {...register('anoDePublicacao')}
                       aria-invalid={!!errors.anoDePublicacao}
@@ -285,9 +295,9 @@ export function BookRegister() {
                     </label>
                     <input
                       data-testid="input-paginas"
-                      maxLength={4}
                       className={`w-full bg-card-bg border border-border rounded px-2 py-1 lg:px-4 lg:py-3 text-text-primary text-sm outline-none opacity-50 ${formDesabilitado ? 'cursor-not-allowed' : ''}`}
                       disabled={formDesabilitado}
+                      placeholder="Ex: 125"
                       id="numero-de-paginas"
                       {...register('numeroDePaginas')}
                       aria-invalid={!!errors.numeroDePaginas}

@@ -1,10 +1,10 @@
 'use client';
 
-import { Bell, ChevronDown, User, LogOut, NotebookPen } from 'lucide-react';
+import { Bell, ChevronDown, LogOut, NotebookPen, User } from 'lucide-react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { useRouter } from 'next/navigation';
 
 export interface HeaderProps {
   fotoDePerfil?: string;
@@ -13,8 +13,8 @@ export interface HeaderProps {
 
 export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
   const { logout } = useAuth();
-  const router = useRouter();
   const [menuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
@@ -78,7 +78,6 @@ export function Header({ nomeUsuario, fotoDePerfil }: HeaderProps) {
             </span>
             <ChevronDown size={16} className="text-text-secondary" />
           </button>
-
           {menuOpen && (
             <div className="absolute right-0 mt-3 w-max bg-card-bg border border-border rounded-lg shadow-lg z-50">
               <div className="gap-2 px-4 py-3">

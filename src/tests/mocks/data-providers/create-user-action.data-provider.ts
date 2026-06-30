@@ -8,9 +8,11 @@ export function createUserPayload(
   return {
     nome: 'Usuário Teste',
     email: 'usuario@teste.com',
+    confirmarEmail: 'usuario@teste.com',
     senha: '123456K&t#',
     confirmarSenha: '123456K&t#',
-    cpf: '12345678901',
+    cpf: '123.456.789-01',
+    dataDeNascimento: '2005-12-26',
     checkTermo: true,
     ...overrides,
   };

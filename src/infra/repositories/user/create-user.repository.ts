@@ -1,7 +1,7 @@
 import { UserEntity } from '@/core/domain/user/user.entity';
 import { LoadUserProfileResponseDTO } from '@/core/application/user/load-user-profile-page-response.dto';
 import {
-  CreateUserData,
+  ChangePasswordData,
   UserRepository,
 } from '@/core/domain/user/user.repository';
 import { AxiosInstance, AxiosResponse } from 'axios';
@@ -9,9 +9,11 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 export class ApiUserRepository implements UserRepository {
   constructor(private readonly api: AxiosInstance) {}
 
-  async create(data: CreateUserData): Promise<UserEntity> {
+  async create(data: string): Promise<UserEntity> {
     try {
-      const response = await this.api.post('/usuarios', data);
+      const formData = new FormData();
+      formData.append('dados', data);
+      const response = await this.api.post('/usuarios', formData);
       return response.data;
     } catch (error: unknown) {
       throw (
@@ -41,7 +43,7 @@ export class ApiUserRepository implements UserRepository {
       );
     }
   }
-  
+
   async updateProfile(dados: string, imagem?: File): Promise<void> {
     try {
       const formData = new FormData();
@@ -53,6 +55,16 @@ export class ApiUserRepository implements UserRepository {
       formData.append('dados', dados);
 
       await this.api.put('/usuarios', formData);
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
+  async changePassword(data: ChangePasswordData): Promise<void> {
+    try {
+      await this.api.put('/usuarios/alterar-senha', data);
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error

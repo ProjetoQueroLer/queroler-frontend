@@ -11,9 +11,11 @@ describe('ApiUserRepository', () => {
   const userPayload: CreateUserDTO = {
     nome: 'Teste',
     email: 'teste@email.com',
+    confirmarEmail: 'teste@email.com',
     senha: '123456',
     confirmarSenha: '123456',
     cpf: '429.063.400-14',
+    dataDeNascimento: '2003-06-28',
     checkTermo: true,
   };
 
@@ -43,15 +45,17 @@ describe('ApiUserRepository', () => {
 
   it('deve chamar api.post com os dados corretos e retornar o usuário', async () => {
     api.post.mockResolvedValue({ data: userResponse });
-    const result = await repository.create(userPayload);
-    expect(api.post).toHaveBeenCalledWith('/usuarios', userPayload);
+    const result = await repository.create(userPayload.toString());
+    const formdata = new FormData();
+    formdata.append('dados', userPayload.toString());
+    expect(api.post).toHaveBeenCalledWith('/usuarios', formdata);
     expect(result).toEqual(userResponse);
   });
 
   it('deve lançar o erro do backend se api.post falhar', async () => {
     const backendError = { response: { data: { message: 'Erro do backend' } } };
     api.post.mockRejectedValue(backendError);
-    await expect(repository.create(userPayload)).rejects.toEqual({
+    await expect(repository.create(userPayload.toString())).rejects.toEqual({
       message: 'Erro do backend',
     });
   });
@@ -59,6 +63,8 @@ describe('ApiUserRepository', () => {
   it('deve lançar o próprio erro se não houver response.data', async () => {
     const genericError = new Error('Falha desconhecida');
     api.post.mockRejectedValue(genericError);
-    await expect(repository.create(userPayload)).rejects.toEqual(genericError);
+    await expect(repository.create(userPayload.toString())).rejects.toEqual(
+      genericError
+    );
   });
 });
