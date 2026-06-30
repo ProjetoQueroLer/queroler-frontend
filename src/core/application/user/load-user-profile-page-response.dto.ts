@@ -1,3 +1,5 @@
+import { Profile } from '@/core/domain/user/profile.enum';
+
 export interface LoadUserProfileResponseDTO {
   nome: string;
   email: string;
@@ -7,4 +9,5 @@ export interface LoadUserProfileResponseDTO {
   estado: string | null;
   pais: string | null;
   fotoUrl: string | null;
+  profile: Profile;
 }

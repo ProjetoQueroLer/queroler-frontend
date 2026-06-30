@@ -32,6 +32,16 @@ export class ApiUserRepository implements UserRepository {
     }
   }
 
+  async delete(): Promise<void> {
+    try {
+      await this.api.delete('/usuarios');
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+  
   async updateProfile(dados: string, imagem?: File): Promise<void> {
     try {
       const formData = new FormData();

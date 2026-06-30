@@ -20,5 +20,6 @@ export interface UpdateUserProfileData {
 
 export interface UserRepository {
   create(data: CreateUserData): Promise<UserEntity>;
+  delete(): Promise<void>;
   updateProfile(dados: string, imagem?: File): Promise<void>;
 }

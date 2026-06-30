@@ -5,21 +5,27 @@ import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { updateUserProfileAction } from '@/app/actions/updateUser.actions';
 import { useEffect } from 'react';
 import { useUserProfileForm } from '@/presentation/pages/userProfile/useUserProfileForm';
+import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { Profile } from '@/core/domain/user/profile.enum';
+import { toast } from 'react-toastify';
+import { deleteUserProfileAction } from '@/app/actions/deleteUserProfile.actions';
+import { DeleteProfileModal } from '@/presentation/shared/components/deleteProfileModal/DeleteProfileModal';
 import { UserProfileRequestDTO } from '@/core/application/user/user-profile.dto';
 
 export function UserProfile() {
+  const { logout } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [_isPending, startTransition] = useTransition();
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<Profile | null>(null);
   const {
     register,
     handleSubmit,
@@ -52,12 +58,16 @@ export function UserProfile() {
       setValue('fotoUrl', result.response.fotoUrl ?? '');
 
       if (
-        result.response.fotoUrl &&
+        result.response?.fotoUrl &&
         result.response.fotoUrl !== 'Foto não encontrada.'
       ) {
         setPreviewImage(
           `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
         );
+      }
+
+      if (result.response?.profile) {
+        setUserProfile(result.response.profile);
       }
 
       setPerfilCarregadoComSucesso(true);
@@ -87,6 +97,16 @@ export function UserProfile() {
     if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
 
     setValue('dataDeNascimento', v);
+  };
+
+  const handleConfirmDelete = async () => {
+    const result = await deleteUserProfileAction();
+    if (result.success) {
+      setIsDeleteModalOpen(false);
+      logout();
+    } else {
+      toast.error(result.message || 'Erro ao excluir perfil.');
+    }
   };
 
   const triggerFileInput = () => {
@@ -275,17 +295,9 @@ export function UserProfile() {
                 <button
                   type="button"
                   data-testid="btn-excluir-perfil"
-                  disabled={!perfilCarregadoComSucesso}
-                  onClick={() => {
-                    toast.success('Perfil excluído.', {
-                      autoClose: 1500,
-                    });
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
-                  }}
-                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  disabled={ !perfilCarregadoComSucesso || userProfile !== Profile.LEITOR }
+                  className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Excluir perfil
                 </button>
@@ -317,6 +329,11 @@ export function UserProfile() {
           </form>
         </main>
       </div>
+      <DeleteProfileModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }
