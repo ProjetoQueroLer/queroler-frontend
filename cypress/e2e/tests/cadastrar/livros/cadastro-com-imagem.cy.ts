@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
+import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
 
 type TestData = {
   nomeDoLivro: string;
@@ -45,7 +46,8 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+        GeradorDadosLivro.criarCompleto()
       );
       cadastrarLivroPage.selecionarImagemLivro();
       cadastrarLivroPage.salvarCadastro(
@@ -76,7 +78,8 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+        GeradorDadosLivro.criarCompleto()
       );
       cadastrarLivroPage.selecionarImagemLivro();
       cadastrarLivroPage.cancelarCadastro(
