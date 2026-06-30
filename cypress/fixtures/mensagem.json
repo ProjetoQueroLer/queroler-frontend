@@ -66,5 +66,16 @@
     "senha": "Senha",
     "confirmarSenha": "Confirmar Senha",
     "dataDeNascimento": "Data de Nascimento"
+  },
+  "labelsCadastrarLivro": {
+    "isbn": "ISBN",
+    "tituloDoLivro": "Título do livro",
+    "autores": "Autor(es)",
+    "editora": "Editora",
+    "anoDePublicacao": "Ano de Publicação",
+    "numeroDePaginas": "Número de Páginas",
+    "idioma": "Idioma",
+    "sinopse": "Sinopse",
+    "capaDoLivro": "Capa do livro"
   }
 }

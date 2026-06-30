@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
+import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
 
 type TestData = {
   nomeDoLivro: string;
@@ -19,10 +20,21 @@ type Mensagem = {
     numeroDePaginasObrigatorio: string;
     sinopseObrigatorio: string;
   };
+  labelsCadastrarLivro: {
+    isbn: string;
+    tituloDoLivro: string;
+    autores: string;
+    editora: string;
+    anoDePublicacao: string;
+    numeroDePaginas: string;
+    idioma: string;
+    sinopse: string;
+    capaDoLivro: string;
+  };
 };
 
 let dados: TestData;
-let mensagens: Mensagem;
+let msg: Mensagem;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
 
@@ -32,7 +44,7 @@ describe('Cadastrar Livro', () => {
       dados = fixture;
     });
     cy.fixture('mensagem').then((fixture) => {
-      mensagens = fixture;
+      msg = fixture;
     });
   });
 
@@ -48,6 +60,19 @@ describe('Cadastrar Livro', () => {
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
     cadastrarLivroPage.verificarPaginaCarregada();
+    cadastrarLivroPage.verificaSeExistemOsCamposLabels([
+      msg.labelsCadastrarLivro.isbn,
+      msg.labelsCadastrarLivro.tituloDoLivro,
+      msg.labelsCadastrarLivro.autores,
+      msg.labelsCadastrarLivro.editora,
+      msg.labelsCadastrarLivro.anoDePublicacao,
+      msg.labelsCadastrarLivro.numeroDePaginas,
+      msg.labelsCadastrarLivro.idioma,
+      msg.labelsCadastrarLivro.sinopse,
+    ]);
+    cadastrarLivroPage.verificarLabelDaCapaDoLivro(
+      msg.labelsCadastrarLivro.capaDoLivro
+    );
   });
 
   it('Deve preencher o formulário de cadastro de livro com os dados obrigatórios', () => {
@@ -58,7 +83,8 @@ describe('Cadastrar Livro', () => {
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
     cadastrarLivroPage.preencherFormularioObrigatorio(
-      mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      GeradorDadosLivro.criarCompleto()
     );
     cadastrarLivroPage.selecionarImagemLivro();
   });
@@ -70,17 +96,18 @@ describe('Cadastrar Livro', () => {
       .severity('normal');
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.validarOCampoISBNObrigatorio(
-      mensagens.campoObrigatorioCadastrarLivro.ISBNObrigatorio
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      GeradorDadosLivro.criarCompleto()
     );
     cadastrarLivroPage.clicaOsCampos();
     cadastrarLivroPage.verificarCampoObrigatorio(
-      mensagens.campoObrigatorioCadastrarLivro.tituloObrigatorio,
-      mensagens.campoObrigatorioCadastrarLivro.autorObrigatorio,
-      mensagens.campoObrigatorioCadastrarLivro.editoraObrigatoria,
-      mensagens.campoObrigatorioCadastrarLivro.anoPublicacaoObrigatorio,
-      mensagens.campoObrigatorioCadastrarLivro.numeroDePaginasObrigatorio,
-      mensagens.campoObrigatorioCadastrarLivro.sinopseObrigatorio
+      msg.campoObrigatorioCadastrarLivro.tituloObrigatorio,
+      msg.campoObrigatorioCadastrarLivro.autorObrigatorio,
+      msg.campoObrigatorioCadastrarLivro.editoraObrigatoria,
+      msg.campoObrigatorioCadastrarLivro.anoPublicacaoObrigatorio,
+      msg.campoObrigatorioCadastrarLivro.numeroDePaginasObrigatorio,
+      msg.campoObrigatorioCadastrarLivro.sinopseObrigatorio
     );
   });
 });
