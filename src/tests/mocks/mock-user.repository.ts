@@ -26,4 +26,8 @@ export class MockUserRepository implements UserRepository {
   public async updateProfile(_dados: string, _imagem?: File): Promise<void> {
     return;
   }
+
+  public async delete(): Promise<void> {
+    return;
+  }
 }

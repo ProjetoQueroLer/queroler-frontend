@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useTransition, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
@@ -21,7 +21,6 @@ export function UserProfile() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [_isPending, startTransition] = useTransition();
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -296,7 +295,9 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-excluir-perfil"
                   onClick={() => setIsDeleteModalOpen(true)}
-                  disabled={ !perfilCarregadoComSucesso || userProfile !== Profile.LEITOR }
+                  disabled={
+                    !perfilCarregadoComSucesso || userProfile !== Profile.LEITOR
+                  }
                   className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Excluir perfil

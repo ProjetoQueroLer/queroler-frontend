@@ -8,6 +8,7 @@ const makeRepository = (overrides: Partial<UserRepository> = {}) => {
   const base: UserRepository = {
     create: jest.fn(async () => createUserResponse()),
     updateProfile: jest.fn(async () => {}),
+    delete: jest.fn(async () => {}),
   };
   return { ...base, ...overrides } as UserRepository;
 };
