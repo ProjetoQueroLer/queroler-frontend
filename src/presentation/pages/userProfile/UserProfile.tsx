@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type ChangeEvent } from 'react';
+import { useRef, useState, useTransition, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
@@ -21,6 +21,7 @@ export function UserProfile() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [_isPending, startTransition] = useTransition();
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -65,7 +66,7 @@ export function UserProfile() {
         );
       }
 
-      if (result.response?.profile) {
+      if (result.success && result.response) {
         setUserProfile(result.response.profile);
       }
 
@@ -306,7 +307,10 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-voltar"
                   onClick={() => {
-                    router.back();
+                    startTransition(async () => {
+                      await new Promise((resolve) => setTimeout(resolve, 1500));
+                      router.back();
+                    });
                   }}
                   className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
                 >
