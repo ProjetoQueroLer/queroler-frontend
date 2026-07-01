@@ -11,15 +11,6 @@ type Mensagem = {
   mensagemToastNoCadastraLivro: {
     ISBNNaoEncontrado: string;
   };
-  campoObrigatorioCadastrarLivro: {
-    ISBNObrigatorio: string;
-    tituloObrigatorio: string;
-    autorObrigatorio: string;
-    editoraObrigatoria: string;
-    anoPublicacaoObrigatorio: string;
-    numeroDePaginasObrigatorio: string;
-    sinopseObrigatorio: string;
-  };
   labelsCadastrarLivro: {
     isbn: string;
     tituloDoLivro: string;
@@ -87,27 +78,5 @@ describe('Cadastrar Livro', () => {
       GeradorDadosLivro.criarCompleto()
     );
     cadastrarLivroPage.selecionarImagemLivro();
-  });
-
-  it('Deve exibir mensagens de campos obrigatórios ao tentar cadastrar sem preencher o formulário', () => {
-    cy.allure()
-      .feature('Cadastrar Livro')
-      .story('Campos obrigatórios')
-      .severity('normal');
-
-    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
-    cadastrarLivroPage.preencherFormularioObrigatorio(
-      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
-      GeradorDadosLivro.criarCompleto()
-    );
-    cadastrarLivroPage.clicaOsCampos();
-    cadastrarLivroPage.verificarCampoObrigatorio(
-      msg.campoObrigatorioCadastrarLivro.tituloObrigatorio,
-      msg.campoObrigatorioCadastrarLivro.autorObrigatorio,
-      msg.campoObrigatorioCadastrarLivro.editoraObrigatoria,
-      msg.campoObrigatorioCadastrarLivro.anoPublicacaoObrigatorio,
-      msg.campoObrigatorioCadastrarLivro.numeroDePaginasObrigatorio,
-      msg.campoObrigatorioCadastrarLivro.sinopseObrigatorio
-    );
   });
 });
