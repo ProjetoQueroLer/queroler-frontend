@@ -23,7 +23,7 @@ export class CadastrarLivroElements {
     '.Toastify__toast.Toastify__toast--error';
   static readonly mensagemSucessoToastLabel =
     '.Toastify__toast.Toastify__toast--success';
-  static readonly campoObrigatorioLabel = '.mt-1.text-xs.text-red-400';
+  static readonly avisoErroLabel = '.mt-1.text-xs.text-red-400';
   static readonly camposLabel = '.text-text-secondary.text-xs.uppercase';
   static readonly capaDoLivroLabel = '.text-brand.text-xs.uppercase';
 }
