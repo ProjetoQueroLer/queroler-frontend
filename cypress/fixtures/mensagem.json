@@ -34,6 +34,9 @@
     "ISBNJaCadastrado": "ISBN já cadastrado",
     "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente."
   },
+  "avisoErro": {
+    "ImagemMaiorQue10MB": "Tamanho máximo de 10MB permitido"
+  },
   "campoObrigatorioCadastrarLivro": {
     "ISBNObrigatorio": "ISBN obrigatório",
     "tituloObrigatorio": "Título obrigatório",
