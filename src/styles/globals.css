@@ -13,6 +13,7 @@
   --color-active: #eab308;
   --color-completed: #10b981;
   --color-pause: #3b82f6;
+  --color-repeating: #ca4eff;
   /* Cores de seções */
   --color-dark-purple: #25213d;
   --color-card-bg: #0d0b16;
@@ -47,6 +48,7 @@
   --color-desired: var(--color-desired);
   --color-active: var(--color-active);
   --color-completed: var(--color-completed);
+  --color-repeating: var(--color-repeating);
   --color-pause: var(--color-pause);
   --color-dark-purple: var(--color-dark-purple);
   --color-card-bg: var(--color-card-bg);

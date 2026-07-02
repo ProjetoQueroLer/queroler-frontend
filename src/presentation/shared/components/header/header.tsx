@@ -1,18 +1,34 @@
 'use client';
-import { Bell, ChevronDown, LogOut, User } from 'lucide-react';
+import { ArrowLeft, Bell, ChevronDown, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import { BookOpen } from 'lucide-react';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function Header() {
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const mostrarBotaoVoltar = pathname === '/detalhamento-livro';
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+      <div className="flex items-center">
+        {mostrarBotaoVoltar && (
+          <button
+            data-testid="btn-voltar-header"
+            onClick={() => router.push('/')}
+            className="flex items-center gap-2 text-sm text-text-primary hover:text-text-primary cursor-pointer"
+          >
+            <ArrowLeft size={14} />
+            Voltar para a home
+          </button>
+        )}
+      </div>
+
       <Image
         src="/logo-small.svg"
         alt="Quero Ler"
