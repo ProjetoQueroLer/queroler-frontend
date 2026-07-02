@@ -9,8 +9,10 @@ export class CadastrarLivroPage {
   private dadosLivro!: DadosLivro;
 
   acessarPaginaCadastrarLivro(texto: string): this {
-    cy.get(CadastrarLivroElements.buscarLivroInput).type(texto);
-    cy.get(CadastrarLivroElements.modalSimButton).click();
+    cy.get(CadastrarLivroElements.buscarLivroInput)
+      .should('be.visible')
+      .type(texto);
+    cy.get(CadastrarLivroElements.modalSimButton).should('be.visible').click();
     return this;
   }
 
@@ -136,10 +138,10 @@ export class CadastrarLivroPage {
     return this;
   }
 
-  selecionarImagemLivro(): this {
+  selecionarImagemLivro(tipo: 'leve' | 'pesado' = 'leve'): this {
     cy.get(CadastrarLivroElements.textoSecundarioLabel).should('be.visible');
     cy.get(CadastrarLivroElements.imagemLivroInput).selectFile(
-      Fixtures.imagens.livro,
+      Fixtures.imagens[tipo],
       { force: true }
     );
     return this;
@@ -173,7 +175,7 @@ export class CadastrarLivroPage {
     cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
     cy.get(CadastrarLivroElements.fechaToastButton).click();
     cy.get(CadastrarLivroElements.isbnInput).clear();
-    cy.get(CadastrarLivroElements.campoObrigatorioLabel)
+    cy.get(CadastrarLivroElements.avisoErroLabel)
       .should('be.visible')
       .and('contain.text', msg);
     cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
@@ -201,7 +203,7 @@ export class CadastrarLivroPage {
 
   verificarCampoObrigatorio(...mensagens: string[]): this {
     mensagens.forEach((msg) => {
-      cy.get(CadastrarLivroElements.campoObrigatorioLabel)
+      cy.get(CadastrarLivroElements.avisoErroLabel)
         .should('be.visible')
         .and('contain.text', msg);
     });
@@ -226,6 +228,31 @@ export class CadastrarLivroPage {
 
   botaoSalvarDesativa(): this {
     cy.get(CadastrarLivroElements.cadastrarLivroButton).should('be.disabled');
+    return this;
+  }
+
+  camposDesabilitados(): this {
+    const campos = [
+      CadastrarLivroElements.tituloDoLivroInput,
+      CadastrarLivroElements.autorInput,
+      CadastrarLivroElements.editoraInput,
+      CadastrarLivroElements.anoDePublicacaoInput,
+      CadastrarLivroElements.numeroDePaginasInput,
+      CadastrarLivroElements.sinopseInput,
+      CadastrarLivroElements.anoDePublicacaoInput,
+    ];
+
+    campos.forEach((campo) => {
+      cy.get(campo).should('be.disabled');
+    });
+
+    return this;
+  }
+
+  verificarSeExisteMensagemDeErro(msg: string): this {
+    cy.get(CadastrarLivroElements.avisoErroLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
     return this;
   }
 }
