@@ -35,8 +35,8 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           <input
             data-testid="search-input"
             type="text"
-            placeholder="Pesquisar na sua biblioteca..."
-            className="flex-1 bg-transparent text-text-primary text-sm outline-none placeholder:text-text-secondary"
+            placeholder="Pesquisar na sua biblioteca"
+            className="flex-1 bg-transparent text-text-primary text-xs outline-none placeholder:text-text-secondary"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -46,7 +46,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         <div className="relative w-[20px] lg:w-[110px]">
           <div
             onClick={() => setFiltroOpen(!filtroOpen)}
-            className="w-full flex items-center justify-between bg-darker-gray rounded-sm px-1 py-1 lg:px-4 lg:py-3 cursor-pointer"
+            className="w-full flex items-center justify-between bg-darker-gray rounded px-1 py-2 lg:px-4 lg:py-4 cursor-pointer"
           >
             <span className="text-text-primary text-sm hidden lg:block">
               {Filtros[filtroSelecionado]}
@@ -62,7 +62,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
                     setFiltroSelecionado(key as keyof typeof Filtros);
                     setFiltroOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm rounded-lg flex items-center justify-between
+                  className={`w-full text-left px-4 py-2 text-xs rounded-lg flex items-center justify-between
                   ${
                     filtroSelecionado === key
                       ? 'text-text-primary bg-search-border'

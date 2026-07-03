@@ -6,6 +6,8 @@ import '@/styles/globals.css';
 import { Providers } from '@/app/providers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
+import { UserData } from '@/presentation/shared/lib/user-store';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,6 +38,27 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const initialIsAuthenticated = Boolean(cookieStore.get('jwt')?.value);
 
+  let userData = null;
+
+  if (initialIsAuthenticated) {
+    const result = await loadUserProfilePageAction();
+
+    const foto =
+      result.response?.fotoUrl &&
+      result.response.fotoUrl !== 'Foto não encontrada.'
+        ? `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
+        : 'Foto não encontrada.';
+
+    if (result.success) {
+      userData = {
+        nome: result.response?.nome ?? '',
+        email: result.response?.email ?? '',
+        fotoUrl: foto,
+        profile: result.response?.profile,
+      } as UserData;
+    }
+  }
+
   return (
     <html
       lang="en"
@@ -43,7 +66,10 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers initialIsAuthenticated={initialIsAuthenticated}>
+        <Providers
+          initialIsAuthenticated={initialIsAuthenticated}
+          userData={userData}
+        >
           {children}
         </Providers>
         <ToastContainer position="top-right" />
