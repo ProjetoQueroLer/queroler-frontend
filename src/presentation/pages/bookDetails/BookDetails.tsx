@@ -35,7 +35,7 @@ export function BookDetails() {
                 <h1 className="text-text-primary text-3xl lg:text-5xl font-bold">
                   O Morro dos Ventos Uivantes
                 </h1>
-                <p className="text-text-secondary text-md py-4 lg:pt-7 lg:text-4xl">
+                <p className="text-text-secondary text-2xl py-4 lg:pt-7 lg:text-4xl">
                   Emily Bronte
                 </p>
               </div>
@@ -60,12 +60,12 @@ export function BookDetails() {
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row lg:flex-wrap justify-start gap-10">
+              <div className="flex flex-col lg:flex-row lg:flex-wrap justify-start gap-2">
                 <div className="relative w-full lg:w-auto">
                   <button
                     data-testid="btn-add-lista"
                     onClick={() => setIsMenuOpen(!menuOpen)}
-                    className={`w-full lg:w-70 flex items-center justify-between px-4 py-3 text-sm rounded-xs font-bold transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer ${menuOpen ? 'bg-dark-purple' : 'bg-brand'}`}
+                    className={`w-full lg:w-70 flex items-center justify-between lg:mr-6 px-4 py-3 text-sm rounded-xs font-bold transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer ${menuOpen ? 'bg-dark-purple' : 'bg-brand'}`}
                   >
                     Adicionar à lista
                     <ChevronDown size={16} className="text-text-primary/60" />
@@ -126,7 +126,7 @@ export function BookDetails() {
                 <button
                   data-testid="btn-reading-diary"
                   type="submit"
-                  className="w-full lg:w-auto lg:min-w-55 flex items-center justify-center gap-2 px-4 py-3 text-sm rounded-lg transition-opacity duration-200 bg-dark-purple text-white hover:brightness-110 cursor-pointer whitespace-nowrap"
+                  className="w-full lg:w-auto lg:min-w-55 flex items-center justify-center gap-2 px-4 py-3 text-sm rounded-lg font-semibold transition-opacity duration-200 bg-dark-purple text-white hover:brightness-110 cursor-pointer whitespace-nowrap"
                 >
                   <NotebookPen size={12} />
                   Diário de leitura
