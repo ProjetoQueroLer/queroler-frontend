@@ -19,8 +19,11 @@ import { findAllBooksByAttributeAction } from '@/app/actions/findAllBooksByAttri
 import { SearchResults } from '@/presentation/shared/components/searchResults/SearchResults';
 import { useRouter } from 'next/navigation';
 import { Modal } from '@/presentation/shared/components/modal/Modal';
+import { useUserStore } from '@/presentation/shared/lib/user-store';
+import { Profile } from '@/core/domain/user/profile.enum';
 
 export const Home = () => {
+  const user = useUserStore((state) => state.user);
   const [isModalCadastroOpen, setIsModalCadastroOpen] = useState(false);
   const [ultimoTermoVerificado, setUltimoTermoVerificado] = useState('');
   const router = useRouter();
@@ -158,8 +161,13 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div>
+      <Header
+        nomeUsuario={user?.nome ?? ''}
+        email={user?.email ?? ''}
+        fotoDePerfil={user?.fotoUrl ?? 'Foto não encontrada.'}
+        profile={user?.profile ?? Profile.LEITOR}
+      />
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 lg:px-8">
         <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
           Leituras atuais, desejadas e passadas
