@@ -4,11 +4,20 @@ import { LoginPage } from '../../../support/pages/LoginPage';
 import { HomePage } from '../../../support/pages/HomePage';
 
 type Mensagem = {
-  toastLoginSucesso: string;
-  toastLogoutSucesso: string;
+  mensagemToast: {
+    toastLoginSucesso: string;
+    toastLogoutSucesso: string;
+  };
+};
+
+type TestData = {
+  usuarioCadastrado: {
+    nomeUsuario: string;
+  };
 };
 
 let msg: Mensagem;
+let dados: TestData;
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
@@ -17,6 +26,9 @@ describe('Tela Inicial', () => {
   before(() => {
     cy.fixture('mensagem').then((fixture) => {
       msg = fixture;
+    });
+    cy.fixture('testData').then((fixture) => {
+      dados = fixture;
     });
   });
 
@@ -30,7 +42,7 @@ describe('Tela Inicial', () => {
       .story('Login válido')
       .severity('critical');
 
-    homePage.verificarToast(msg.toastLoginSucesso);
+    homePage.verificarToast(msg.mensagemToast.toastLoginSucesso);
   });
 
   it('Deve exibir o logo da aplicação', () => {
@@ -58,7 +70,7 @@ describe('Tela Inicial', () => {
       .fecharToast()
       .abrirMenuUsuario()
       .clicarEmSair()
-      .verificarToast(msg.toastLogoutSucesso);
+      .verificarToast(msg.mensagemToast.toastLogoutSucesso);
 
     loginPage.verificarPaginaCarregada();
   });
@@ -74,10 +86,10 @@ describe('Tela Inicial', () => {
       .verificarPaginaCarregada()
       .verificarSinoVisivel()
       .verificarFotoDoUsuarioVisivel()
-      .verificarNomeDoUsuarioVisivel('Nome do usuário')
+      .verificarNomeDoUsuarioVisivel(dados.usuarioCadastrado.nomeUsuario)
       .abrirMenuUsuario()
       .clicarEmSair()
-      .verificarToast(msg.toastLogoutSucesso);
+      .verificarToast(msg.mensagemToast.toastLogoutSucesso);
 
     loginPage.verificarPaginaCarregada();
   });

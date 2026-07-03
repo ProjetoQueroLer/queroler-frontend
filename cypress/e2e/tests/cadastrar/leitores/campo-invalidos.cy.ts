@@ -20,14 +20,16 @@ type TestData = {
 };
 
 type Mensagem = {
-  campoNomeInvalido: string;
-  emailInvalido: string;
-  emailsNaoCoincidem: string;
-  cpfInvalido: string;
-  senhaMinimoCaracteres: string;
-  senhaDeveConterCaractereEspecial: string;
-  senhaDeveConterNumero: string;
-  senhasNaoCoincidem: string;
+  campoInvalidos: {
+    campoNomeInvalido: string;
+    emailInvalido: string;
+    emailsNaoCoincidem: string;
+    cpfInvalido: string;
+    senhaMinimoCaracteres: string;
+    senhaDeveConterCaractereEspecial: string;
+    senhaDeveConterNumero: string;
+    senhasNaoCoincidem: string;
+  };
 };
 
 let dados: TestData;
@@ -66,7 +68,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoNomeInvalido
+        msg.campoInvalidos.campoNomeInvalido
       );
     });
 
@@ -80,7 +82,9 @@ describe('Cadastro de Leitor', () => {
         cpf: dados.cadastrarLeitorInvalidos.cpfCurto,
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
-      cadastrarLeitorPage.verificarMensagensCamposObrigatorios(msg.cpfInvalido);
+      cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
+        msg.campoInvalidos.cpfInvalido
+      );
     });
 
     it('Deve exibir mensagem de erro quando o E-mail invalido', () => {
@@ -94,7 +98,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.emailInvalido
+        msg.campoInvalidos.emailInvalido
       );
     });
 
@@ -110,7 +114,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.emailsNaoCoincidem
+        msg.campoInvalidos.emailsNaoCoincidem
       );
     });
 
@@ -125,7 +129,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.senhaMinimoCaracteres
+        msg.campoInvalidos.senhaMinimoCaracteres
       );
     });
 
@@ -140,7 +144,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.senhaDeveConterCaractereEspecial
+        msg.campoInvalidos.senhaDeveConterCaractereEspecial
       );
     });
 
@@ -155,7 +159,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.senhaDeveConterNumero
+        msg.campoInvalidos.senhaDeveConterNumero
       );
     });
 
@@ -171,7 +175,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.senhasNaoCoincidem
+        msg.campoInvalidos.senhasNaoCoincidem
       );
     });
 
