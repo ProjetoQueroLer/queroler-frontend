@@ -13,7 +13,7 @@ type Mensagem = {
     ISBNNaoEncontrado: string;
   };
   avisoErro: {
-    ImagemMaiorQue10MB: string;
+    imagemMaiorQue10MB: string;
   };
 };
 
@@ -50,7 +50,7 @@ describe('Cadastrar Livro', () => {
     );
     cadastrarLivroPage.selecionarImagemLivro('pesado');
     cadastrarLivroPage.verificarSeExisteMensagemDeErro(
-      msg.avisoErro.ImagemMaiorQue10MB
+      msg.avisoErro.imagemMaiorQue10MB
     );
   });
 });
