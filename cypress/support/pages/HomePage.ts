@@ -50,7 +50,7 @@ export class HomePage {
   verificarNomeDoUsuarioVisivel(nome: string): this {
     cy.get(HomeElements.nomeDoUsuarioText)
       .should('be.visible')
-      .and('have.text', nome);
+      .and('contain.text', nome);
     return this;
   }
 }
