@@ -23,7 +23,7 @@ export function BookDetails() {
         <main className="flex-1 px-4 py-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-3 lg:items-stretch">
             <div className="flex flex-col gap-3 w-full lg:w-[240px] shrink-0">
-              <div className="w-60 h-90 bg-border flex flex-col items-center justify-center gap-2 rounded-xl">
+              <div className="w-60 h-95 bg-border flex flex-col items-center justify-center gap-2 rounded-xl">
                 <span className="text-text-secondary text-xs text-center px-4">
                   Capa não cadastrada
                 </span>
@@ -32,40 +32,40 @@ export function BookDetails() {
 
             <div className="flex-1 flex flex-col justify-between gap-4">
               <div className="flex flex-col gap-1">
-                <h1 className="text-text-primary text-3xl lg:text-5xl font-bold">
-                  O Morro dos Ventos Uivantes
+                <h1 className="text-text-primary text-2xl lg:text-4xl font-bold pb-5">
+                  Título do livro
                 </h1>
-                <p className="text-text-secondary text-md py-4 lg:pt-7 lg:text-4xl">
-                  Emily Bronte
+                <p className="text-text-secondary text-md lg:text-3xl">
+                  Autor(es)
                 </p>
               </div>
 
               <div className="flex flex-col lg:flex-row gap-4">
                 <div className="flex flex-wrap gap-4 lg:gap-6">
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Editora
+                    Editora{' '}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Ano
+                    Ano{' '}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    x páginas
+                    x páginas{' '}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Idioma
+                    Idioma{' '}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    ISBN x
+                    ISBN x{' '}
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row lg:flex-wrap justify-start gap-10">
+              <div className="flex flex-col lg:flex-row lg:flex-wrap justify-start gap-4">
                 <div className="relative w-full lg:w-auto">
                   <button
                     data-testid="btn-add-lista"
                     onClick={() => setIsMenuOpen(!menuOpen)}
-                    className={`w-full lg:w-70 flex items-center justify-between px-4 py-3 text-sm rounded-xs font-bold transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer ${menuOpen ? 'bg-dark-purple' : 'bg-brand'}`}
+                    className={`w-full lg:w-70 flex items-center justify-between px-4 py-4 text-sm rounded font-bold transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer ${menuOpen ? 'bg-dark-purple' : 'bg-brand'}`}
                   >
                     Adicionar à lista
                     <ChevronDown size={16} className="text-text-primary/60" />
@@ -126,9 +126,9 @@ export function BookDetails() {
                 <button
                   data-testid="btn-reading-diary"
                   type="submit"
-                  className="w-full lg:w-auto lg:min-w-55 flex items-center justify-center gap-2 px-4 py-3 text-sm rounded-lg transition-opacity duration-200 bg-dark-purple text-white hover:brightness-110 cursor-pointer whitespace-nowrap"
+                  className="w-full lg:w-auto lg:min-w-55 flex items-center justify-center gap-2 py-4 text-sm rounded-lg font-bold transition-opacity duration-200 bg-dark-purple text-white hover:brightness-110 cursor-pointer whitespace-nowrap"
                 >
-                  <NotebookPen size={12} />
+                  <NotebookPen size={16} />
                   Diário de leitura
                 </button>
               </div>
