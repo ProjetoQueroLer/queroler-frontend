@@ -39,3 +39,7 @@ Cypress.Commands.add('logout', () => {
     .click({ force: true });
   cy.get('[data-testid="logout-button"]').should('be.visible').click();
 });
+
+Cypress.Commands.add('pressionarTab', () => {
+  cy.press(Cypress.Keyboard.Keys.TAB);
+});
