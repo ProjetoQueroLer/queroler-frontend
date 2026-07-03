@@ -10,7 +10,14 @@ type Mensagem = {
   };
 };
 
+type TestData = {
+  usuarioCadastrado: {
+    nomeUsuario: string;
+  };
+};
+
 let msg: Mensagem;
+let dados: TestData;
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
@@ -19,6 +26,9 @@ describe('Tela Inicial', () => {
   before(() => {
     cy.fixture('mensagem').then((fixture) => {
       msg = fixture;
+    });
+    cy.fixture('testData').then((fixture) => {
+      dados = fixture;
     });
   });
 
@@ -76,7 +86,7 @@ describe('Tela Inicial', () => {
       .verificarPaginaCarregada()
       .verificarSinoVisivel()
       .verificarFotoDoUsuarioVisivel()
-      .verificarNomeDoUsuarioVisivel('Nome do usuário')
+      .verificarNomeDoUsuarioVisivel(dados.usuarioCadastrado.nomeUsuario)
       .abrirMenuUsuario()
       .clicarEmSair()
       .verificarToast(msg.mensagemToast.toastLogoutSucesso);
