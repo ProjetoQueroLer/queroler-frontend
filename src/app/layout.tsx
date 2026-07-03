@@ -42,11 +42,18 @@ export default async function RootLayout({
 
   if (initialIsAuthenticated) {
     const result = await loadUserProfilePageAction();
+
+    const foto =
+      result.response?.fotoUrl &&
+      result.response.fotoUrl !== 'Foto não encontrada.'
+        ? `${process.env.NEXT_PUBLIC_API_URL}${result.response.fotoUrl}`
+        : 'Foto não encontrada.';
+
     if (result.success) {
       userData = {
         nome: result.response?.nome ?? '',
         email: result.response?.email ?? '',
-        fotoUrl: result.response?.fotoUrl ?? 'Foto não encontrada.',
+        fotoUrl: foto,
         profile: result.response?.profile,
       } as UserData;
     }

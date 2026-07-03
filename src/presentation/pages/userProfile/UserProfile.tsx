@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useTransition, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent } from 'react';
 import Image from 'next/image';
 import { Header } from '@/presentation/shared/components/header/header';
 import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
@@ -23,7 +23,6 @@ export function UserProfile() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [_isPending, startTransition] = useTransition();
   const [perfilCarregadoComSucesso, setPerfilCarregadoComSucesso] =
     useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -122,6 +121,17 @@ export function UserProfile() {
       toast.error(result.message);
       return;
     }
+
+    const user = useUserStore.getState().user;
+
+    useUserStore.setState({
+      user: {
+        ...user!,
+        nome: data.nome,
+        email: data.email,
+        fotoUrl: previewImage ?? user?.fotoUrl ?? 'Foto não encontrada.',
+      },
+    });
 
     toast.success('Perfil atualizado com sucesso!');
   };
@@ -313,12 +323,7 @@ export function UserProfile() {
                 <button
                   type="button"
                   data-testid="btn-voltar"
-                  onClick={() => {
-                    startTransition(async () => {
-                      await new Promise((resolve) => setTimeout(resolve, 1500));
-                      router.back();
-                    });
-                  }}
+                  onClick={() => router.back()}
                   className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
                 >
                   Voltar
