@@ -8,6 +8,7 @@ import {
   CheckCircle,
   ChevronDown,
   NotebookPen,
+  Pencil,
   RefreshCw,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -132,6 +133,18 @@ export function BookDetails() {
                   Diário de leitura
                 </button>
               </div>
+            </div>
+          </div>
+
+          <div className="py-12">
+            <div className="border border-border-default rounded-md p-4">
+              <h2 className="flex items-center gap-2 text-text-primary text-md lg:text-lg font-semibold pb-6">
+                <Pencil size={16} />
+                Sinopse
+              </h2>
+              <p className="font-thin text-primary text-sm lg:text-base">
+                Sinopse do livro aqui.
+              </p>
             </div>
           </div>
         </main>
