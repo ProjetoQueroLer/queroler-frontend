@@ -10,6 +10,7 @@
   --color-text-subtitle: #e4bdc2;
   /* Cores de status/badges */
   --color-desired: #ff4e7c;
+  --color-rating: #fffc31;
   --color-active: #eab308;
   --color-completed: #10b981;
   --color-pause: #3b82f6;
@@ -46,6 +47,7 @@
   --color-text-primary: var(--color-text-primary);
   --color-text-secondary: var(--color-text-secondary);
   --color-desired: var(--color-desired);
+  --color-rating: var(--color-rating);
   --color-active: var(--color-active);
   --color-completed: var(--color-completed);
   --color-repeating: var(--color-repeating);

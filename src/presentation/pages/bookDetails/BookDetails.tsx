@@ -1,5 +1,6 @@
 'use client';
 
+import { BookStatistic } from '@/presentation/shared/components/bookStatistic/bookStatistic';
 import { Header } from '@/presentation/shared/components/header/header';
 import {
   Ban,
@@ -10,6 +11,8 @@ import {
   NotebookPen,
   Pencil,
   RefreshCw,
+  ChartNoAxesColumnDecreasing,
+  Star,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -137,7 +140,7 @@ export function BookDetails() {
           </div>
 
           <div className="py-12">
-            <div className="border border-border-default rounded-md p-4">
+            <div className="border border-border rounded-md p-4 ">
               <h2 className="flex items-center gap-2 text-text-primary text-md lg:text-lg font-semibold pb-6">
                 <Pencil size={16} />
                 Sinopse
@@ -145,6 +148,56 @@ export function BookDetails() {
               <p className="font-thin text-primary text-sm lg:text-base">
                 Sinopse do livro aqui.
               </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 lg:gap-6 border border-border rounded-md p-4">
+              <h2 className="flex items-center gap-2 text-text-primary text-md lg:text-lg font-semibold">
+                <ChartNoAxesColumnDecreasing size={16} />
+                Estatísticas da Comunidade
+              </h2>
+              <div>
+                <div className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-around gap-4 lg:gap-6">
+                  <BookStatistic
+                    title="Avaliação"
+                    icon={<Star size={26} />}
+                    iconColor="text-rating"
+                    numero={3.8}
+                    numeroAvaliacoes={112}
+                  />
+                  <BookStatistic
+                    title="Querem ler"
+                    icon={<BookHeart size={26} />}
+                    iconColor="text-desired"
+                    numero={500}
+                  />
+                  <BookStatistic
+                    title="Estão lendo"
+                    icon={<BookOpen size={26} />}
+                    iconColor="text-active"
+                    numero={120}
+                  />
+                  <BookStatistic
+                    title="Já leram"
+                    icon={<CheckCircle size={26} />}
+                    iconColor="text-completed"
+                    numero={300}
+                  />
+                  <BookStatistic
+                    title="Abandonados"
+                    icon={<Ban size={26} />}
+                    iconColor="text-pause"
+                    numero={50}
+                  />
+                  <BookStatistic
+                    title="Relendo"
+                    icon={<RefreshCw size={26} />}
+                    iconColor="text-repeating"
+                    numero={20}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </main>
