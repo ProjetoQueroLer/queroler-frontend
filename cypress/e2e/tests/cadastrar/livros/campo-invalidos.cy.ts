@@ -4,6 +4,15 @@ import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage
 
 type TestData = {
   nomeDoLivro: string;
+  cadastrarLivroInvalidos: {
+    ISBNInvalido: string;
+    autorInvalido: string;
+    anoPublicacaoFuturo: string;
+    anoPublicacaoLetra: string;
+    anoPublicacaoMenosDe4Digitos: string;
+    numeroDePaginasComLetras: string;
+    numeroDePaginasInvalido: string;
+  };
 };
 
 type Mensagem = {
@@ -18,6 +27,14 @@ type Mensagem = {
     anoPublicacaoObrigatorio: string;
     numeroDePaginasObrigatorio: string;
     sinopseObrigatorio: string;
+  };
+  avisoErro: {
+    campoAutorNaoDeveConterNumerosEEspeciais: string;
+    isbnDeveConterApenasNumeros: string;
+    anoPublicacaoNaoPodeMaiorQueAtual: string;
+    anoPublicacaoDeveTer4Digitos: string;
+    anoPublicacaoDeveConterApenasNumeros: string;
+    numeroDePaginasDeveConterApenasNumeros: string;
   };
 };
 
@@ -79,5 +96,105 @@ describe('Cadastrar Livro', () => {
 
     cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
     cadastrarLivroPage.camposDesabilitados();
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo ISBN com caracteres inválidos', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo ISBN')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.campoIsbnComPressTab(
+      dados.cadastrarLivroInvalidos.ISBNInvalido
+    );
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.isbnDeveConterApenasNumeros
+    );
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo Autor com números e caracteres especiais', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo Autor')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      { autor: dados.cadastrarLivroInvalidos.autorInvalido }
+    );
+    cadastrarLivroPage.clicaESair();
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.campoAutorNaoDeveConterNumerosEEspeciais
+    );
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo Ano de Publicação com ano futuro', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo Ano de Publicação')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      { ano: dados.cadastrarLivroInvalidos.anoPublicacaoFuturo }
+    );
+    cadastrarLivroPage.clicaESair();
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.anoPublicacaoNaoPodeMaiorQueAtual
+    );
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo Ano de Publicação com letras', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo Ano de Publicação')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      { ano: dados.cadastrarLivroInvalidos.anoPublicacaoLetra }
+    );
+    cadastrarLivroPage.clicaESair();
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.anoPublicacaoDeveConterApenasNumeros
+    );
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo Ano de Publicação com menos de 4 digitos', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo Ano de Publicação')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      { ano: dados.cadastrarLivroInvalidos.anoPublicacaoMenosDe4Digitos }
+    );
+    cadastrarLivroPage.clicaESair();
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.anoPublicacaoDeveTer4Digitos
+    );
+  });
+
+  it('Deve exibir uma mensagem de aviso ao tentar preencher o campo Numero De Paginas com letras', () => {
+    cy.allure()
+      .feature('Cadastrar Livro')
+      .story('Campo Numero De Paginas')
+      .severity('normal');
+
+    cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
+    cadastrarLivroPage.preencherFormularioObrigatorio(
+      msg.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      { paginas: dados.cadastrarLivroInvalidos.numeroDePaginasComLetras }
+    );
+    cadastrarLivroPage.clicaESair();
+    cadastrarLivroPage.verificarSeExisteMensagemDeErro(
+      msg.avisoErro.numeroDePaginasDeveConterApenasNumeros
+    );
   });
 });

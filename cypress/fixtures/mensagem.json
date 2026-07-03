@@ -35,7 +35,13 @@
     "ISBNEncontrado": "Livro encontrado! Dados preenchidos automaticamente."
   },
   "avisoErro": {
-    "ImagemMaiorQue10MB": "Tamanho máximo de 10MB permitido"
+    "imagemMaiorQue10MB": "Tamanho máximo de 10MB permitido",
+    "campoAutorNaoDeveConterNumerosEEspeciais": "O campo não deve conter números ou caracteres especiais (exceto vírgula)",
+    "isbnDeveConterApenasNumeros": "O ISBN deve conter apenas números (sem letras ou caracteres especiais)",
+    "anoPublicacaoNaoPodeMaiorQueAtual": "O ano de publicação não pode ser maior que o ano atual (2026)",
+    "anoPublicacaoDeveConterApenasNumeros": "O ano de publicação deve conter apenas números",
+    "anoPublicacaoDeveTer4Digitos": "Ano de publicação deve ter exatamente 4 números",
+    "numeroDePaginasDeveConterApenasNumeros": "O número de páginas deve conter apenas números"
   },
   "campoObrigatorioCadastrarLivro": {
     "ISBNObrigatorio": "ISBN obrigatório",

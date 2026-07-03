@@ -255,4 +255,17 @@ export class CadastrarLivroPage {
       .and('contain.text', msg);
     return this;
   }
+
+  campoIsbnComPressTab(txt: string): this {
+    cy.get(CadastrarLivroElements.isbnInput)
+      .should('be.visible')
+      .type(txt)
+      .pressionarTab();
+    return this;
+  }
+
+  clicaESair(): this {
+    cy.get(CadastrarLivroElements.editoraInput).click();
+    return this;
+  }
 }
