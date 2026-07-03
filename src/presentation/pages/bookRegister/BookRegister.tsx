@@ -14,9 +14,12 @@ import { useRef } from 'react';
 import { findBookByIsbnAction } from '@/app/actions/findBookByIsbn.actions';
 import { getBookImageAction } from '@/app/actions/getBookImage.actions';
 import { AutorResponse } from '@/core/application/book/book-response.dto';
+import { useUserStore } from '@/presentation/shared/lib/user-store';
+import { Profile } from '@/core/domain/user/profile.enum';
 
 export function BookRegister() {
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [carregandoIsbn, setCarregandoIsbn] = useState(false);
@@ -139,7 +142,12 @@ export function BookRegister() {
 
   return (
     <div>
-      <Header />
+      <Header
+        nomeUsuario={user?.nome ?? ''}
+        email={user?.email ?? ''}
+        fotoDePerfil={user?.fotoUrl ?? 'Foto não encontrada.'}
+        profile={user?.profile ?? Profile.LEITOR}
+      />
 
       <div className="min-h-screen lg:mx-50 flex flex-col">
         <main className="flex-1 px-4 py-6 lg:px-8">

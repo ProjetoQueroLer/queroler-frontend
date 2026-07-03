@@ -10,6 +10,7 @@ const makeRepository = (overrides: Partial<UserRepository> = {}) => {
     updateProfile: jest.fn(async () => {}),
     delete: jest.fn(async () => {}),
     changePassword: jest.fn(),
+    carregarTelaDePerfilLeitura: jest.fn(),
   };
   return { ...base, ...overrides } as UserRepository;
 };

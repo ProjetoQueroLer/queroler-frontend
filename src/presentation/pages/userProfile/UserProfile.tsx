@@ -15,8 +15,10 @@ import { toast } from 'react-toastify';
 import { deleteUserProfileAction } from '@/app/actions/deleteUserProfile.actions';
 import { DeleteProfileModal } from '@/presentation/shared/components/deleteProfileModal/DeleteProfileModal';
 import { UserProfileRequestDTO } from '@/core/application/user/user-profile.dto';
+import { useUserStore } from '@/presentation/shared/lib/user-store';
 
 export function UserProfile() {
+  const user = useUserStore((state) => state.user);
   const { logout } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -126,7 +128,12 @@ export function UserProfile() {
 
   return (
     <div>
-      <Header />
+      <Header
+        nomeUsuario={user?.nome ?? ''}
+        email={user?.email ?? ''}
+        fotoDePerfil={user?.fotoUrl ?? 'Foto não encontrada.'}
+        profile={user?.profile ?? Profile.LEITOR}
+      />
       <div className="min-h-screen lg:mx-50 flex flex-col">
         <main className="flex-1 px-4 py-6 lg:px-8">
           <h1 className="text-text-primary text-2xl lg:text-3xl font-bold mb-1">
