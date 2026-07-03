@@ -5,8 +5,7 @@ export class CadastrarLivroElements {
   static readonly tituloIncrementeANossaBibliotecaText =
     '.text-text-primary.text-2xl';
   static readonly subtituloCadastreUmLivroText = '.text-text-subtitle.text-sm';
-  static readonly textoSecundarioLabel =
-    '.text-text-secondary.text-xs.text-center.px-4';
+  static readonly textoSecundarioLabel = '.text-text-secondary.text-sm';
   static readonly imagemLivroInput = 'input[type="file"]';
   static readonly isbnInput = '[data-testid="input-isbn"]';
   static readonly tituloDoLivroInput = '[data-testid="input-titulo"]';
