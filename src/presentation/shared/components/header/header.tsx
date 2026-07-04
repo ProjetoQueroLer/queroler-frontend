@@ -23,6 +23,7 @@ export function Header({
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const unreadNotifications = 3; // Valor Mockado que vai receber o numero notificações não lidas do back.
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
@@ -43,12 +44,16 @@ export function Header({
           </span>
         </div>
 
-        <div className="relative group">
-          <Bell
-            data-testid="bell-icon"
-            size={20}
-            className="text-text-secondary opacity-40"
-          />
+        <div className="relative group cursor-pointer">
+          <div className="relative">
+            <Bell data-testid="bell-icon" size={20} />
+
+            {unreadNotifications > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white px-1">
+                {unreadNotifications > 99 ? '99+' : unreadNotifications}
+              </span>
+            )}
+          </div>
           <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Notificação
           </span>
