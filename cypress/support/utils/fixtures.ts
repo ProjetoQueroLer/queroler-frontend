@@ -1,6 +1,9 @@
 export const Fixtures = {
   imagens: {
-    leve: 'cypress/fixtures/img/livro-leve.jpg',
-    pesado: 'cypress/fixtures/img/livro-pesado.jpg',
+    leve: 'cypress/fixtures/imagens/livro-leve.jpg',
+    pesado: 'cypress/fixtures/imagens/livro-pesado.jpg',
+  },
+  documentos: {
+    pdf: 'cypress/fixtures/arquivos/documento-teste.pdf',
   },
 };
