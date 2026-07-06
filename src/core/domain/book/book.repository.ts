@@ -12,7 +12,7 @@ export interface CreateBookData {
   isbn: string;
   editora: string;
   anoDePublicacao: string;
-  numeroDePaginas: string;
+  numeroDePaginas: number;
   idioma: string;
   sinopse: string;
   autores: { nome: string }[];
