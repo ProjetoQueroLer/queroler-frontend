@@ -3,10 +3,12 @@
 import { LoginPage } from '../../../support/pages/LoginPage';
 
 type Mensagem = {
-  emailObrigatorio: string;
-  emailInvalido: string;
-  senhaMinimaObrigatoria: string;
-  senhaMuitoCurta: string;
+  campoLogin: {
+    emailObrigatorio: string;
+    emailInvalido: string;
+    senhaMinimaObrigatoria: string;
+    senhaMuitoCurta: string;
+  };
 };
 
 type TestData = {
@@ -43,7 +45,7 @@ describe('Login', () => {
         .severity('critical');
 
       loginPage.tocarCampoEmailESair();
-      loginPage.verificarErroEmail(msg.emailObrigatorio);
+      loginPage.verificarErroEmail(msg.campoLogin.emailObrigatorio);
     });
 
     it('Deve exibir erro para e-mail com formato inválido', () => {
@@ -55,7 +57,7 @@ describe('Login', () => {
       loginPage
         .preencherEmail(dados.emailInvalido)
         .tocarCampoSenhaESair()
-        .verificarErroEmail(msg.emailInvalido);
+        .verificarErroEmail(msg.campoLogin.emailInvalido);
     });
 
     it('Deve exibir erro para e-mail sem arroba', () => {
@@ -67,7 +69,7 @@ describe('Login', () => {
       loginPage
         .preencherEmail(dados.emailSemArroba)
         .tocarCampoSenhaESair()
-        .verificarErroEmail(msg.emailInvalido);
+        .verificarErroEmail(msg.campoLogin.emailInvalido);
     });
   });
 
@@ -79,7 +81,7 @@ describe('Login', () => {
         .severity('critical');
 
       loginPage.tocarCampoSenhaESair();
-      loginPage.verificarErroSenha(msg.senhaMinimaObrigatoria);
+      loginPage.verificarErroSenha(msg.campoLogin.senhaMinimaObrigatoria);
     });
 
     it('Deve exibir erro para senha com menos de 8 caracteres', () => {
@@ -91,7 +93,7 @@ describe('Login', () => {
       loginPage
         .preencherSenha(dados.senhaCurta)
         .tocarCampoEmailESair()
-        .verificarErroSenha(msg.senhaMuitoCurta);
+        .verificarErroSenha(msg.campoLogin.senhaMuitoCurta);
     });
 
     it('Deve habilitar o botão Entrar somente com e-mail e senha válidos', () => {

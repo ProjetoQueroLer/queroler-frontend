@@ -7,24 +7,30 @@ import { gerarDataNascimento } from '../../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
 
 type Mensagem = {
-  nomeObrigatorio: string;
-  emailObrigatorio: string;
-  confirmacaoEmailObrigatoria: string;
-  senhaObrigatoria: string;
-  confirmacaoSenhaObrigatoria: string;
-  cpfObrigatorio: string;
-  dataNascimentoObrigatoria: string;
-  termosObrigatorio: string;
-  concordaComOsTermos: string;
-  termosDeServiço: string;
-  politicaDePrivacidade: string;
-  nome: string;
-  cpf: string;
-  email: string;
-  confirmarEmail: string;
-  senha: string;
-  confirmarSenha: string;
-  dataDeNascimento: string;
+  campoObrigatorioNoCadastrarLeitor: {
+    nomeObrigatorio: string;
+    emailObrigatorio: string;
+    confirmacaoEmailObrigatoria: string;
+    senhaObrigatoria: string;
+    confirmacaoSenhaObrigatoria: string;
+    cpfObrigatorio: string;
+    dataNascimentoObrigatoria: string;
+    termosObrigatorio: string;
+  };
+  labelsCadastrarLeitor: {
+    nome: string;
+    cpf: string;
+    email: string;
+    confirmarEmail: string;
+    senha: string;
+    confirmarSenha: string;
+    dataDeNascimento: string;
+  };
+  termosEPolitica: {
+    concordaComOsTermos: string;
+    termosDeServico: string;
+    politicaDePrivacidade: string;
+  };
 };
 
 let msg: Mensagem;
@@ -60,18 +66,18 @@ describe('Cadastro de Leitor', () => {
 
     cadastrarLeitorPage.verificarPaginaCarregada();
     cadastrarLeitorPage.verificarLabelsDosCampos([
-      msg.nome,
-      msg.cpf,
-      msg.email,
-      msg.confirmarEmail,
-      msg.senha,
-      msg.confirmarSenha,
-      msg.dataDeNascimento,
+      msg.labelsCadastrarLeitor.nome,
+      msg.labelsCadastrarLeitor.cpf,
+      msg.labelsCadastrarLeitor.email,
+      msg.labelsCadastrarLeitor.confirmarEmail,
+      msg.labelsCadastrarLeitor.senha,
+      msg.labelsCadastrarLeitor.confirmarSenha,
+      msg.labelsCadastrarLeitor.dataDeNascimento,
     ]);
     cadastrarLeitorPage.verificarOsTermosDeServico([
-      msg.concordaComOsTermos,
-      msg.termosDeServiço,
-      msg.politicaDePrivacidade,
+      msg.termosEPolitica.concordaComOsTermos,
+      msg.termosEPolitica.termosDeServico,
+      msg.termosEPolitica.politicaDePrivacidade,
     ]);
   });
 
@@ -102,14 +108,14 @@ describe('Cadastro de Leitor', () => {
 
     cadastrarLeitorPage.clicaOsCamposObrigatorios();
     cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-      msg.nomeObrigatorio,
-      msg.emailObrigatorio,
-      msg.confirmacaoEmailObrigatoria,
-      msg.senhaObrigatoria,
-      msg.confirmacaoSenhaObrigatoria,
-      msg.cpfObrigatorio,
-      msg.dataNascimentoObrigatoria,
-      msg.termosObrigatorio
+      msg.campoObrigatorioNoCadastrarLeitor.nomeObrigatorio,
+      msg.campoObrigatorioNoCadastrarLeitor.emailObrigatorio,
+      msg.campoObrigatorioNoCadastrarLeitor.confirmacaoEmailObrigatoria,
+      msg.campoObrigatorioNoCadastrarLeitor.senhaObrigatoria,
+      msg.campoObrigatorioNoCadastrarLeitor.confirmacaoSenhaObrigatoria,
+      msg.campoObrigatorioNoCadastrarLeitor.cpfObrigatorio,
+      msg.campoObrigatorioNoCadastrarLeitor.dataNascimentoObrigatoria,
+      msg.campoObrigatorioNoCadastrarLeitor.termosObrigatorio
     );
     cadastrarLeitorPage.verificarOBotaoCadastrarInativo();
   });
