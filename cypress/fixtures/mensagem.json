@@ -41,7 +41,8 @@
     "anoPublicacaoNaoPodeMaiorQueAtual": "O ano de publicação não pode ser maior que o ano atual (2026)",
     "anoPublicacaoDeveConterApenasNumeros": "O ano de publicação deve conter apenas números",
     "anoPublicacaoDeveTer4Digitos": "Ano de publicação deve ter exatamente 4 números",
-    "numeroDePaginasDeveConterApenasNumeros": "O número de páginas deve conter apenas números"
+    "numeroDePaginasDeveConterApenasNumeros": "O número de páginas deve conter apenas números",
+    "formatoArquivoInvalido": "Apenas formatos .jpg, .jpeg, e .png são suportados"
   },
   "campoObrigatorioCadastrarLivro": {
     "ISBNObrigatorio": "ISBN obrigatório",

@@ -54,7 +54,7 @@ const salvarImagem = (
 };
 
 export const gerarEsalvarImagemLeve = (): void => {
-  cy.task('criarPasta', 'cypress/fixtures/img');
+  cy.task('criarPasta', 'cypress/fixtures/imagens');
   cy.task('arquivoExiste', Fixtures.imagens.leve).then((existe) => {
     if (!existe) {
       salvarImagem(1000, 1000, 0.5, Fixtures.imagens.leve);
@@ -63,7 +63,7 @@ export const gerarEsalvarImagemLeve = (): void => {
 };
 
 export const gerarESalvarImagemPesado = (): void => {
-  cy.task('criarPasta', 'cypress/fixtures/img');
+  cy.task('criarPasta', 'cypress/fixtures/imagens');
   cy.task('arquivoExiste', Fixtures.imagens.pesado).then((existe) => {
     if (!existe) {
       salvarImagem(4000, 4000, 0.9, Fixtures.imagens.pesado);
