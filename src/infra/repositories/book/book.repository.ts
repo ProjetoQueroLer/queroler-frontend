@@ -73,7 +73,12 @@ export class ApiBookRepository implements BookRepository {
   ): Promise<AxiosResponse<Page<SearchBookResponseDTO>>> {
     try {
       return await this.api.get('/livros', {
-        params: { [data.filtro]: data.termo, page: data.page, size: data.size },
+        params: {
+          [data.filtro]: data.termo,
+          page: data.page,
+          size: data.size,
+          sort: 'dataDeCadastro,desc',
+        },
       });
     } catch (error: unknown) {
       throw (
