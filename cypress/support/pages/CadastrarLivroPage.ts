@@ -268,4 +268,12 @@ export class CadastrarLivroPage {
     cy.get(CadastrarLivroElements.editoraInput).click();
     return this;
   }
+
+  selecionarArquivoPdf(): this {
+    cy.get(CadastrarLivroElements.imagemLivroInput).selectFile(
+      Fixtures.documentos.pdf,
+      { force: true }
+    );
+    return this;
+  }
 }

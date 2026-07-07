@@ -50,4 +50,7 @@ cypress.env.json
 **/screenshots/
 
 # fixtures images
-cypress/fixtures/img/**
+cypress/fixtures/imagens
+
+# fixtures documentos
+cypress/fixtures/arquivos
