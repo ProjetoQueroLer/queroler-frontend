@@ -15,7 +15,7 @@ export function Header() {
   const mostrarBotaoVoltar = pathname === '/detalhamento-livro';
 
   return (
-    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+    <header className="relative w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
       <div className="flex items-center">
         {mostrarBotaoVoltar && (
           <button
@@ -35,7 +35,11 @@ export function Header() {
         width={120}
         height={36}
         priority
-        className="h-auto w-auto"
+        className={`h-auto w-auto absolute top-1/2 -translate-y-1/2 ${
+          mostrarBotaoVoltar
+            ? 'left-1/2 -translate-x-1/2'
+            : 'left-4 lg:left-8 translate-x-0'
+        }`}
       />
       <div className="flex items-center gap-3 lg:gap-6">
         <div className="relative group" onClick={() => router.push('/')}>
