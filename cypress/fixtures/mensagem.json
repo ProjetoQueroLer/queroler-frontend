@@ -41,7 +41,7 @@
     "anoPublicacaoNaoPodeMaiorQueAtual": "O ano de publicação não pode ser maior que o ano atual (2026)",
     "anoPublicacaoDeveConterApenasNumeros": "O ano de publicação deve conter apenas números",
     "anoPublicacaoDeveTer4Digitos": "Ano de publicação deve ter exatamente 4 números",
-    "numeroDePaginasDeveConterApenasNumeros": "O número de páginas deve conter apenas números",
+    "numeroDePaginasDeveConterApenasNumeros": "Número de páginas deve ter apenas números",
     "formatoArquivoInvalido": "Apenas formatos .jpg, .jpeg, e .png são suportados"
   },
   "campoObrigatorioCadastrarLivro": {
@@ -50,7 +50,7 @@
     "autorObrigatorio": "Autores é obrigatório",
     "editoraObrigatoria": "Editora obrigatória",
     "anoPublicacaoObrigatorio": "Ano de publicação deve ter exatamente 4 números",
-    "numeroDePaginasObrigatorio": "Número de páginas deve ter no mínimo 1 dígito",
+    "numeroDePaginasObrigatorio": "O número de páginas deve ser maior que 0",
     "sinopseObrigatorio": "Sinopse deve ter 50 caracteres no mínimo"
   },
   "campoInvalidos": {
