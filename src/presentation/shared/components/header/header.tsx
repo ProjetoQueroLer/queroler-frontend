@@ -23,7 +23,8 @@ export function Header({
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const unreadNotifications = 3; // Valor Mockado que vai receber o numero notificações não lidas do back.
+  const [unreadNotifications, setUnreadNotifications] = useState(3); // Valor Mockado que vai receber o numero notificações não lidas do back.
+  const [notificationOpen, setNotificationOpen] = useState(false);
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
@@ -44,19 +45,73 @@ export function Header({
           </span>
         </div>
 
-        <div className="relative group cursor-pointer">
-          <div className="relative">
-            <Bell data-testid="bell-icon" size={20} />
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => {
+              if (notificationOpen) {
+                setUnreadNotifications(0);
+              }
 
-            {unreadNotifications > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white px-1">
-                {unreadNotifications > 99 ? '99+' : unreadNotifications}
-              </span>
-            )}
-          </div>
-          <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Notificação
-          </span>
+              setNotificationOpen(!notificationOpen);
+            }}
+            className="relative flex items-center justify-center cursor-pointer"
+          >
+            <div className="relative">
+              <Bell data-testid="bell-icon" size={20} />
+
+              {unreadNotifications > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white px-1">
+                  {unreadNotifications > 99 ? '99+' : unreadNotifications}
+                </span>
+              )}
+            </div>
+            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              Notificação
+            </span>
+          </button>
+
+          {notificationOpen && (
+            <div className="absolute right-0 top-[42px] z-50 w-[320px] rounded-lg border border-border bg-card-bg p-4 shadow-lg">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-text-primary">
+                  Notificações
+                </h3>
+
+                <span className="text-xs text-text-secondary">
+                  {unreadNotifications} não lida
+                </span>
+              </div>
+
+              <div className="my-3 h-px bg-border" />
+
+              <button className="w-full text-left">
+                <h4 className="text-sm font-medium text-text-primary">
+                  Nova sugestão de leitura!
+                </h4>
+
+                <p className="mt-1 text-xs leading-5 text-text-primary">
+                  Um novo livro foi adicionado à seção de livros populares,
+                  confira na sua tela inicial.
+                </p>
+              </button>
+
+              <div className="my-3 h-px bg-border" />
+
+              <button className="w-full text-left">
+                <h4 className="text-sm font-medium text-text-secondary">
+                  Nova sugestão de leitura!
+                </h4>
+
+                <p className="mt-1 text-xs leading-5 text-text-secondary">
+                  Um novo livro foi adicionado à seção de livros populares,
+                  confira na sua tela inicial.
+                </p>
+              </button>
+
+              <div className="mt-3 h-px bg-border" />
+            </div>
+          )}
         </div>
 
         <div className="w-px h-5 bg-border hidden lg:block" />
