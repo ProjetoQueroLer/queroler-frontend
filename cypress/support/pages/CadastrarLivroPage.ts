@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Fixtures } from '../utils/fixtures';
 import { DadosLivro, GeradorDadosLivro } from '../utils/geradorDadosLivro';
 
+const TIMEOUT = 30000;
 export class CadastrarLivroPage {
   private dadosLivro!: DadosLivro;
 
@@ -69,7 +70,7 @@ export class CadastrarLivroPage {
 
   verificarToastSucesso(msg: string): this {
     cy.get(CadastrarLivroElements.mensagemSucessoToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }

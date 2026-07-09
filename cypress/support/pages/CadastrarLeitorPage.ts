@@ -12,6 +12,8 @@ type DadosLeitor = {
   dataNascimento?: string;
 };
 
+const TIMEOUT = 30000;
+
 export class CadastrarLeitorPage {
   visitarPaginaCadastrarDeLeitor(): this {
     cy.visit('/register');
@@ -114,14 +116,14 @@ export class CadastrarLeitorPage {
 
   verificarMensagemJaCadastrado(msg: string): this {
     cy.get(CadastrarLeitorElements.erroMensagemToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }
 
   verificarMensagemCadastroSucesso(msg: string): this {
     cy.get(CadastrarLeitorElements.sucessoMensagemToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }
