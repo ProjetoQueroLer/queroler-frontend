@@ -1,5 +1,6 @@
 'use client';
 
+import { BookReview } from '@/presentation/shared/components/bookReview/BookReview';
 import { BookStatistic } from '@/presentation/shared/components/bookStatistic/bookStatistic';
 import { Header } from '@/presentation/shared/components/header/header';
 import {
@@ -197,6 +198,38 @@ export function BookDetails() {
                     numero={20}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 py-12">
+            <div className="flex flex-col gap-4 lg:gap-6 bg-secondary-bg border border-border rounded-md p-4">
+              <h2 className="flex items-center gap-2 text-text-primary text-md lg:text-lg font-semibold">
+                <BookHeart size={14} />
+                Resenhas
+              </h2>
+              <div className="flex flex-col gap-6">
+                <BookReview
+                  containSpoilers={false}
+                  rating={4.5}
+                  reviewTitle="Título da resenha"
+                  reviewText="“O Morro dos Ventos Uivantes” (Wuthering Heights), de Emily Brontë, é um romance clássico da literatura inglesa publicado em 1847. A história mistura amor intenso, vingança e tragédia em um ambiente sombrio e emocionalmente carregado.
+                  A trama acompanha a relação entre Heathcliff, um órfão adotado pela família Earnshaw, e Catherine Earnshaw, sua amiga de infância e grande paixão. Apesar do amor profundo entre os dois, Catherine decide se casar com o rico e elegante Edgar Linton,
+                  buscando ascensão social e estabilidade. Sentindo-se traído e humilhado, Heathcliff desaparece por alguns anos e retorna rico e decidido a se vingar de todos que o fizeram sofrer.
+                  Consumido pelo ressentimento, Heathcliff manipula e destrói a vida das famílias Earnshaw e Linton, criando um ciclo de dor que atravessa gerações. Ao mesmo tempo, o romance mostra como o amor entre ele e Catherine é tão forte quanto destrutivo.
+                  A obra é conhecida por seus personagens intensos, atmosfera melancólica e temas como paixão obsessiva, orgulho, vingança e sofrimento emocional. Até hoje, é considerada um dos maiores clássicos da literatura mundial."
+                  reviewerEmail="giovanni.lopes@dbserver.com.br"
+                  reviewDate="30/04/2026"
+                />
+                <BookReview
+                  containSpoilers={true}
+                  rating={3}
+                  reviewTitle="Resenha com spoilers"
+                  reviewText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                  reviewerEmail="giovanni.lopes@dbserver.com.br"
+                  reviewDate="30/04/2026"
+                />
               </div>
             </div>
           </div>
