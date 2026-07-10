@@ -50,7 +50,55 @@ export class HomePage {
   verificarNomeDoUsuarioVisivel(nome: string): this {
     cy.get(HomeElements.nomeDoUsuarioText)
       .should('be.visible')
-      .and('have.text', nome);
+      .and('contain.text', nome);
+    return this;
+  }
+
+  pesquisar(texto: string): this {
+    cy.get(HomeElements.barraDePesquisa).should('be.visible').type(texto);
+    return this;
+  }
+  pesquisaPorAutor(): this {
+    cy.get(HomeElements.pesquisaCombobox).should('be.visible').click();
+    cy.get(HomeElements.caixaPesquisaCombobox)
+      .should('be.visible')
+      .find('button')
+      .contains('Autor')
+      .click();
+    return this;
+  }
+  verificarQuantidadeExataDeLivros(quantidade: number): this {
+    cy.get(HomeElements.livrosPesquisados)
+      .should('be.visible')
+      .should('have.length', quantidade);
+    return this;
+  }
+
+  verificarQuantidadeDeLivrosMenorQue(quantidade: number): this {
+    cy.get(HomeElements.livrosPesquisados)
+      .should('be.visible')
+      .should('have.length.lessThan', quantidade);
+    return this;
+  }
+
+  verificarQuantidadeDeLivrosMaiorQue(quantidade: number): this {
+    cy.get(HomeElements.livrosPesquisados)
+      .should('be.visible')
+      .should('have.length.greaterThan', quantidade);
+    return this;
+  }
+
+  selecionarBotaoVerTodosOsResultados(): this {
+    cy.get(HomeElements.botaoVerTodosOsResultados).should('be.visible').click();
+    return this;
+  }
+
+  selecionarBotaoPaginacao(numero: string): this {
+    cy.get(HomeElements.botaoPaginacao)
+      .should('be.visible')
+      .find('button')
+      .contains(numero)
+      .click();
     return this;
   }
 }

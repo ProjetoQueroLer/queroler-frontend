@@ -28,10 +28,9 @@ export const createBookSchema = z.object({
       message: `O ano de publicação não pode ser maior que o ano atual (${anoAtual})`,
     })
     .transform((val) => String(val)),
-  numeroDePaginas: z
-    .string('Número de páginas obrigatório')
-    .min(1, 'Número de páginas deve ter no mínimo 1 dígito')
-    .regex(/^\d+$/, 'O número de páginas deve conter apenas números'),
+  numeroDePaginas: z.coerce
+    .number('Número de páginas deve ter apenas números')
+    .positive('O número de páginas deve ser maior que 0'),
   idioma: z.enum(IdiomaEnum),
   sinopse: z.string().min(50, 'Sinopse deve ter 50 caracteres no mínimo'),
   autores: z

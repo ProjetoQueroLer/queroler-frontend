@@ -7,7 +7,9 @@ type Perfil = {
 };
 
 type Mensagem = {
-  toastLoginSucesso: string;
+  mensagemToast: {
+    toastLoginSucesso: string;
+  };
 };
 
 let dados: Perfil;
@@ -41,7 +43,7 @@ describe('Login', () => {
         .preencherSenha(dados.perfilLeitor.senha)
         .clicarEmEntrar();
 
-      loginPage.verificarToast(msg.toastLoginSucesso);
+      loginPage.verificarToast(msg.mensagemToast.toastLoginSucesso);
     });
   });
 });

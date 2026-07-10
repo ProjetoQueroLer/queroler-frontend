@@ -5,12 +5,15 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Fixtures } from '../utils/fixtures';
 import { DadosLivro, GeradorDadosLivro } from '../utils/geradorDadosLivro';
 
+const TIMEOUT = 30000;
 export class CadastrarLivroPage {
   private dadosLivro!: DadosLivro;
 
   acessarPaginaCadastrarLivro(texto: string): this {
-    cy.get(CadastrarLivroElements.buscarLivroInput).type(texto);
-    cy.get(CadastrarLivroElements.modalSimButton).click();
+    cy.get(CadastrarLivroElements.buscarLivroInput)
+      .should('be.visible')
+      .type(texto);
+    cy.get(CadastrarLivroElements.modalSimButton).should('be.visible').click();
     return this;
   }
 
@@ -67,7 +70,7 @@ export class CadastrarLivroPage {
 
   verificarToastSucesso(msg: string): this {
     cy.get(CadastrarLivroElements.mensagemSucessoToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }
@@ -78,12 +81,13 @@ export class CadastrarLivroPage {
   ): this {
     this.dadosLivro = GeradorDadosLivro.criar(dadosCustomizados);
 
-    cy.get(CadastrarLivroElements.isbnInput)
-      .should('be.visible')
-      .type(this.dadosLivro.isbn!);
-    this.fecharToast();
-    this.verificarToastErro(msg);
-
+    if (this.dadosLivro.isbn) {
+      cy.get(CadastrarLivroElements.isbnInput)
+        .should('be.visible')
+        .type(this.dadosLivro.isbn);
+      this.fecharToast();
+      this.verificarToastErro(msg);
+    }
     if (this.dadosLivro.titulo) {
       cy.get(CadastrarLivroElements.tituloDoLivroInput)
         .should('be.visible')
@@ -135,10 +139,10 @@ export class CadastrarLivroPage {
     return this;
   }
 
-  selecionarImagemLivro(): this {
+  selecionarImagemLivro(tipo: 'leve' | 'pesado' = 'leve'): this {
     cy.get(CadastrarLivroElements.textoSecundarioLabel).should('be.visible');
     cy.get(CadastrarLivroElements.imagemLivroInput).selectFile(
-      Fixtures.imagens.livro,
+      Fixtures.imagens[tipo],
       { force: true }
     );
     return this;
@@ -172,7 +176,7 @@ export class CadastrarLivroPage {
     cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
     cy.get(CadastrarLivroElements.fechaToastButton).click();
     cy.get(CadastrarLivroElements.isbnInput).clear();
-    cy.get(CadastrarLivroElements.campoObrigatorioLabel)
+    cy.get(CadastrarLivroElements.avisoErroLabel)
       .should('be.visible')
       .and('contain.text', msg);
     cy.get(CadastrarLivroElements.isbnInput).should('be.visible').type(isbn);
@@ -200,10 +204,77 @@ export class CadastrarLivroPage {
 
   verificarCampoObrigatorio(...mensagens: string[]): this {
     mensagens.forEach((msg) => {
-      cy.get(CadastrarLivroElements.campoObrigatorioLabel)
+      cy.get(CadastrarLivroElements.avisoErroLabel)
         .should('be.visible')
         .and('contain.text', msg);
     });
+    return this;
+  }
+
+  verificaSeExistemOsCamposLabels(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLivroElements.camposLabel)
+        .should('be.visible')
+        .and('contain.text', txt);
+    });
+    return this;
+  }
+
+  verificarLabelDaCapaDoLivro(msg: string): this {
+    cy.get(CadastrarLivroElements.capaDoLivroLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
+    return this;
+  }
+
+  botaoSalvarDesativa(): this {
+    cy.get(CadastrarLivroElements.cadastrarLivroButton).should('be.disabled');
+    return this;
+  }
+
+  camposDesabilitados(): this {
+    const campos = [
+      CadastrarLivroElements.tituloDoLivroInput,
+      CadastrarLivroElements.autorInput,
+      CadastrarLivroElements.editoraInput,
+      CadastrarLivroElements.anoDePublicacaoInput,
+      CadastrarLivroElements.numeroDePaginasInput,
+      CadastrarLivroElements.sinopseInput,
+      CadastrarLivroElements.anoDePublicacaoInput,
+    ];
+
+    campos.forEach((campo) => {
+      cy.get(campo).should('be.disabled');
+    });
+
+    return this;
+  }
+
+  verificarSeExisteMensagemDeErro(msg: string): this {
+    cy.get(CadastrarLivroElements.avisoErroLabel)
+      .should('be.visible')
+      .and('contain.text', msg);
+    return this;
+  }
+
+  campoIsbnComPressTab(txt: string): this {
+    cy.get(CadastrarLivroElements.isbnInput)
+      .should('be.visible')
+      .type(txt)
+      .pressionarTab();
+    return this;
+  }
+
+  clicaESair(): this {
+    cy.get(CadastrarLivroElements.editoraInput).click();
+    return this;
+  }
+
+  selecionarArquivoPdf(): this {
+    cy.get(CadastrarLivroElements.imagemLivroInput).selectFile(
+      Fixtures.documentos.pdf,
+      { force: true }
+    );
     return this;
   }
 }

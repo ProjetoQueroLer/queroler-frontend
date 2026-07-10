@@ -1,6 +1,5 @@
 export class LoginElements {
-  static readonly formularioContainerLogin =
-    '[data-testid="login-form-container"]';
+  static readonly tituloBemVindoText = '[data-testid="login-header"]';
   static readonly formularioLogin = '[data-testid="login-form"]';
   static readonly cabecalhoLogin = '[data-testid="login-header"]';
 

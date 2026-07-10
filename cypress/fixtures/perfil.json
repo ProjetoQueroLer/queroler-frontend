@@ -12,5 +12,20 @@
   "perfilLeitor": {
     "email": "user.sucesso@queroler.com.br",
     "senha": "Teste123@"
+  },
+
+  "perfilAdministrador2": {
+    "email": "administrador2_teste@queroler.com",
+    "senha": "Pa55word@?"
+  },
+
+  "perfilModerador2": {
+    "email": "moderador2_teste@queroler.com",
+    "senha": "nov@S3nha"
+  },
+
+  "perfilLeitor2": {
+    "email": "leitor@queroler.com",
+    "senha": "Pa55word?"
   }
 }

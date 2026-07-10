@@ -1,16 +1,21 @@
 /// <reference types="cypress" />
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
+import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
+import { gerarEsalvarImagemLeve } from '../../../../support/utils/geradorImagem';
 
 type TestData = {
   nomeDoLivro: string;
 };
 
 type Mensagem = {
-  ISBNNaoEncontrado: string;
-  registroDeLivroSucesso: string;
-  registroDeLivroCancelado: string;
-  ISBNJaCadastrado: string;
+  mensagemToastNoCadastraLivro: {
+    ISBNNaoEncontrado: string;
+    registroDeLivroSucesso: string;
+    registroDeLivroCancelado: string;
+    ISBNJaCadastrado: string;
+    ISBNEncontrado: string;
+  };
 };
 
 let dados: TestData;
@@ -21,6 +26,7 @@ const cadastrarLivroPage = new CadastrarLivroPage();
 
 describe('Cadastrar Livro', () => {
   before(() => {
+    gerarEsalvarImagemLeve();
     cy.fixture('testData').then((fixture) => {
       dados = fixture;
     });
@@ -42,10 +48,13 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+        GeradorDadosLivro.criarCompleto()
       );
       cadastrarLivroPage.selecionarImagemLivro();
-      cadastrarLivroPage.salvarCadastro(mensagens.registroDeLivroSucesso);
+      cadastrarLivroPage.salvarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroSucesso
+      );
 
       isbnCadastrado = cadastrarLivroPage.getIsbnCadastrado();
     });
@@ -58,7 +67,9 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherISBNJaCadastrado(isbnCadastrado);
-      cadastrarLivroPage.salvarCadastroDuplicado(mensagens.ISBNJaCadastrado);
+      cadastrarLivroPage.salvarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.ISBNEncontrado
+      );
     });
 
     it('Deve exibir mensagem ao cancelar o cadastro de um livro', () => {
@@ -69,10 +80,13 @@ describe('Cadastrar Livro', () => {
 
       cadastrarLivroPage.acessarPaginaCadastrarLivro(dados.nomeDoLivro);
       cadastrarLivroPage.preencherFormularioObrigatorio(
-        mensagens.ISBNNaoEncontrado
+        mensagens.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+        GeradorDadosLivro.criarCompleto()
       );
       cadastrarLivroPage.selecionarImagemLivro();
-      cadastrarLivroPage.cancelarCadastro(mensagens.registroDeLivroCancelado);
+      cadastrarLivroPage.cancelarCadastro(
+        mensagens.mensagemToastNoCadastraLivro.registroDeLivroCancelado
+      );
     });
   });
 });

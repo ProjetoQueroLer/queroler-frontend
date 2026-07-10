@@ -19,6 +19,23 @@ export class GeradorDadosLivro {
           faker.string.numeric(10),
           faker.string.numeric(13),
         ]),
+      titulo: override.titulo,
+      autor: override.autor,
+      editora: override.editora,
+      ano: override.ano,
+      paginas: override.paginas,
+      sinopse: override.sinopse,
+    };
+  }
+
+  static criarCompleto(override: DadosLivro = {}): DadosLivro {
+    return {
+      isbn:
+        override.isbn ??
+        faker.helpers.arrayElement([
+          faker.string.numeric(10),
+          faker.string.numeric(13),
+        ]),
       titulo: override.titulo ?? faker.lorem.words(3),
       autor:
         override.autor ??

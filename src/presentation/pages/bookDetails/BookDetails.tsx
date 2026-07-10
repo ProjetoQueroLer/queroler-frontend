@@ -1,8 +1,10 @@
 'use client';
 
+import { Profile } from '@/core/domain/user/profile.enum';
 import { BookReview } from '@/presentation/shared/components/bookReview/BookReview';
 import { BookStatistic } from '@/presentation/shared/components/bookStatistic/bookStatistic';
 import { Header } from '@/presentation/shared/components/header/header';
+import { useUserStore } from '@/presentation/shared/lib/user-store';
 import {
   Ban,
   BookHeart,
@@ -18,11 +20,17 @@ import {
 import { useState } from 'react';
 
 export function BookDetails() {
+  const user = useUserStore((state) => state.user);
   const [menuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div>
-      <Header />
+      <Header
+        nomeUsuario={user?.nome ?? ''}
+        email={user?.email ?? ''}
+        fotoDePerfil={user?.fotoUrl ?? 'Foto não encontrada.'}
+        profile={user?.profile ?? Profile.LEITOR}
+      />
 
       <div className="min-h-screen lg:mx-50 flex flex-col">
         <main className="flex-1 px-4 py-6 lg:px-8">

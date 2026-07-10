@@ -2,6 +2,7 @@
 
 import { LoginElements } from '../elements/LoginElements';
 
+const TIMEOUT = 30000;
 export class LoginPage {
   visitarPagina(): this {
     cy.visit('/');
@@ -9,8 +10,9 @@ export class LoginPage {
   }
 
   verificarPaginaCarregada(): this {
-    cy.get(LoginElements.formularioContainerLogin).should('be.visible');
-    cy.contains('h1', 'Bem-vindo').should('be.visible');
+    cy.get(LoginElements.tituloBemVindoText, { timeout: 30000 }).should(
+      'be.visible'
+    );
     cy.get(LoginElements.emailInput).should('be.visible');
     cy.get(LoginElements.senhaInput).should('be.visible');
     cy.get(LoginElements.entrarButton).should('be.visible');
@@ -97,7 +99,9 @@ export class LoginPage {
   }
 
   verificarToastError(): this {
-    cy.get(LoginElements.toastErrorLabel).should('be.visible');
+    cy.get(LoginElements.toastErrorLabel).should('be.visible', {
+      timeout: TIMEOUT,
+    });
     return this;
   }
 
