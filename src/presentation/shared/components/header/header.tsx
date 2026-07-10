@@ -24,7 +24,7 @@ export function Header({
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const [unreadNotifications, setUnreadNotifications] = useState(3); // Valor Mockado que vai receber o numero notificações não lidas do back.
+  const [unreadNotifications, setUnreadNotifications] = useState(2); // Valor Mockado que vai receber o numero notificações não lidas do back.
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   return (
