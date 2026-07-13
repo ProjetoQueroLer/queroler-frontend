@@ -87,5 +87,8 @@
     "idioma": "Idioma",
     "sinopse": "Sinopse",
     "capaDoLivro": "Capa do livro"
+  },
+  "meuPerfil": {
+    "tituloPagina": "Meu perfil"
   }
 }
