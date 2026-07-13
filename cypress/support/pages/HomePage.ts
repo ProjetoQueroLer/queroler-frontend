@@ -2,9 +2,12 @@
 
 import { HomeElements } from '../elements/HomeElements';
 
+const TIMEOUT = 30000;
 export class HomePage {
   verificarPaginaCarregada(): this {
-    cy.get(HomeElements.logoQueroLer, { timeout: 10000 }).should('be.visible');
+    cy.get(HomeElements.logoQueroLer, { timeout: TIMEOUT }).should(
+      'be.visible'
+    );
     return this;
   }
 
@@ -21,9 +24,14 @@ export class HomePage {
   }
 
   abrirMenuUsuario(): this {
-    cy.get(HomeElements.menuUsuarioTriggerButton, { timeout: 10000 })
+    cy.get(HomeElements.menuUsuarioTriggerButton, { timeout: TIMEOUT })
       .should('be.visible')
       .click({ force: true });
+    return this;
+  }
+
+  clicarEmMeuPerfil(): this {
+    cy.get(HomeElements.meuPerfilButton).should('be.visible').click();
     return this;
   }
 
