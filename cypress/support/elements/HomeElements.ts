@@ -24,4 +24,6 @@ export class HomeElements {
   static readonly botaoVerTodosOsResultados =
     '[class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-text-primary bg-search-border border border-border rounded-md hover:opacity-90 transition-all cursor-pointer shadow-xs"]';
   static readonly botaoPaginacao = '[class="flex items-center gap-1"]';
+  static readonly ate5LivrosPesquisados =
+    '[class="text-text-primary text-base font-semibold truncate group-hover:text-text-primary/90 transition-colors"]';
 }

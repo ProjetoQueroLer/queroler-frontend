@@ -9,6 +9,7 @@ declare global {
     interface Chainable {
       login(email?: string, password?: string): Chainable<void>;
       logout(): Chainable<void>;
+      pressionarTab(): Chainable<void>;
     }
   }
 }

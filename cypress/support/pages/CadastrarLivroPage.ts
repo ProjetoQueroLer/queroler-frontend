@@ -4,6 +4,7 @@ import { CadastrarLivroElements } from '../elements/CadastrarLivroElements';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Fixtures } from '../utils/fixtures';
 import { DadosLivro, GeradorDadosLivro } from '../utils/geradorDadosLivro';
+import { Mensagem } from '../utils/Types/Mensagem';
 
 const TIMEOUT = 30000;
 export class CadastrarLivroPage {
@@ -276,5 +277,18 @@ export class CadastrarLivroPage {
       { force: true }
     );
     return this;
+  }
+
+  preencherFormularioCompleto(texto: string, mensagem: Mensagem): DadosLivro {
+    const dadosLivroCompleto = GeradorDadosLivro.criarCompleto();
+    this.acessarPaginaCadastrarLivro(texto);
+    this.preencherFormularioObrigatorio(
+      mensagem.mensagemToastNoCadastraLivro.ISBNNaoEncontrado,
+      dadosLivroCompleto
+    );
+    this.salvarCadastro(
+      mensagem.mensagemToastNoCadastraLivro.registroDeLivroSucesso
+    );
+    return dadosLivroCompleto;
   }
 }
