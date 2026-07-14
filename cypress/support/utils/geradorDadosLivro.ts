@@ -48,4 +48,16 @@ export class GeradorDadosLivro {
       sinopse: override.sinopse ?? faker.lorem.sentences(3),
     };
   }
+
+  static exibirDadosLivro(DadosLivro: DadosLivro): DadosLivro {
+    return {
+      isbn: DadosLivro.isbn,
+      titulo: DadosLivro.titulo,
+      autor: DadosLivro.autor,
+      editora: DadosLivro.editora,
+      ano: DadosLivro.ano,
+      paginas: DadosLivro.paginas,
+      sinopse: DadosLivro.sinopse,
+    };
+  }
 }
