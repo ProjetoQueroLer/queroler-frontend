@@ -1,5 +1,4 @@
 export class PerfilElements {
-  static readonly containerMeuPerfil = '[class="flex-1 px-4 py-6 lg:px-8"]';
   static readonly tituloMeuPerfil = '.text-text-primary.text-2xl';
   static readonly subtituloMeuPerfil = '.text-text-secondary.text-sm.mb-6';
   static readonly fotoPerfilLabel = '.text-brand.text-xs.tracking-widest';

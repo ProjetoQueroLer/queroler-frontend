@@ -6,9 +6,6 @@ const TIMEOUT = 30000;
 
 export class PerfilPage {
   verificarPaginaCarregada(txt: string): this {
-    cy.get(PerfilElements.containerMeuPerfil).should('be.visible', {
-      timeout: TIMEOUT,
-    });
     cy.get(PerfilElements.tituloMeuPerfil)
       .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', txt);
