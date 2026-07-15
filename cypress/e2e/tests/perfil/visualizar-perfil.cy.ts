@@ -3,12 +3,6 @@
 import { HomePage } from '../../../support/pages/HomePage';
 import { PerfilPage } from '../../../support/pages/PerfilPage';
 
-// type Mensagem = {
-//   meuPerfil: {
-//     tituloPagina: string;
-//   };
-// };
-
 type TestData = {
   meuPerfil: {
     nome: string;
@@ -21,17 +15,13 @@ type TestData = {
   };
 };
 
-//let msg: Mensagem;
 let testData: TestData;
 
 const homePage = new HomePage();
 const perfilPage = new PerfilPage();
 
-describe('Estrutura do Perfil', () => {
+describe('Visualizar o Perfil', () => {
   before(() => {
-    // cy.fixture('mensagem').then((fixture) => {
-    //   msg = fixture;
-    // });
     cy.fixture('testData').then((fixture) => {
       testData = fixture;
     });
