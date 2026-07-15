@@ -2,6 +2,7 @@
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
 import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
+import { gerarEsalvarImagemLeve } from '../../../../support/utils/geradorImagem';
 
 type TestData = {
   nomeDoLivro: string;
@@ -30,6 +31,7 @@ const cadastrarLivroPage = new CadastrarLivroPage();
 
 describe('Cadastrar Livro', () => {
   before(() => {
+    gerarEsalvarImagemLeve();
     cy.fixture('testData').then((fixture) => {
       dados = fixture;
     });
