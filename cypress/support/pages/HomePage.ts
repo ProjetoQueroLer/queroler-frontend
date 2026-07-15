@@ -99,7 +99,9 @@ export class HomePage {
   }
 
   selecionarBotaoVerTodosOsResultados(): this {
-    cy.get(HomeElements.botaoVerTodosOsResultados).should('be.visible').click();
+    cy.get(HomeElements.botaoVerTodosOsResultados)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click(); // <<<<<< adicionei time out 30000
     return this;
   }
 
@@ -123,7 +125,7 @@ export class HomePage {
     this.pesquisaPorAutor();
     this.pesquisar(texto);
     this.selecionarBotaoVerTodosOsResultados();
-    cy.wait(5000);
+    //cy.wait(5000); // <<<<<<<<<<<<<<<<<<<<
     return this;
   }
 
