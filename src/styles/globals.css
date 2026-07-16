@@ -76,3 +76,13 @@ body {
   background: var(--border);
   border-radius: 99px;
 }
+
+/* Esconde a barra de rolagem mas mantém o scroll */
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE e Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Edge */
+}
