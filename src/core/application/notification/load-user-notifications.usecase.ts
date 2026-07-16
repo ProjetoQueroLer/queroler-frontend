@@ -1,6 +1,7 @@
 import { NotificationRepository } from '@/core/domain/notification/notification.repository';
 import { AxiosResponse } from 'axios';
-import { LoadUserNotificationsPageResponseDTO } from '@/core/application/notification/load-user-notifications-response.dto';
+import { LoadUserNotificationsResponseDTO } from '@/core/application/notification/load-user-notifications-response.dto';
+import { Page } from '@/core/application/book/load-book-reading-page-response.dto';
 
 export class LoadUserNotificationsUseCase {
   constructor(
@@ -8,7 +9,7 @@ export class LoadUserNotificationsUseCase {
   ) {}
 
   async execute(): Promise<
-    AxiosResponse<LoadUserNotificationsPageResponseDTO>
+    AxiosResponse<Page<LoadUserNotificationsResponseDTO>>
   > {
     return await this.notificationRepository.loadNotifications();
   }
