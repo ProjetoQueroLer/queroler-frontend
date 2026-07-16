@@ -1,12 +1,15 @@
 'use client';
 
 import { Bell, ChevronDown, LogOut, NotebookPen, User } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
 import { useRouter } from 'next/navigation';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { NotificationModal } from '@/presentation/shared/components/modal/NotificationModal';
+import { loadUserNotificationsAction } from '@/app/actions/loadUserNotifications.actions';
+import { markAllNotificationsAsReadAction } from '@/app/actions/markAllNotificationsAsRead.actions';
+import { LoadUserNotificationsResponseDTO } from '@/core/application/notification/load-user-notifications-response.dto';
 
 export interface HeaderProps {
   fotoDePerfil: string;
@@ -24,8 +27,50 @@ export function Header({
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const [unreadNotifications, setUnreadNotifications] = useState(2); // Valor Mockado que vai receber o numero notificações não lidas do back.
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState<
+    LoadUserNotificationsResponseDTO[]
+  >([]);
+
+  useEffect(() => {
+    async function loadNotifications() {
+      const result = await loadUserNotificationsAction();
+
+      if (result.success && result.response) {
+        const notifications = result.response.content;
+
+        setNotifications(notifications);
+
+        const unreadCount = notifications.filter(
+          (notification) => !notification.visualizada
+        ).length;
+
+        setUnreadNotifications(unreadCount);
+      }
+    }
+
+    loadNotifications();
+  }, []);
+
+  async function handleNotificationClick() {
+    if (notificationOpen) {
+      const result = await markAllNotificationsAsReadAction();
+
+      if (result.success) {
+        setUnreadNotifications(0);
+
+        setNotifications((previous) =>
+          previous.map((notification) => ({
+            ...notification,
+            visualizada: true,
+          }))
+        );
+      }
+    }
+
+    setNotificationOpen((previous) => !previous);
+  }
 
   return (
     <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
@@ -49,13 +94,7 @@ export function Header({
         <div className="relative">
           <button
             type="button"
-            onClick={() => {
-              if (notificationOpen) {
-                setUnreadNotifications(0);
-              }
-
-              setNotificationOpen(!notificationOpen);
-            }}
+            onClick={handleNotificationClick}
             className="relative flex items-center justify-center cursor-pointer"
           >
             <div className="relative">
@@ -73,7 +112,10 @@ export function Header({
           </button>
 
           {notificationOpen && (
-            <NotificationModal unreadNotifications={unreadNotifications} />
+            <NotificationModal
+              unreadNotifications={unreadNotifications}
+              notifications={notifications}
+            />
           )}
         </div>
 

@@ -1,33 +1,16 @@
 'use client';
 
+import { LoadUserNotificationsResponseDTO } from '@/core/application/notification/load-user-notifications-response.dto';
+
 interface NotificationModalProps {
   unreadNotifications: number;
+  notifications: LoadUserNotificationsResponseDTO[];
 }
 
 export function NotificationModal({
   unreadNotifications,
+  notifications,
 }: NotificationModalProps) {
-  //Dados mockados, serão alterados após definir como será a listagem de notificações da api de backend
-  const notifications = [
-    {
-      title: 'Nova sugestão de leitura!',
-      description:
-        'Um novo livro foi adicionado à seção de livros populares, confira na sua tela inicial.',
-      unread: true,
-    },
-    {
-      title: 'Nova sugestão de leitura!',
-      description:
-        'Um novo livro foi adicionado à seção de livros populares, confira na sua tela inicial.',
-      unread: true,
-    },
-    {
-      title: 'Nova sugestão de leitura!',
-      description:
-        'Um novo livro foi adicionado à seção de livros populares, confira na sua tela inicial.',
-      unread: false,
-    },
-  ];
   return (
     <div className="absolute right-0 top-[42px] z-50 w-[320px] rounded-lg border border-border bg-card-bg p-4 shadow-lg">
       <div className="flex items-center justify-between">
@@ -54,22 +37,22 @@ export function NotificationModal({
             <button className="w-full text-left">
               <h4
                 className={`text-sm font-medium ${
-                  notification.unread
+                  !notification.visualizada
                     ? 'text-text-primary'
                     : 'text-text-secondary'
                 }`}
               >
-                {notification.title}
+                Titulo - {notification.id}
               </h4>
 
               <p
                 className={`mt-1 text-xs leading-5 ${
-                  notification.unread
+                  !notification.visualizada
                     ? 'text-text-primary'
                     : 'text-text-secondary'
                 }`}
               >
-                {notification.description}
+                {notification.notificacao}
               </p>
             </button>
 
