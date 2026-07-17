@@ -43,5 +43,15 @@
     "cidade": "Porto Alegre",
     "estado": "RS",
     "pais": "Brasil"
+  },
+
+  "camposDoMeuPerfil": {
+    "nomeCompleto": "Nome completo",
+    "email": "E-mail",
+    "cpf": "CPF",
+    "dataDeNascimento": "Data de nascimento",
+    "cidade": "Cidade",
+    "estado": "Estado",
+    "pais": "País"
   }
 }
