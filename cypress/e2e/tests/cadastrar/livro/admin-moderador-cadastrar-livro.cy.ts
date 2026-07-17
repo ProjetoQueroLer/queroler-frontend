@@ -3,28 +3,12 @@
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
 import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
 import { gerarEsalvarImagemLeve } from '../../../../support/utils/geradorImagem';
+import { LivroData } from '../../../../support/types/cadastrar/livros/testdata';
+import { LivroMensagem } from '../../../../support/types/cadastrar/livros/mensagem';
+import { Perfil } from '../../../../support/types/perfil';
 
-type TestData = {
-  nomeDoLivro: string;
-};
-
-type Mensagem = {
-  mensagemToastNoCadastraLivro: {
-    ISBNNaoEncontrado: string;
-    registroDeLivroSucesso: string;
-    registroDeLivroCancelado: string;
-    ISBNJaCadastrado: string;
-    ISBNEncontrado: string;
-  };
-};
-
-type Perfil = {
-  perfilAdministrador2: { email: string; senha: string };
-  perfilModerador2: { email: string; senha: string };
-};
-
-let dados: TestData;
-let mensagens: Mensagem;
+let dados: LivroData;
+let mensagens: LivroMensagem;
 let dadosPerfil: Perfil;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
@@ -32,10 +16,10 @@ const cadastrarLivroPage = new CadastrarLivroPage();
 describe('Cadastrar Livro', () => {
   before(() => {
     gerarEsalvarImagemLeve();
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('cadastrar/livro/testdata').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('cadastrar/livro/mensagem').then((fixture) => {
       mensagens = fixture;
     });
     cy.fixture('perfil').then((fixture) => {

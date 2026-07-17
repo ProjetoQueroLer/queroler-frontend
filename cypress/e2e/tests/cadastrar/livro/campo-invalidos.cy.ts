@@ -1,54 +1,29 @@
 /// <reference types="cypress" />
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
+import {
+  LivroData,
+  CampoInvalidosData,
+} from '../../../../support/types/cadastrar/livros/testdata';
+import {
+  LivroMensagem,
+  CampoInvalidosMensagem,
+} from '../../../../support/types/cadastrar/livros/mensagem';
 
-type TestData = {
-  nomeDoLivro: string;
-  cadastrarLivroInvalidos: {
-    ISBNInvalido: string;
-    autorInvalido: string;
-    anoPublicacaoFuturo: string;
-    anoPublicacaoLetra: string;
-    anoPublicacaoMenosDe4Digitos: string;
-    numeroDePaginasComLetras: string;
-    numeroDePaginasInvalido: string;
-  };
-};
+type TestDataCadastrarLivro = LivroData & CampoInvalidosData;
+type MensagemCadatrarLivro = LivroMensagem & CampoInvalidosMensagem;
 
-type Mensagem = {
-  mensagemToastNoCadastraLivro: {
-    ISBNNaoEncontrado: string;
-  };
-  campoObrigatorioCadastrarLivro: {
-    ISBNObrigatorio: string;
-    tituloObrigatorio: string;
-    autorObrigatorio: string;
-    editoraObrigatoria: string;
-    anoPublicacaoObrigatorio: string;
-    numeroDePaginasObrigatorio: string;
-    sinopseObrigatorio: string;
-  };
-  avisoErro: {
-    campoAutorNaoDeveConterNumerosEEspeciais: string;
-    isbnDeveConterApenasNumeros: string;
-    anoPublicacaoNaoPodeMaiorQueAtual: string;
-    anoPublicacaoDeveTer4Digitos: string;
-    anoPublicacaoDeveConterApenasNumeros: string;
-    numeroDePaginasDeveConterApenasNumeros: string;
-  };
-};
-
-let dados: TestData;
-let msg: Mensagem;
+let dados: TestDataCadastrarLivro;
+let msg: MensagemCadatrarLivro;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
 
 describe('Cadastrar Livro', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('cadastrar/livro/testData').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('cadastrar/livro/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

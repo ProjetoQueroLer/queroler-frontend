@@ -1,0 +1,12 @@
+{
+  "nomeDoLivro": "O Senhor dos Anéis",
+  "cadastrarLivroInvalidos": {
+    "ISBNInvalido": "ABCDEFGH!@#$",
+    "autorInvalido": "123!@#$",
+    "anoPublicacaoLetra": "ABCD",
+    "anoPublicacaoFuturo": "3000",
+    "anoPublicacaoMenosDe4Digitos": "10",
+    "numeroDePaginasInvalido": "0",
+    "numeroDePaginasComLetras": "ABCD"
+  }
+}
