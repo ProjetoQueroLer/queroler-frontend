@@ -10,30 +10,6 @@
     "email": "usuario.invalido@queroler.com",
     "senha": "SenhaErrada123"
   },
-  "usuarioCadastrado": {
-    "email": "qateste@yopmail.com",
-    "cpf": "50636777030",
-    "nomeUsuario": "QA Test"
-  },
-  "cadastrarLeitorInvalidos": {
-    "nome": "123 !@#",
-    "email": "teste@queroler.com",
-    "emailNaoCoincidem": "qa@queroler.com",
-    "senhaInvalida": "Teste",
-    "senhaSemCaracteresEspecial": "Teste123",
-    "senhaSemNumero": "Teste!@#",
-    "senhaNaoCoincidem": "Teste123@",
-    "cpfCurto": "789654"
-  },
-  "cadastrarLivroInvalidos": {
-    "ISBNInvalido": "ABCDEFGH!@#$",
-    "autorInvalido": "123!@#$",
-    "anoPublicacaoLetra": "ABCD",
-    "anoPublicacaoFuturo": "3000",
-    "anoPublicacaoMenosDe4Digitos": "10",
-    "numeroDePaginasInvalido": "0",
-    "numeroDePaginasComLetras": "ABCD"
-  },
 
   "meuPerfil": {
     "nome": "QA Test",
