@@ -6,4 +6,7 @@ export type Mensagem = {
     ISBNJaCadastrado: string;
     ISBNEncontrado: string;
   };
+  meuPerfil: {
+    tituloPagina: string;
+  };
 };

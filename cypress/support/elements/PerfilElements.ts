@@ -11,7 +11,7 @@ export class PerfilElements {
   static readonly estadoInput = '[data-testid="input-estado"]';
   static readonly paisInput = '[data-testid="input-pais"]';
   static readonly fotoDePerfil = '[alt="Foto de perfil"]';
-  static readonly excluirContaButton = '[data-testid="btn-excluir-perfil"]';
+  static readonly excluirPerfilButton = '[data-testid="btn-excluir-perfil"]';
   static readonly voltarButton = '[data-testid="btn-voltar"]';
   static readonly salvarButton = '[data-testid="btn-salvar"]';
 }

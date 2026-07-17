@@ -54,4 +54,26 @@ export class PerfilPage {
     cy.get(PerfilElements.fotoDePerfil).should('exist').and('be.visible');
     return this;
   }
+
+  verificarSeExistemOsCamposLabels(txt: string[]): this {
+    txt.forEach((label) => {
+      cy.get(PerfilElements.campoLabel).should('contain.text', label);
+    });
+    return this;
+  }
+
+  verificarSeBotaoSalvarExiste(): this {
+    cy.get(PerfilElements.salvarButton).should('be.visible');
+    return this;
+  }
+
+  verificarSeBotaoVoltarExiste(): this {
+    cy.get(PerfilElements.voltarButton).should('be.visible');
+    return this;
+  }
+
+  verificarSeBotaoExculirPerfilExiste(): this {
+    cy.get(PerfilElements.excluirPerfilButton).should('be.visible');
+    return this;
+  }
 }
