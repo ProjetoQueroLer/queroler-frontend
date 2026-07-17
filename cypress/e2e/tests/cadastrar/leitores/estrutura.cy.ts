@@ -5,35 +5,9 @@ import { gerarCpf } from '../../../../support/utils/geradorCpf';
 import { gerarSenha } from '../../../../support/utils/geradorSenha';
 import { gerarDataNascimento } from '../../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
+import { EstruturaMensagem } from '../../../../support/types/leitor/mensagem';
 
-type Mensagem = {
-  campoObrigatorioNoCadastrarLeitor: {
-    nomeObrigatorio: string;
-    emailObrigatorio: string;
-    confirmacaoEmailObrigatoria: string;
-    senhaObrigatoria: string;
-    confirmacaoSenhaObrigatoria: string;
-    cpfObrigatorio: string;
-    dataNascimentoObrigatoria: string;
-    termosObrigatorio: string;
-  };
-  labelsCadastrarLeitor: {
-    nome: string;
-    cpf: string;
-    email: string;
-    confirmarEmail: string;
-    senha: string;
-    confirmarSenha: string;
-    dataDeNascimento: string;
-  };
-  termosEPolitica: {
-    concordaComOsTermos: string;
-    termosDeServico: string;
-    politicaDePrivacidade: string;
-  };
-};
-
-let msg: Mensagem;
+let msg: EstruturaMensagem;
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
@@ -49,7 +23,7 @@ const dadosCadastro = {
 
 describe('Cadastro de Leitor', () => {
   before(() => {
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('leitor/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

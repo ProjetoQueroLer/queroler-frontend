@@ -1,21 +1,15 @@
 /// <reference types="cypress" />
 
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
+import { EstruturaMensagem } from '../../../../support/types/leitor/mensagem';
 
-type Mensagem = {
-  termosEPolitica: {
-    termosDeServico: string;
-    politicaDePrivacidade: string;
-  };
-};
-
-let msg: Mensagem;
+let msg: EstruturaMensagem;
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
 
 describe('Cadastro de Leitor', () => {
   before(() => {
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('leitor/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

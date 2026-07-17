@@ -5,28 +5,11 @@ import { gerarCpf } from '../../../../support/utils/geradorCpf';
 import { gerarSenha } from '../../../../support/utils/geradorSenha';
 import { gerarDataNascimento } from '../../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
+import { DuplicidadeData } from '../../../../support/types/leitor/testdata';
+import { DuplicidadeMensagem } from '../../../../support/types/leitor/mensagem';
 
-type UsuarioCadastrado = {
-  email: string;
-  cpf: string;
-};
-
-type TestData = {
-  usuarioCadastrado: UsuarioCadastrado;
-};
-
-type Mensagem = {
-  dadosJaCadastrado: {
-    emailJaCadastrado: string;
-    cpfJaCadastrado: string;
-  };
-  cadastradoComSucesso: {
-    usuarioCadastradoSucesso: string;
-  };
-};
-
-let dados: TestData;
-let msg: Mensagem;
+let dados: DuplicidadeData;
+let msg: DuplicidadeMensagem;
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
@@ -42,10 +25,10 @@ const dadosCadastro = {
 
 describe('Cadastro de Leitor', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('leitor/testdata').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('leitor/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

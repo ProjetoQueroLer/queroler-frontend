@@ -2,38 +2,11 @@
 
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
 import { gerarSenha } from '../../../../support/utils/geradorSenha';
+import { CampoInvalidosData } from '../../../../support/types/leitor/testdata';
+import { CadastrarLeitorInvalidosMensagem } from '../../../../support/types/leitor/mensagem';
 
-type CadastrarLeitorInvalidos = {
-  nome: string;
-  email: string;
-  emailNaoCoincidem: string;
-  senhaInvalida: string;
-  senhaNaoCoincidem: string;
-  cpfCurto: string;
-  senhaSemCaracteresEspecial: string;
-  senhaSemNumero: string;
-};
-
-type TestData = {
-  emailInvalido: string;
-  cadastrarLeitorInvalidos: CadastrarLeitorInvalidos;
-};
-
-type Mensagem = {
-  campoInvalidos: {
-    campoNomeInvalido: string;
-    emailInvalido: string;
-    emailsNaoCoincidem: string;
-    cpfInvalido: string;
-    senhaMinimoCaracteres: string;
-    senhaDeveConterCaractereEspecial: string;
-    senhaDeveConterNumero: string;
-    senhasNaoCoincidem: string;
-  };
-};
-
-let dados: TestData;
-let msg: Mensagem;
+let dados: CampoInvalidosData;
+let msg: CadastrarLeitorInvalidosMensagem;
 
 const cadastrarLeitorPage = new CadastrarLeitorPage();
 const senha = gerarSenha();
@@ -44,10 +17,10 @@ const dadosCadastro = {
 
 describe('Cadastro de Leitor', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('leitor/testdata').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('leitor/mensagem').then((fixture) => {
       msg = fixture;
     });
   });
@@ -68,7 +41,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.campoNomeInvalido
+        msg.campoInvalidoLabel.campoNomeInvalido
       );
     });
 
@@ -83,7 +56,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.cpfInvalido
+        msg.campoInvalidoLabel.cpfInvalido
       );
     });
 
@@ -94,11 +67,11 @@ describe('Cadastro de Leitor', () => {
         .severity('normal');
 
       cadastrarLeitorPage.preencherFormulario({
-        email: dados.emailInvalido,
+        email: dados.cadastrarLeitorInvalidos.emailInvalido,
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.emailInvalido
+        msg.campoInvalidoLabel.emailInvalido
       );
     });
 
@@ -114,7 +87,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.emailsNaoCoincidem
+        msg.campoInvalidoLabel.emailsNaoCoincidem
       );
     });
 
@@ -129,7 +102,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.senhaMinimoCaracteres
+        msg.campoInvalidoLabel.senhaMinimoCaracteres
       );
     });
 
@@ -144,7 +117,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.senhaDeveConterCaractereEspecial
+        msg.campoInvalidoLabel.senhaDeveConterCaractereEspecial
       );
     });
 
@@ -159,7 +132,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.senhaDeveConterNumero
+        msg.campoInvalidoLabel.senhaDeveConterNumero
       );
     });
 
@@ -175,7 +148,7 @@ describe('Cadastro de Leitor', () => {
       });
       cadastrarLeitorPage.clicarEmAceitarTermosDeUso();
       cadastrarLeitorPage.verificarMensagensCamposObrigatorios(
-        msg.campoInvalidos.senhasNaoCoincidem
+        msg.campoInvalidoLabel.senhasNaoCoincidem
       );
     });
 
