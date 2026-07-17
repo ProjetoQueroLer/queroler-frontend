@@ -2,30 +2,25 @@
 
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
 import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
+import {
+  LivroData,
+  ValidacaoIsbn,
+} from '../../../../support/types/cadastrar/livros/testdata';
+import { LivroMensagem } from '../../../../support/types/cadastrar/livros/mensagem';
 
-type TestData = {
-  nomeDoLivro: string;
-  isbnCadastrado: string;
-};
+type ValidacaoIsbnData = LivroData & ValidacaoIsbn;
 
-type Mensagem = {
-  mensagemToastNoCadastraLivro: {
-    ISBNNaoEncontrado: string;
-    ISBNEncontrado: string;
-  };
-};
-
-let dados: TestData;
-let msg: Mensagem;
+let dados: ValidacaoIsbnData;
+let msg: LivroMensagem;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
 
 describe('Cadastrar Livro', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('cadastrar/livro/testData').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('cadastrar/livro/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

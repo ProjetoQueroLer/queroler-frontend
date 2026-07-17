@@ -27,3 +27,29 @@ export type CampoInvalidosMensagem = {
     numeroDePaginasDeveConterApenasNumeros: string;
   };
 };
+
+export type EstruturaMensagem = {
+  labelsCadastrarLivro: {
+    isbn: string;
+    tituloDoLivro: string;
+    autores: string;
+    editora: string;
+    anoDePublicacao: string;
+    numeroDePaginas: string;
+    idioma: string;
+    sinopse: string;
+    capaDoLivro: string;
+  };
+};
+
+export type UploadFormatoInvalido = {
+  avisoErro: {
+    formatoArquivoInvalido: string;
+  };
+};
+
+export type UploadImagem = {
+  avisoErro: {
+    imagemMaiorQue10MB: string;
+  };
+};

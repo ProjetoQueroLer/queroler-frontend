@@ -3,31 +3,26 @@
 import { CadastrarLivroPage } from '../../../../support/pages/CadastrarLivroPage';
 import { GeradorDadosLivro } from '../../../../support/utils/geradorDadosLivro';
 import { gerarESalvarPdf } from '../../../../support/utils/geradorArquivo';
-type TestData = {
-  nomeDoLivro: string;
-};
+import { LivroData } from '../../../../support/types/cadastrar/livros/testdata';
+import {
+  LivroMensagem,
+  UploadFormatoInvalido,
+} from '../../../../support/types/cadastrar/livros/mensagem';
 
-type Mensagem = {
-  mensagemToastNoCadastraLivro: {
-    ISBNNaoEncontrado: string;
-  };
-  avisoErro: {
-    formatoArquivoInvalido: string;
-  };
-};
+type UploadInvalido = LivroMensagem & UploadFormatoInvalido;
 
-let dados: TestData;
-let msg: Mensagem;
+let dados: LivroData;
+let msg: UploadInvalido;
 
 const cadastrarLivroPage = new CadastrarLivroPage();
 
 describe('Cadastrar Livro', () => {
   before(() => {
     gerarESalvarPdf();
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('cadastrar/livro/testData').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('cadastrar/livro/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

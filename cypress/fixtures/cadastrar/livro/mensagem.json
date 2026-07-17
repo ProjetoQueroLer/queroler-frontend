@@ -24,5 +24,16 @@
     "anoPublicacaoObrigatorio": "Ano de publicação deve ter exatamente 4 números",
     "numeroDePaginasObrigatorio": "O número de páginas deve ser maior que 0",
     "sinopseObrigatorio": "Sinopse deve ter 50 caracteres no mínimo"
+  },
+  "labelsCadastrarLivro": {
+    "isbn": "ISBN",
+    "tituloDoLivro": "Título do livro",
+    "autores": "Autor(es)",
+    "editora": "Editora",
+    "anoDePublicacao": "Ano de Publicação",
+    "numeroDePaginas": "Número de Páginas",
+    "idioma": "Idioma",
+    "sinopse": "Sinopse",
+    "capaDoLivro": "Capa do livro"
   }
 }

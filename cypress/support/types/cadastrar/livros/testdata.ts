@@ -13,3 +13,7 @@ export type CampoInvalidosData = {
     numeroDePaginasInvalido: string;
   };
 };
+
+export type ValidacaoIsbn = {
+  isbnCadastrado: string;
+};
