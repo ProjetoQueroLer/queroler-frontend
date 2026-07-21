@@ -1,5 +1,7 @@
 'use client';
 
+import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { LIVRO_IDIOMA_LABEL } from '@/core/domain/book/language.enum';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { BookReview } from '@/presentation/shared/components/bookReview/BookReview';
 import { BookStatistic } from '@/presentation/shared/components/bookStatistic/bookStatistic';
@@ -18,8 +20,13 @@ import {
   Star,
 } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
-export function BookDetails() {
+export function BookDetails({
+  detalhesLivro,
+}: {
+  detalhesLivro: BookResponseDTO | undefined;
+}) {
   const user = useUserStore((state) => state.user);
   const [menuOpen, setIsMenuOpen] = useState(false);
 
@@ -36,39 +43,53 @@ export function BookDetails() {
         <main className="flex-1 px-4 py-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-3 lg:items-stretch">
             <div className="flex flex-col gap-3 w-full lg:w-[240px] shrink-0">
-              <div className="w-60 h-90 bg-border flex flex-col items-center justify-center gap-2 rounded-xl">
-                <span className="text-text-secondary text-xs text-center px-4">
-                  Capa não cadastrada
-                </span>
+              <div className="relative w-60 h-90 bg-border flex flex-col items-center justify-center gap-2 rounded-xl overflow-hidden">
+                {detalhesLivro?.capaUrl &&
+                detalhesLivro.capaUrl !== 'Capa não cadastrada.' ? (
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${detalhesLivro.capaUrl}`}
+                    alt={`Capa do livro ${detalhesLivro.titulo}`}
+                    fill
+                    className="object-cover"
+                    sizes="240px"
+                    priority
+                  />
+                ) : (
+                  <span className="text-text-secondary text-xs text-center px-4">
+                    Capa não cadastrada
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="flex-1 flex flex-col justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <h1 className="text-text-primary text-3xl lg:text-5xl font-bold">
-                  O Morro dos Ventos Uivantes
+                  {detalhesLivro?.titulo}
                 </h1>
                 <p className="text-text-secondary text-2xl py-4 lg:pt-7 lg:text-4xl">
-                  Emily Bronte
+                  {detalhesLivro?.autores[0].nome}
                 </p>
               </div>
 
               <div className="flex flex-col lg:flex-row gap-4">
                 <div className="flex flex-wrap gap-4 lg:gap-6">
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Editora
+                    {detalhesLivro?.editora}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Ano
+                    {detalhesLivro?.anoDePublicacao}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    x páginas
+                    {detalhesLivro?.numeroDePaginas} páginas
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    Idioma
+                    {detalhesLivro?.idioma
+                      ? LIVRO_IDIOMA_LABEL[detalhesLivro.idioma]
+                      : 'Idioma'}
                   </div>
                   <div className="text-text-primary text-lg lg:text-xl font-semibold">
-                    ISBN x
+                    ISBN {detalhesLivro?.isbn}
                   </div>
                 </div>
               </div>
@@ -155,7 +176,7 @@ export function BookDetails() {
                 Sinopse
               </h2>
               <p className="font-thin text-primary text-sm lg:text-base">
-                Sinopse do livro aqui.
+                {detalhesLivro?.sinopse}
               </p>
             </div>
           </div>
