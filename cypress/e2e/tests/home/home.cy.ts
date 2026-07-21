@@ -2,32 +2,21 @@
 
 import { LoginPage } from '../../../support/pages/LoginPage';
 import { HomePage } from '../../../support/pages/HomePage';
+import { HomeData } from '../../../support/types/home/testdata';
+import { HomeMensagem } from '../../../support/types/home/mensagem';
 
-type Mensagem = {
-  mensagemToast: {
-    toastLoginSucesso: string;
-    toastLogoutSucesso: string;
-  };
-};
-
-type TestData = {
-  usuarioCadastrado: {
-    nomeUsuario: string;
-  };
-};
-
-let msg: Mensagem;
-let dados: TestData;
+let msg: HomeMensagem;
+let dados: HomeData;
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
 
 describe('Tela Inicial', () => {
   before(() => {
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('home/mensagem').then((fixture) => {
       msg = fixture;
     });
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('home/testdata').then((fixture) => {
       dados = fixture;
     });
   });
