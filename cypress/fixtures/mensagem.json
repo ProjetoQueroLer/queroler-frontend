@@ -9,17 +9,5 @@
     "emailMuitoLongo": "Máximo de 256 caracteres",
     "senhaMinimaObrigatoria": "Mínimo 8 caracteres",
     "senhaMuitoCurta": "Mínimo 8 caracteres"
-  },
-  "campoObrigatorioCadastrarLivro": {
-    "ISBNObrigatorio": "ISBN obrigatório",
-    "tituloObrigatorio": "Título obrigatório",
-    "autorObrigatorio": "Autores é obrigatório",
-    "editoraObrigatoria": "Editora obrigatória",
-    "anoPublicacaoObrigatorio": "Ano de publicação deve ter exatamente 4 números",
-    "numeroDePaginasObrigatorio": "O número de páginas deve ser maior que 0",
-    "sinopseObrigatorio": "Sinopse deve ter 50 caracteres no mínimo"
-  },
-  "meuPerfil": {
-    "tituloPagina": "Meu perfil"
   }
 }

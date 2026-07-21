@@ -2,21 +2,21 @@
 
 import { HomePage } from '../../../support/pages/HomePage';
 import { PerfilPage } from '../../../support/pages/PerfilPage';
-import { TestData } from '../../../support/utils/Types/TestData';
-import { Mensagem } from '../../../support/utils/Types/Mensagem';
+import { EstruturaData } from '../../../support/types/perfil/testdata';
+import { MeuPerfilMensagem } from '../../../support/types/perfil/mensagem';
 
-let msg: Mensagem;
-let dados: TestData;
+let msg: MeuPerfilMensagem;
+let dados: EstruturaData;
 
 const homePage = new HomePage();
 const perfilPage = new PerfilPage();
 
 describe('Estrutura do Perfil', () => {
   before(() => {
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('perfil/mensagem').then((fixture) => {
       msg = fixture;
     });
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('perfil/testdata').then((fixture) => {
       dados = fixture;
     });
   });

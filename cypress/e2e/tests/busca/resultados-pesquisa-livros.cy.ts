@@ -2,8 +2,8 @@
 
 import { CadastrarLivroPage } from '../../../support/pages/CadastrarLivroPage';
 import { HomePage } from '../../../support/pages/HomePage';
-import { Mensagem } from '../../../support/types/Mensagem';
-import { TestData } from '../../../support/types/TestData';
+import { ResultadosPesquisaLivrosMsg } from '../../../support/types/pesquisa/mensagem';
+import { ResultadosPesquisaLivrosData } from '../../../support/types/pesquisa/testdata';
 
 type Credenciais = {
   email: string;
@@ -16,8 +16,8 @@ type Perfil = {
   perfilLeitor2: Credenciais;
 };
 
-let dados: TestData;
-let mensagens: Mensagem;
+let dados: ResultadosPesquisaLivrosData;
+let mensagens: ResultadosPesquisaLivrosMsg;
 let dadosPerfil: Perfil;
 let nomeDoLivro: string;
 
@@ -30,12 +30,12 @@ describe('Pesquisa de Livros por Perfil', () => {
       dadosPerfil = fixture;
     });
 
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('pesquisa/testdata').then((fixture) => {
       dados = fixture;
       nomeDoLivro = dados.nomeDoLivro;
     });
 
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('pesquisa/mensagem').then((fixture) => {
       mensagens = fixture;
     });
   });
