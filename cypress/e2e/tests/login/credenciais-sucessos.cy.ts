@@ -1,19 +1,11 @@
 /// <reference types="cypress" />
 
 import { LoginPage } from '../../../support/pages/LoginPage';
+import { CredenciaisSucessosData } from '../../../support/types/login/testdata';
+import { ToastMensagem } from '../../../support/types/login/mensagem';
 
-type Perfil = {
-  perfilLeitor: { email: string; senha: string };
-};
-
-type Mensagem = {
-  mensagemToast: {
-    toastLoginSucesso: string;
-  };
-};
-
-let dados: Perfil;
-let msg: Mensagem;
+let dados: CredenciaisSucessosData;
+let msg: ToastMensagem;
 
 const loginPage = new LoginPage();
 
@@ -22,7 +14,7 @@ describe('Login', () => {
     cy.fixture('perfil').then((fixture) => {
       dados = fixture;
     });
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('login/mensagem').then((fixture) => {
       msg = fixture;
     });
   });

@@ -5,9 +5,5 @@
   "senhaCurta": "1234567",
   "senhaInvalida": "1234567890",
   "nomeDoLivro": "O Senhor dos Anéis",
-  "isbnCadastrado": "7034757717",
-  "credenciaisInvalidas": {
-    "email": "usuario.invalido@queroler.com",
-    "senha": "SenhaErrada123"
-  }
+  "isbnCadastrado": "7034757717"
 }

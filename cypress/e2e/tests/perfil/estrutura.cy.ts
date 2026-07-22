@@ -2,8 +2,8 @@
 
 import { HomePage } from '../../../support/pages/HomePage';
 import { PerfilPage } from '../../../support/pages/PerfilPage';
-import { EstruturaData } from '../../../support/types/perfil/testdata';
-import { MeuPerfilMensagem } from '../../../support/types/perfil/mensagem';
+import { EstruturaData } from '../../../support/types/meu-perfil/testdata';
+import { MeuPerfilMensagem } from '../../../support/types/meu-perfil/mensagem';
 
 let msg: MeuPerfilMensagem;
 let dados: EstruturaData;

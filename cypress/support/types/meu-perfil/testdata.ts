@@ -1,5 +1,5 @@
 export type EstruturaData = {
-  meuPerfil: {
+  camposDoMeuPerfil: {
     nomeCompleto: string;
     email: string;
     cpf: string;
@@ -8,8 +8,11 @@ export type EstruturaData = {
     estado: string;
     pais: string;
   };
-  camposDoMeuPerfil: {
-    nomeCompleto: string;
+};
+
+export type VisualizarPerfil = {
+  meuPerfil: {
+    nome: string;
     email: string;
     cpf: string;
     dataDeNascimento: string;
