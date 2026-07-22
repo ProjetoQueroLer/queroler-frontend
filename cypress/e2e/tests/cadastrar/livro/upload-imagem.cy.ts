@@ -19,7 +19,7 @@ const cadastrarLivroPage = new CadastrarLivroPage();
 describe('Cadastrar Livro', () => {
   before(() => {
     gerarESalvarImagemPesado();
-    cy.fixture('cadastrar/livro/testData').then((fixture) => {
+    cy.fixture('cadastrar/livro/testdata').then((fixture) => {
       dados = fixture;
     });
     cy.fixture('cadastrar/livro/mensagem').then((fixture) => {

@@ -1,9 +1,0 @@
-{
-  "emailInvalido": "testes@",
-  "emailSemArroba": "testessemarroba.com",
-  "emailMuitoLongo": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.com",
-  "senhaCurta": "1234567",
-  "senhaInvalida": "1234567890",
-  "nomeDoLivro": "O Senhor dos Anéis",
-  "isbnCadastrado": "7034757717"
-}
