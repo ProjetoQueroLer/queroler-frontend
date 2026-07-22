@@ -11,7 +11,7 @@ const perfilPage = new PerfilPage();
 
 describe('Visualizar o Perfil', () => {
   before(() => {
-    cy.fixture('perfil/testData').then((fixture) => {
+    cy.fixture('perfil/testdata').then((fixture) => {
       data = fixture;
     });
   });
