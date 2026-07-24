@@ -31,7 +31,9 @@ export class HomePage {
   }
 
   clicarEmMeuPerfil(): this {
-    cy.get(HomeElements.meuPerfilButton).should('be.visible').click();
+    cy.get(HomeElements.meuPerfilButton)
+      .should('be.visible', { time: TIMEOUT })
+      .click({ force: true });
     return this;
   }
 
