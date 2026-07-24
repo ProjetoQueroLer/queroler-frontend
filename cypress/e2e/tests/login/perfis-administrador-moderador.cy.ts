@@ -1,24 +1,19 @@
 /// <reference types="cypress" />
 
 import { LoginPage } from '../../../support/pages/LoginPage';
+import {
+  CredenciaisInvalidasData,
+  CredenciaisSucessosData,
+} from '../../../support/types/login/testdata';
 
-type TestData = {
-  credenciaisInvalidas: { email: string; senha: string };
-};
-
-type Perfil = {
-  perfilAdministrador: { email: string; senha: string };
-  perfilModerador: { email: string; senha: string };
-};
-
-let dados: TestData;
-let dadosPerfil: Perfil;
+let dados: CredenciaisInvalidasData;
+let dadosPerfil: CredenciaisSucessosData;
 
 const loginPage = new LoginPage();
 
 describe('Login', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('login/testdata').then((fixture) => {
       dados = fixture;
     });
     cy.fixture('perfil').then((fixture) => {
