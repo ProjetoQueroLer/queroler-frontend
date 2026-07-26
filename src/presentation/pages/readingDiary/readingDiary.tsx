@@ -2,11 +2,15 @@
 
 import { Profile } from '@/core/domain/user/profile.enum';
 import { Header } from '@/presentation/shared/components/header/header';
+import { Pagination } from '@/presentation/shared/components/pagination/Pagination';
 import { ReadingDiaryBookCard } from '@/presentation/shared/components/readingDiaryBookCard/ReadingDiaryBookCard';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
+import { useState } from 'react';
 
 export function ReadingDiary() {
   const user = useUserStore((state) => state.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 5;
 
   return (
     <div>
@@ -43,6 +47,11 @@ export function ReadingDiary() {
               id={''}
             />
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </main>
       </div>
     </div>
