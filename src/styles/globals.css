@@ -35,7 +35,7 @@
 }
 @theme inline {
   --color-background: var(--color-background);
-  --color-background-secondary: var(--color-secondary-bg);
+  --color-secondary-bg: var(--color-secondary-bg);
   --color-background-input: var(--color-input-bg);
   --color-placeholder: var(--color-placeholder);
   --color-primary-button: var(--color-primary-button);
