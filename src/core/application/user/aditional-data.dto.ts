@@ -13,18 +13,9 @@ export const aditionalDataSchema = z.object({
   dataDeNascimento: z
     .string()
     .min(10, 'Data de nascimento no padão dd/mm/aaaa é obrigatória'),
-  cidade: z
-    .string()
-    .min(1, 'Cidade obrigatória')
-    .max(40, 'Máximo de 40 caracteres'),
-  estado: z
-    .string()
-    .min(1, 'Estado obrigatório')
-    .max(40, 'Máximo de 40 caracteres'),
-  pais: z
-    .string()
-    .min(1, 'País obrigatório')
-    .max(40, 'Máximo de 40 caracteres'),
+  cidade: z.string().optional(),
+  estado: z.string().optional(),
+  pais: z.string().optional(),
 
   fotoUrl: z.string().nullable().optional(),
 

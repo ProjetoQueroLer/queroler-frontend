@@ -11,11 +11,14 @@ import Image from 'next/image';
 import { useAditionalDataForm } from '@/presentation/pages/dados-adicionais/dados-adicionais-form/useDadosAdicionaisForm';
 import { loadUserProfilePageAction } from '@/app/actions/loadUserProfilePage.actions';
 import { AditionalDataRequestDTO } from '@/core/application/user/aditional-data.dto';
-import { updateUserProfileAction } from '@/app/actions/updateUser.actions';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
+import { useAuth } from '@/presentation/shared/lib/auth-context';
+import { updateWithAditionalDataAction } from '@/app/actions/updateWithAditionalData.actions';
 
 export function DadosAdicionaisForm() {
   const router = useRouter();
+
+  const { isAuthenticated, setAuthenticated } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -27,11 +30,17 @@ export function DadosAdicionaisForm() {
     watch,
   } = useAditionalDataForm();
 
-  const { cidade, estado, pais, fotoUrl } = watch();
+  const { cidade, estado, pais, fotoUrl, imagem } = watch();
 
-  const hasAnyValue = [cidade, estado, pais, fotoUrl].some(
-    (value) => value?.trim() !== ''
+  const hasAnyValue = [cidade, estado, pais, fotoUrl, imagem].some(
+    (value) => value || (typeof value === 'string' && value?.trim() !== '')
   );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace('/');
+    }
+  }, [isAuthenticated, router]);
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
@@ -51,8 +60,14 @@ export function DadosAdicionaisForm() {
     }
   };
 
+  const pularForm = () => {
+    setAuthenticated(true);
+    router.refresh();
+    router.push('/');
+  };
+
   const submitData = async (data: AditionalDataRequestDTO) => {
-    const result = await updateUserProfileAction(data);
+    const result = await updateWithAditionalDataAction(data);
 
     if (!result.success) {
       toast.error(result.message);
@@ -71,6 +86,8 @@ export function DadosAdicionaisForm() {
     });
 
     toast.success('Perfil atualizado com sucesso!');
+    setAuthenticated(true);
+    router.refresh();
     router.push('/');
   };
 
@@ -94,11 +111,14 @@ export function DadosAdicionaisForm() {
       setValue('cidade', result.response.cidade ?? '');
       setValue('estado', result.response.estado ?? '');
       setValue('pais', result.response.pais ?? '');
-      setValue('fotoUrl', result.response.fotoUrl ?? '');
     }
 
     carregarDadosUsuarioCadastrado();
   }, [setValue]);
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -161,7 +181,7 @@ export function DadosAdicionaisForm() {
                   id="cidade"
                   placeholder="Adicione a cidade"
                   dataTestId="input-cidade"
-                  maxLength={80}
+                  maxLength={40}
                   {...register('cidade')}
                   aria-invalid={!!errors.cidade}
                 />
@@ -173,7 +193,7 @@ export function DadosAdicionaisForm() {
                   id="estado"
                   placeholder="Adicione o estado"
                   dataTestId="input-estado"
-                  maxLength={80}
+                  maxLength={40}
                   {...register('estado')}
                   aria-invalid={!!errors.estado}
                 />
@@ -185,7 +205,7 @@ export function DadosAdicionaisForm() {
                   id="pais"
                   placeholder="Adicione o país"
                   dataTestId="input-pais"
-                  maxLength={80}
+                  maxLength={40}
                   {...register('pais')}
                   aria-invalid={!!errors.pais}
                 />
@@ -199,7 +219,7 @@ export function DadosAdicionaisForm() {
                 type="button"
                 data-testid="skip-button"
                 className="flex-1"
-                onClick={() => router.push('/')}
+                onClick={() => pularForm()}
               >
                 Pular
               </Button>

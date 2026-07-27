@@ -14,6 +14,7 @@ export const INITIAL_ADITIONAL_DATA_DEFAULT_VALUES: AditionalDataFormDTO = {
   estado: '',
   pais: '',
   fotoUrl: '',
+  imagem: undefined,
 };
 
 export function useAditionalDataForm(): Pick<
