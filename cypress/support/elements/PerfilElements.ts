@@ -1,5 +1,4 @@
 export class PerfilElements {
-  static readonly containerMeuPerfil = '[class="flex-1 px-4 py-6 lg:px-8"]';
   static readonly tituloMeuPerfil = '.text-text-primary.text-2xl';
   static readonly subtituloMeuPerfil = '.text-text-secondary.text-sm.mb-6';
   static readonly fotoPerfilLabel = '.text-brand.text-xs.tracking-widest';
@@ -12,7 +11,7 @@ export class PerfilElements {
   static readonly estadoInput = '[data-testid="input-estado"]';
   static readonly paisInput = '[data-testid="input-pais"]';
   static readonly fotoDePerfil = '[alt="Foto de perfil"]';
-  static readonly excluirContaButton = '[data-testid="btn-excluir-perfil"]';
+  static readonly excluirPerfilButton = '[data-testid="btn-excluir-perfil"]';
   static readonly voltarButton = '[data-testid="btn-voltar"]';
   static readonly salvarButton = '[data-testid="btn-salvar"]';
 }
