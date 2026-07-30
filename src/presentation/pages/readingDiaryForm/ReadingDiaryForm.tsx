@@ -4,7 +4,7 @@ import { Profile } from '@/core/domain/user/profile.enum';
 import { Input } from '@/presentation/shared/components';
 import { Header } from '@/presentation/shared/components/header/header';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
-import { Trash } from 'lucide-react';
+import { NotebookPen, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 
 export interface ReadingDiaryFormProps {
@@ -163,9 +163,9 @@ export function ReadingDiaryForm({
             </div>
           </div>
 
-          <div className="py-12">
-            <div className="bg-secondary-bg border border-border rounded-md p-4 ">
-              <h2 className="flex items-center gap-2 text-text-primary text-md lg:text-lg font-semibold pb-6">
+          <div className="py-5 lg:py-8">
+            <div className="bg-secondary-bg border border-border rounded-md p-3">
+              <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-2">
                 Cronologia de Leitura
               </h2>
               <div className="grid grid-cols-2 gap-5">
@@ -178,7 +178,7 @@ export function ReadingDiaryForm({
                     type="date"
                     max={`${anoLimite}-${mes}-${dia}`}
                     dataTestId="input-data-inicio"
-                    className="text-xs text-text-secondary uppercase w-full"
+                    className="text-xs text-text-primary uppercase w-full"
                   />
                 </div>
                 <div>
@@ -190,7 +190,7 @@ export function ReadingDiaryForm({
                     type="date"
                     max={`${anoLimite}-${mes}-${dia}`}
                     dataTestId="input-data-termino"
-                    className="text-xs text-text-secondary uppercase w-full"
+                    className="text-xs text-text-primary uppercase w-full"
                   />
                 </div>
               </div>
@@ -213,6 +213,41 @@ export function ReadingDiaryForm({
                   Salvar
                 </button>
               </div>
+            </div>
+          </div>
+          <div className="bg-secondary-bg border border-border rounded-md p-3">
+            <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-5">
+              <NotebookPen size={14} /> Acompanhamento de Leitura
+            </h2>
+            <div>
+              <button
+                type="button"
+                data-testid="btn-novo-registro-diario"
+                className="flex text-xs text-white hover:opacity-80 transition-opacity duration-200 font-semibold pb-5"
+              >
+                <Plus size={14} /> <span className="pl-1">Novo Registro</span>
+              </button>
+            </div>
+            <div className="flex-1 flex flex-col gap-1 pb-3">
+              <label className="text-text-primary text-xs">
+                Páginas lidas<span className="text-brand">*</span>
+              </label>
+              <input
+                data-testid="input-paginas"
+                className="w-full bg-secondary-bg border border-border rounded px-2 py-1 lg:px-3 lg:py-3 text-text-primary text-xs"
+                placeholder="1-613"
+                id="numero-paginas-lidas"
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <label className="text-text-primary text-xs">Comentários</label>
+              <textarea
+                data-testid="input-comentarios"
+                placeholder="Suas anotações privadas sobre esta seção de leitura"
+                rows={6}
+                className="w-full bg-secondary-bg border border-border rounded px-2 py-1 lg:px-3 lg:py-2 text-text-primary text-xs outline-none resize-none"
+                id="ano-de-publicacao"
+              />
             </div>
           </div>
         </main>
