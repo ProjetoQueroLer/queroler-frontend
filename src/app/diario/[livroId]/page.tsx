@@ -16,6 +16,7 @@ export default async function DiarioPage({
       numeroPaginas={613}
       idioma="Português"
       isbn={9788580700046}
+      rating={3.5}
     />
   );
 }
