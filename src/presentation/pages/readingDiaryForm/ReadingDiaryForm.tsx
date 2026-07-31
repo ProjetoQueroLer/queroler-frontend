@@ -249,6 +249,33 @@ export function ReadingDiaryForm({
                 id="ano-de-publicacao"
               />
             </div>
+            <div className="flex justify-end gap-4 py-4">
+              <button
+                data-testid="btn-salvar"
+                type="submit"
+                disabled
+                className="px-10 py-3 text-xs text-white rounded-lg bg-brand font-bold hover:opacity-80"
+              >
+                Salvar registro
+              </button>
+            </div>
+            <div className="mx-1 h-px bg-border" />
+            <div>
+              <h1 className="text-text-primary text-xs py-4">Histórico</h1>
+              <div className="bg-secondary-bg border border-border rounded-md p-3">
+                <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-2">
+                  <NotebookPen size={16} /> {/*numero de paginas lidas*/}{' '}
+                  páginas lidas
+                </h2>
+                <div className="pt-3 pb-8">
+                  <div className="bg-black border border-border rounded-md p-3">
+                    <p className="flex items-center gap-2 text-text-primary/40 text-sm lg:text-md font-thin">
+                      {/*texto do comentario*/}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
