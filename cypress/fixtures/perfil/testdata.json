@@ -16,5 +16,10 @@
     "cidade": "Cidade",
     "estado": "Estado",
     "pais": "País"
+  },
+
+  "usuarioCadastrado": {
+    "email": "qateste@yopmail.com",
+    "senha": "Teste123@"
   }
 }

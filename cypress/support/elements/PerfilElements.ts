@@ -14,4 +14,12 @@ export class PerfilElements {
   static readonly excluirPerfilButton = '[data-testid="btn-excluir-perfil"]';
   static readonly voltarButton = '[data-testid="btn-voltar"]';
   static readonly salvarButton = '[data-testid="btn-salvar"]';
+  static readonly cadastrarLeitorButton = '[data-testid="register-link"]';
+  static readonly pularDadosPessoaisButton = '[data-testid="skip-button"]';
+  static readonly modalExcluirPerfil =
+    '.bg-card-bg.border.border-border.rounded-2xl';
+  static readonly fechaToastButton =
+    '.Toastify__close-button.Toastify__close-button--light';
+  static readonly confirmarExcluirButton =
+    '.flex-1.py-2.text-sm.text-white.bg-brand.rounded-lg';
 }
