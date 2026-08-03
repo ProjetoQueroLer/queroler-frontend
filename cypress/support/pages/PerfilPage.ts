@@ -6,6 +6,7 @@ const TIMEOUT = 30000;
 
 export class PerfilPage {
   verificarPaginaCarregada(txt: string): this {
+    cy.visit('/perfil');
     cy.get(PerfilElements.tituloMeuPerfil)
       .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', txt);
@@ -74,6 +75,51 @@ export class PerfilPage {
 
   verificarSeBotaoExculirPerfilExiste(): this {
     cy.get(PerfilElements.excluirPerfilButton).should('be.visible');
+    return this;
+  }
+
+  acessaCadastrarLeitor(): this {
+    cy.get(PerfilElements.cadastrarLeitorButton).should('be.visible').click();
+    return this;
+  }
+
+  pularDadosPessoais(): this {
+    cy.get(PerfilElements.pularDadosPessoaisButton)
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  clicarEmExcluirPerfil(): this {
+    cy.get(PerfilElements.excluirPerfilButton)
+      .should('be.visible')
+      .click({ timeout: TIMEOUT });
+    return this;
+  }
+
+  verificarSeModalExcluirPerfilEstaVisivel(txt: string): this {
+    cy.get(PerfilElements.modalExcluirPerfil)
+      .should('be.visible', { timeout: TIMEOUT })
+      .and('contain.text', txt);
+    return this;
+  }
+
+  fechaToast(): this {
+    cy.get(PerfilElements.fechaToastButton)
+      .should('be.visible')
+      .click({ timeout: TIMEOUT });
+    return this;
+  }
+
+  clicarEmConfirmarExcluir(): this {
+    cy.get(PerfilElements.confirmarExcluirButton)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click();
+    return this;
+  }
+
+  validarPaginaDeLogin(): this {
+    cy.url().should('include', '/', { timeout: TIMEOUT });
     return this;
   }
 }

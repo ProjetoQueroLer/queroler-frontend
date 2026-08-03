@@ -21,3 +21,10 @@ export type VisualizarPerfil = {
     pais: string;
   };
 };
+
+export type ExcluirPerfilData = {
+  usuarioCadastrado: {
+    email: string;
+    senha: string;
+  };
+};
