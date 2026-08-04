@@ -2,6 +2,7 @@
 
 import { Profile } from '@/core/domain/user/profile.enum';
 import { Input } from '@/presentation/shared/components';
+import { DeleteDiaryModal } from '@/presentation/shared/components/deleteDiaryModal/DeleteDiaryModal';
 import { Header } from '@/presentation/shared/components/header/header';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
 import {
@@ -51,6 +52,7 @@ export function ReadingDiaryForm({
   const [menuOpen, setIsMenuOpen] = useState(false);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('Selecione');
   const [tituloResenha, setTituloResenha] = useState('');
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const temCapa =
     cover && cover !== 'Capa não cadastrada.' && cover.trim() !== '';
@@ -174,6 +176,7 @@ export function ReadingDiaryForm({
               <button
                 type="button"
                 data-testid="btn-excluir-diario"
+                onClick={() => setIsDeleteModalOpen(true)}
                 className="px-2 text-sm text-brand hover:opacity-80 cursor-pointer font-bold disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Trash size={16} className="text-brand" />
@@ -390,7 +393,7 @@ export function ReadingDiaryForm({
                       {menuOpen && (
                         <div className="absolute left-0 mt-2 w-full lg:w-max bg-card-bg border border-border rounded-lg shadow-lg z-50">
                           <button
-                            data-testid="profile-button"
+                            data-testid="btn-public-review"
                             onClick={() => {
                               setOpcaoSelecionada('Resenha pública');
                               setIsMenuOpen(false);
@@ -402,7 +405,7 @@ export function ReadingDiaryForm({
                           <div className="mx-4 h-px bg-border" />
                           <div className="cursor-pointer">
                             <button
-                              data-testid="profile-button"
+                              data-testid="btn-private-review"
                               onClick={() => {
                                 setOpcaoSelecionada('Resenha privada');
                                 setIsMenuOpen(false);
@@ -422,6 +425,10 @@ export function ReadingDiaryForm({
           </div>
         </main>
       </div>
+      <DeleteDiaryModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 }
