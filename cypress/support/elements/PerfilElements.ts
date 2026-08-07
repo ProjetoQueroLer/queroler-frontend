@@ -10,7 +10,8 @@ export class PerfilElements {
   static readonly cidadeInput = '[data-testid="input-cidade"]';
   static readonly estadoInput = '[data-testid="input-estado"]';
   static readonly paisInput = '[data-testid="input-pais"]';
-  static readonly fotoDePerfil = '[alt="Foto de perfil"]';
+  static readonly fotoDePerfil =
+    '.bg-border.border-2.border-dashed.border-text-secondary';
   static readonly excluirPerfilButton = '[data-testid="btn-excluir-perfil"]';
   static readonly voltarButton = '[data-testid="btn-voltar"]';
   static readonly salvarButton = '[data-testid="btn-salvar"]';
