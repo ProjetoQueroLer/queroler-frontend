@@ -39,15 +39,9 @@ jobs:
             "user_email": "${{ secrets.CYPRESS_user_email }}",
             "user_senha": "${{ secrets.CYPRESS_user_senha }}"
           }' > cypress.env.json
-          
+
       - name: Rodar testes Cypress
-        run: |
-          npm run test:e2e:busca
-          npm run test:e2e:cadastrar:leitor
-          npm run test:e2e:cadastrar:livro
-          npm run test:e2e:home
-          npm run test:e2e:login
-          npm run test:e2e:perfil
+        run: npm run test:e2e:all
 
       - name: Disparar Deploy no Render (Apenas na develop)
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
