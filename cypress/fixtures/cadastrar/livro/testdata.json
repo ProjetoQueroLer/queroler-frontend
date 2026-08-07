@@ -1,6 +1,6 @@
 {
   "nomeDoLivro": "O Senhor dos Anéis",
-  "isbnCadastrado": "7034757717",
+  "isbnCadastrado": "7896543210",
   "cadastrarLivroInvalidos": {
     "ISBNInvalido": "ABCDEFGH!@#$",
     "autorInvalido": "123!@#$",

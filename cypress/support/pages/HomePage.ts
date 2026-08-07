@@ -32,7 +32,7 @@ export class HomePage {
 
   clicarEmMeuPerfil(): this {
     cy.get(HomeElements.meuPerfilButton)
-      .should('be.visible', { time: TIMEOUT })
+      .should('be.visible', { timeout: TIMEOUT })
       .click({ force: true });
     return this;
   }
@@ -103,7 +103,7 @@ export class HomePage {
   selecionarBotaoVerTodosOsResultados(): this {
     cy.get(HomeElements.botaoVerTodosOsResultados)
       .should('be.visible', { timeout: TIMEOUT })
-      .click(); // <<<<<< adicionei time out 30000
+      .click();
     return this;
   }
 
@@ -127,7 +127,6 @@ export class HomePage {
     this.pesquisaPorAutor();
     this.pesquisar(texto);
     this.selecionarBotaoVerTodosOsResultados();
-    //cy.wait(5000); // <<<<<<<<<<<<<<<<<<<<
     return this;
   }
 

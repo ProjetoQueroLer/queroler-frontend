@@ -58,6 +58,7 @@ export class CadastrarLivroPage {
   fecharToast(): this {
     cy.get(CadastrarLivroElements.fechaToastButton)
       .should('be.visible')
+      .eq(0)
       .click();
     return this;
   }
@@ -87,6 +88,7 @@ export class CadastrarLivroPage {
         .should('be.visible')
         .type(this.dadosLivro.isbn);
       this.fecharToast();
+      cy.pressionarTab();
       this.verificarToastErro(msg);
     }
     if (this.dadosLivro.titulo) {
