@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { PerfilElements } from '../elements/PerfilElements';
+import { Fixtures } from '../utils/fixtures';
 
 const TIMEOUT = 30000;
 
@@ -120,6 +121,57 @@ export class PerfilPage {
 
   validarPaginaDeLogin(): this {
     cy.url().should('include', '/', { timeout: TIMEOUT });
+    return this;
+  }
+
+  preencherCampoCidade(cidade: string): this {
+    cy.get(PerfilElements.cidadeInput)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click({ timeout: TIMEOUT })
+      .type(cidade)
+      .clear()
+      .type(cidade);
+    return this;
+  }
+
+  preencherCampoEstado(estado: string): this {
+    cy.get(PerfilElements.estadoInput)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click()
+      .clear()
+      .type(estado);
+    return this;
+  }
+
+  preencherCampoPais(pais: string): this {
+    cy.get(PerfilElements.paisInput)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click()
+      .clear()
+      .type(pais);
+    return this;
+  }
+
+  selecionarImagem(tipo: 'leve' | 'pesado' = 'leve'): this {
+    cy.get(PerfilElements.fotoPerfilLabel).should('be.visible');
+    cy.get(PerfilElements.imagemPerfilInput).selectFile(
+      Fixtures.imagens[tipo],
+      { force: true }
+    );
+    return this;
+  }
+
+  clicarEmAvancar(): this {
+    cy.get(PerfilElements.avancarButton)
+      .should('be.visible')
+      .click({ timeout: TIMEOUT });
+    return this;
+  }
+
+  clicarEmAvancarDesabilitado(): this {
+    cy.get(PerfilElements.avancarButton).should('be.disabled', {
+      timeout: TIMEOUT,
+    });
     return this;
   }
 }
