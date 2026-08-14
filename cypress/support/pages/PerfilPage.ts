@@ -129,7 +129,7 @@ export class PerfilPage {
       .should('be.visible', { timeout: TIMEOUT })
       .click({ timeout: TIMEOUT })
       .type(cidade)
-      .clear()
+      .clear({ timeout: TIMEOUT })
       .type(cidade);
     return this;
   }

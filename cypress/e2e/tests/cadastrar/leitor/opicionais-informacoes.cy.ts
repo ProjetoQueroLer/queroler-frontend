@@ -1,14 +1,12 @@
 /// <reference types="cypress" />
 
 import { faker } from '@faker-js/faker/locale/pt_BR';
-import { gerarCpf } from '../../../../support/utils/geradorCpf';
-import { gerarSenha } from '../../../../support/utils/geradorSenha';
-import { gerarDataNascimento } from '../../../../support/utils/geradorData';
 import { CadastrarLeitorPage } from '../../../../support/pages/CadastrarLeitorPage';
 import { PerfilPage } from '../../../../support/pages/PerfilPage';
 import { LoginPage } from '../../../../support/pages/LoginPage';
 import { CadastrarSucessoMsg } from '../../../../support/types/meu-perfil/mensagem';
 import { gerarEsalvarImagemLeve } from '../../../../support/utils/geradorImagem';
+import { GeradorDadosLeitor } from '../../../../support/utils/geradorDadosLeitor';
 
 let msg: CadastrarSucessoMsg;
 
@@ -22,18 +20,6 @@ const dadosOpcionais = {
   pais: faker.location.country(),
 };
 
-function gerarDadosCadastro() {
-  const senha = gerarSenha();
-  return {
-    nome: faker.person.firstName(),
-    email: faker.internet.email(),
-    senha,
-    confirmacaoSenha: senha,
-    cpf: gerarCpf(),
-    dataNascimento: gerarDataNascimento(),
-  };
-}
-
 describe('Cadastrar informações opcionais com perfil de leitor', () => {
   before(() => {
     gerarEsalvarImagemLeve();
@@ -46,7 +32,7 @@ describe('Cadastrar informações opcionais com perfil de leitor', () => {
     loginPage.visitarPagina();
     perfilPage.acessaCadastrarLeitor();
 
-    const dadosCadastro = gerarDadosCadastro();
+    const dadosCadastro = GeradorDadosLeitor.gerarDadosCadastro();
 
     cadastrarLeitorPage.preencherFormulario({
       nome: dadosCadastro.nome,
