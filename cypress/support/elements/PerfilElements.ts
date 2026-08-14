@@ -23,4 +23,6 @@ export class PerfilElements {
     '.Toastify__close-button.Toastify__close-button--light';
   static readonly confirmarExcluirButton =
     '.flex-1.py-2.text-sm.text-white.bg-brand.rounded-lg';
+  static readonly imagemPerfilInput = 'input[type="file"]';
+  static readonly avancarButton = '[data-testid="add-submit-button"]';
 }

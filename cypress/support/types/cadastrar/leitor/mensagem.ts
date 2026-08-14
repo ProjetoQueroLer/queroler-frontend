@@ -47,3 +47,12 @@ export type EstruturaMensagem = {
     politicaDePrivacidade: string;
   };
 };
+
+export type DadosPessoaisMsg = {
+  dadosPessoais: {
+    tituloPagina: string;
+    campoCidade: string;
+    campoEstado: string;
+    campoPais: string;
+  };
+};
