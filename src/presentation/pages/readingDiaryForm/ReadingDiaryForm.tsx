@@ -88,6 +88,7 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
               cover={livro.capaUrl}
               editora={livro.editora}
               numeroPaginas={livro.numeroDePaginas}
+              mostrarBotaoEditar={false}
             />
           )}
           <ReadingDiaryTimeline

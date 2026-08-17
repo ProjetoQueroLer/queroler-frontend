@@ -10,6 +10,7 @@ export interface ReadingDiaryBookCardProps {
   cover: string;
   editora?: string;
   numeroPaginas?: number | string;
+  mostrarBotaoEditar?: boolean;
 }
 
 export function ReadingDiaryBookCard({
@@ -19,6 +20,7 @@ export function ReadingDiaryBookCard({
   cover,
   editora,
   numeroPaginas,
+  mostrarBotaoEditar = true,
 }: ReadingDiaryBookCardProps) {
   const temCapa =
     cover && cover !== 'Capa não cadastrada.' && cover.trim() !== '';
@@ -93,16 +95,18 @@ export function ReadingDiaryBookCard({
         </div>
       </div>
 
-      <div className="flex items-end">
-        <button
-          data-testid="btn-editar"
-          type="button"
-          onClick={() => router.push(`/diario/${id}`)}
-          className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap"
-        >
-          Editar
-        </button>
-      </div>
+      {mostrarBotaoEditar && (
+        <div className="flex items-end">
+          <button
+            data-testid="btn-editar"
+            type="button"
+            onClick={() => router.push(`/diario/${id}`)}
+            className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap"
+          >
+            Editar
+          </button>
+        </div>
+      )}
     </div>
   );
 }
