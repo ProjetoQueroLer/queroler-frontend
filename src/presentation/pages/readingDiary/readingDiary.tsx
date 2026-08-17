@@ -85,7 +85,7 @@ export function ReadingDiary() {
                 {diariosDaPagina.map((diario) => (
                   <ReadingDiaryBookCard
                     key={diario.diarioId}
-                    id={String(diario.diarioId)}
+                    id={String(diario.livroId)}
                     title={diario.titulo}
                     author={diario.autores?.[0]?.nome || ''}
                     cover={diario.urlCapa}

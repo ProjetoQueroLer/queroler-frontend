@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export interface ReadingDiaryBookCardProps {
   id: string;
@@ -12,6 +13,7 @@ export interface ReadingDiaryBookCardProps {
 }
 
 export function ReadingDiaryBookCard({
+  id,
   title,
   author,
   cover,
@@ -26,6 +28,8 @@ export function ReadingDiaryBookCard({
       ? cover
       : `${process.env.NEXT_PUBLIC_API_URL}${cover}`
     : '';
+
+  const router = useRouter();
 
   return (
     <div className="flex gap-3 sm:gap-4 p-3 rounded-md bg-secondary-bg border border-border w-full group shadow-xs">
@@ -93,6 +97,7 @@ export function ReadingDiaryBookCard({
         <button
           data-testid="btn-editar"
           type="button"
+          onClick={() => router.push(`/diario/${id}`)}
           className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap"
         >
           Editar
