@@ -2,9 +2,12 @@
 
 import { HomeElements } from '../elements/HomeElements';
 
+const TIMEOUT = 30000;
 export class HomePage {
   verificarPaginaCarregada(): this {
-    cy.get(HomeElements.logoQueroLer, { timeout: 10000 }).should('be.visible');
+    cy.get(HomeElements.logoQueroLer, { timeout: TIMEOUT }).should(
+      'be.visible'
+    );
     return this;
   }
 
@@ -21,8 +24,15 @@ export class HomePage {
   }
 
   abrirMenuUsuario(): this {
-    cy.get(HomeElements.menuUsuarioTriggerButton, { timeout: 10000 })
+    cy.get(HomeElements.menuUsuarioTriggerButton, { timeout: TIMEOUT })
       .should('be.visible')
+      .click({ force: true });
+    return this;
+  }
+
+  clicarEmMeuPerfil(): this {
+    cy.get(HomeElements.meuPerfilButton)
+      .should('be.visible', { timeout: TIMEOUT })
       .click({ force: true });
     return this;
   }
@@ -54,8 +64,10 @@ export class HomePage {
     return this;
   }
 
-  pesquisar(texto: string): this {
-    cy.get(HomeElements.barraDePesquisa).should('be.visible').type(texto);
+  pesquisar(texto: string | undefined): this {
+    cy.get(HomeElements.barraDePesquisa)
+      .should('be.visible')
+      .type(texto || '');
     return this;
   }
   pesquisaPorAutor(): this {
@@ -89,7 +101,9 @@ export class HomePage {
   }
 
   selecionarBotaoVerTodosOsResultados(): this {
-    cy.get(HomeElements.botaoVerTodosOsResultados).should('be.visible').click();
+    cy.get(HomeElements.botaoVerTodosOsResultados)
+      .should('be.visible', { timeout: TIMEOUT })
+      .click();
     return this;
   }
 
@@ -99,6 +113,46 @@ export class HomePage {
       .find('button')
       .contains(numero)
       .click();
+    return this;
+  }
+
+  verificarOrdemDecrescenteDosLivros(tituloDoLivro: string | undefined): this {
+    cy.get(HomeElements.ate5LivrosPesquisados)
+      .contains(tituloDoLivro || '')
+      .first();
+    return this;
+  }
+
+  pesquisarEVerificarBotaoVerTodosOsResultados(texto: string): this {
+    this.pesquisaPorAutor();
+    this.pesquisar(texto);
+    this.selecionarBotaoVerTodosOsResultados();
+    return this;
+  }
+
+  contarMaisDe5LivrosDeAutor(texto: string): this {
+    this.pesquisarEVerificarBotaoVerTodosOsResultados(texto);
+    this.verificarQuantidadeDeLivrosMaiorQue(5);
+    return this;
+  }
+  contar15LivrosDeAutor(texto: string): this {
+    this.pesquisarEVerificarBotaoVerTodosOsResultados(texto);
+    this.verificarQuantidadeExataDeLivros(15);
+    return this;
+  }
+  contarMaisDe15LivrosDeAutor(texto: string): this {
+    this.contar15LivrosDeAutor(texto);
+    this.selecionarBotaoPaginacao('2');
+    this.verificarQuantidadeDeLivrosMaiorQue(0);
+    return this;
+  }
+  verificarOrdemDecrescenteDosLivrosPorAutor(
+    autor: string,
+    titulo: string
+  ): this {
+    this.pesquisaPorAutor();
+    this.pesquisar(autor);
+    this.verificarOrdemDecrescenteDosLivros(titulo);
     return this;
   }
 }

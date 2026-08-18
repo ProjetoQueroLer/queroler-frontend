@@ -8,22 +8,29 @@ import {
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 export class MockUserRepository implements UserRepository {
-  public async create(_data: string): Promise<UserEntity> {
+  public async create(
+    _data: string
+  ): Promise<{ user: UserEntity; setCookie: string[] }> {
     return {
-      id: 19,
-      nome: 'Teste',
-      email: 'teste@email.com',
-      cpf: '47583364758',
-      profile: Profile.LEITOR,
-      dataDeNascimento: '2000-12-30',
-      aceitarTermos: true,
-      cidade: 'Cidade',
-      estado: 'Estado',
-      pais: 'Pais',
-      foto: null,
-      user: undefined,
-      notificacoes: undefined,
-      livros: undefined,
+      user: {
+        id: 19,
+        nome: 'Teste',
+        email: 'teste@email.com',
+        cpf: '47583364758',
+        profile: Profile.LEITOR,
+        dataDeNascimento: '2000-12-30',
+        aceitarTermos: true,
+        cidade: 'Cidade',
+        estado: 'Estado',
+        pais: 'Pais',
+        foto: null,
+        user: undefined,
+        notificacoes: undefined,
+        livros: undefined,
+      },
+      setCookie: [
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+      ],
     };
   }
 

@@ -1,0 +1,25 @@
+{
+  "meuPerfil": {
+    "nome": "QA Test",
+    "email": "qateste@yopmail.com",
+    "cpf": "14748258004",
+    "dataDeNascimento": "13/05/1991",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "pais": "Brasil"
+  },
+  "camposDoMeuPerfil": {
+    "nomeCompleto": "Nome completo",
+    "email": "E-mail",
+    "cpf": "CPF",
+    "dataDeNascimento": "Data de nascimento",
+    "cidade": "Cidade",
+    "estado": "Estado",
+    "pais": "País"
+  },
+
+  "usuarioCadastrado": {
+    "email": "qateste@yopmail.com",
+    "senha": "Teste123@"
+  }
+}
