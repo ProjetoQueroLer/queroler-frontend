@@ -27,4 +27,5 @@ export interface BookRepository {
   buscarLivrosPeloAtributo(
     data: FindBooksByAttributeDTO
   ): Promise<AxiosResponse<Page<SearchBookResponseDTO>>>;
+  buscarPorId(id: number): Promise<AxiosResponse<BookResponseDTO>>;
 }
