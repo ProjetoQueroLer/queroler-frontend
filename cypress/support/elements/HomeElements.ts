@@ -4,7 +4,7 @@ export class HomeElements {
   static readonly logoutButton = '[data-testid="logout-button"]';
   static readonly logoQueroLer = '[alt="Quero Ler"]';
   static readonly sinoIconButton = '[data-testid="bell-icon"]';
-
+  static readonly meuPerfilButton = '[data-testid="profile-button"]';
   static readonly toast = '.Toastify__toast';
   static readonly fechaToastButton = '.Toastify__close-button';
 
@@ -24,4 +24,6 @@ export class HomeElements {
   static readonly botaoVerTodosOsResultados =
     '[class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-text-primary bg-search-border border border-border rounded-md hover:opacity-90 transition-all cursor-pointer shadow-xs"]';
   static readonly botaoPaginacao = '[class="flex items-center gap-1"]';
+  static readonly ate5LivrosPesquisados =
+    '[class="text-text-primary text-base font-semibold truncate group-hover:text-text-primary/90 transition-colors"]';
 }

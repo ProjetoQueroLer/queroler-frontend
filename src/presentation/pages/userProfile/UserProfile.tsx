@@ -31,7 +31,7 @@ export function UserProfile() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting, isValid, isDirty },
   } = useUserProfileForm();
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export function UserProfile() {
     const file = e.target.files?.[0];
 
     if (file) {
-      setValue('imagem', file, { shouldValidate: true });
+      setValue('imagem', file, { shouldValidate: true, shouldDirty: true });
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -331,10 +331,10 @@ export function UserProfile() {
                 <button
                   data-testid="btn-salvar"
                   type="submit"
-                  disabled={isSubmitting || !isValid}
+                  disabled={isSubmitting || !isValid || !isDirty}
                   className={`px-9 py-3 text-sm text-white rounded-lg bg-brand font-bold
                   ${
-                    isSubmitting || !isValid
+                    isSubmitting || !isValid || !isDirty
                       ? 'opacity-50 cursor-not-allowed'
                       : 'hover:opacity-80'
                   }`}

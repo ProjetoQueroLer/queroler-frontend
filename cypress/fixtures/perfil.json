@@ -1,11 +1,11 @@
 {
   "perfilAdministrador": {
-    "email": "administrador@queroler.com",
+    "email": "administrador1@queroler.com",
     "senha": "Pa55word@"
   },
 
   "perfilModerador": {
-    "email": "moderador@queroler.com",
+    "email": "moderador1@queroler.com",
     "senha": "Pa55word@"
   },
 
@@ -21,11 +21,11 @@
 
   "perfilModerador2": {
     "email": "moderador2_teste@queroler.com",
-    "senha": "nov@S3nha"
+    "senha": "Pa55word@?"
   },
 
   "perfilLeitor2": {
-    "email": "leitor@queroler.com",
-    "senha": "Pa55word?"
+    "email": "leitor2@queroler.com",
+    "senha": "Pa55word@?"
   }
 }

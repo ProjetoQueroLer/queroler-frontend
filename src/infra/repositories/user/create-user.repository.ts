@@ -9,12 +9,32 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 export class ApiUserRepository implements UserRepository {
   constructor(private readonly api: AxiosInstance) {}
 
-  async create(data: string): Promise<UserEntity> {
+  async create(
+    data: string
+  ): Promise<{ user: UserEntity; setCookie: string[] }> {
     try {
       const formData = new FormData();
       formData.append('dados', data);
       const response = await this.api.post('/usuarios', formData);
-      return response.data;
+
+      const setCookieHeader = response.headers?.['set-cookie'];
+      const setCookie = Array.isArray(setCookieHeader)
+        ? setCookieHeader
+        : setCookieHeader
+          ? [setCookieHeader]
+          : [];
+
+      if (
+        !response.data.accessToken &&
+        !setCookie.some((cookie) => cookie.startsWith('jwt='))
+      ) {
+        throw new Error(String(response.data.message));
+      }
+
+      return {
+        user: response.data,
+        setCookie,
+      };
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error

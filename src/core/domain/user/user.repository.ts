@@ -28,7 +28,7 @@ export interface UpdateUserProfileData {
 }
 
 export interface UserRepository {
-  create(data: string): Promise<UserEntity>;
+  create(data: string): Promise<{ user: UserEntity; setCookie: string[] }>;
   changePassword(data: ChangePasswordData): Promise<void>;
   delete(): Promise<void>;
   updateProfile(dados: string, imagem?: File): Promise<void>;
