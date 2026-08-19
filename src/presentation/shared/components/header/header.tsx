@@ -1,10 +1,16 @@
 'use client';
-
-import { Bell, ChevronDown, LogOut, NotebookPen, User } from 'lucide-react';
+import {
+  ArrowLeft,
+  Bell,
+  ChevronDown,
+  LogOut,
+  NotebookPen,
+  User,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/presentation/shared/lib/auth-context';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { NotificationModal } from '@/presentation/shared/components/modal/NotificationModal';
 import { loadUserNotificationsAction } from '@/app/actions/loadUserNotifications.actions';
@@ -32,6 +38,9 @@ export function Header({
   const [notifications, setNotifications] = useState<
     LoadUserNotificationsResponseDTO[]
   >([]);
+  const pathname = usePathname();
+
+  const mostrarBotaoVoltar = pathname === '/detalhamento-livro';
 
   useEffect(() => {
     async function loadNotifications() {
@@ -73,14 +82,31 @@ export function Header({
   }
 
   return (
-    <header className="w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-5 bg-color-background border-b border-border/50">
+    <header className="relative w-full flex items-center justify-between px-4 py-3 lg:px-8 lg:py-4 bg-color-background border-b border-border">
+      <div className="flex items-center">
+        {mostrarBotaoVoltar && (
+          <button
+            data-testid="btn-voltar-header"
+            onClick={() => router.push('/')}
+            className="flex items-center gap-2 text-sm text-text-primary hover:text-text-primary cursor-pointer"
+          >
+            <ArrowLeft size={14} />
+            Voltar para a home
+          </button>
+        )}
+      </div>
+
       <Image
         src="/logo-small.svg"
         alt="Quero Ler"
         width={120}
         height={36}
         priority
-        className="h-auto w-auto"
+        className={`h-auto w-auto absolute top-1/2 -translate-y-1/2 ${
+          mostrarBotaoVoltar
+            ? 'left-1/2 -translate-x-1/2'
+            : 'left-4 lg:left-8 translate-x-0'
+        }`}
       />
 
       <div className="flex items-center gap-3">
