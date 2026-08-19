@@ -33,4 +33,5 @@ export interface BookRepository {
   buscarDetalhamentoDoLivro(
     id: number
   ): Promise<AxiosResponse<BookResponseDetailedDTO>>;
+  buscarPorId(id: number): Promise<AxiosResponse<BookResponseDTO>>;
 }
