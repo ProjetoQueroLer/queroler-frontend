@@ -11,7 +11,8 @@ export function proxy(request: NextRequest) {
 
   const isProtectedRoute =
     request.nextUrl.pathname.startsWith('/cadastro-livro') ||
-    request.nextUrl.pathname.startsWith('/alterar-senha');
+    request.nextUrl.pathname.startsWith('/alterar-senha') ||
+    request.nextUrl.pathname.startsWith('/dados-adicionais');
 
   if (isProtectedRoute && !token) {
     const loginUrl = new URL('/', request.url);
@@ -33,5 +34,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/cadastro-livro', '/alterar-senha'],
+  matcher: ['/', '/cadastro-livro', '/alterar-senha', '/dados-adicionais'],
 };

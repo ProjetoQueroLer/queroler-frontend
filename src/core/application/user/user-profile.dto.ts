@@ -9,22 +9,13 @@ export const userProfileSchema = z.object({
     .min(1, 'Nome obrigatório')
     .max(120, 'Máximo de 120 caracteres'),
   email: z.email('E-mail inválido'),
-  cpf: z.string().min(1),
+  cpf: z.string().optional(),
   dataDeNascimento: z
     .string()
     .min(10, 'Data de nascimento no padão dd/mm/aaaa é obrigatória'),
-  cidade: z
-    .string()
-    .min(1, 'Cidade obrigatória')
-    .max(40, 'Máximo de 40 caracteres'),
-  estado: z
-    .string()
-    .min(1, 'Estado obrigatório')
-    .max(40, 'Máximo de 40 caracteres'),
-  pais: z
-    .string()
-    .min(1, 'País obrigatório')
-    .max(40, 'Máximo de 40 caracteres'),
+  cidade: z.string().max(40, 'Máximo de 40 caracteres'),
+  estado: z.string().max(40, 'Máximo de 40 caracteres'),
+  pais: z.string().max(40, 'Máximo de 40 caracteres'),
 
   fotoUrl: z.string().nullable().optional(),
 

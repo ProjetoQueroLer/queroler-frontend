@@ -1,34 +1,20 @@
 /// <reference types="cypress" />
 
 import { LoginPage } from '../../../support/pages/LoginPage';
+import { ValidacaoEmailSenhaData } from '../../../support/types/login/testdata';
+import { ValidacaoEmailSenhaMsg } from '../../../support/types/login/mensagem';
 
-type Mensagem = {
-  campoLogin: {
-    emailObrigatorio: string;
-    emailInvalido: string;
-    senhaMinimaObrigatoria: string;
-    senhaMuitoCurta: string;
-  };
-};
-
-type TestData = {
-  emailInvalido: string;
-  emailSemArroba: string;
-  senhaCurta: string;
-  credenciaisInvalidas: { email: string; senha: string };
-};
-
-let msg: Mensagem;
-let dados: TestData;
+let msg: ValidacaoEmailSenhaMsg;
+let dados: ValidacaoEmailSenhaData;
 
 const loginPage = new LoginPage();
 
 describe('Login', () => {
   before(() => {
-    cy.fixture('mensagem').then((fixture) => {
+    cy.fixture('login/mensagem').then((fixture) => {
       msg = fixture;
     });
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('login/testdata').then((fixture) => {
       dados = fixture;
     });
   });
@@ -55,7 +41,7 @@ describe('Login', () => {
         .severity('critical');
 
       loginPage
-        .preencherEmail(dados.emailInvalido)
+        .preencherEmail(dados.campoInvalido.emailInvalido)
         .tocarCampoSenhaESair()
         .verificarErroEmail(msg.campoLogin.emailInvalido);
     });
@@ -67,7 +53,7 @@ describe('Login', () => {
         .severity('critical');
 
       loginPage
-        .preencherEmail(dados.emailSemArroba)
+        .preencherEmail(dados.campoInvalido.emailSemArroba)
         .tocarCampoSenhaESair()
         .verificarErroEmail(msg.campoLogin.emailInvalido);
     });
@@ -91,7 +77,7 @@ describe('Login', () => {
         .severity('critical');
 
       loginPage
-        .preencherSenha(dados.senhaCurta)
+        .preencherSenha(dados.campoInvalido.senhaCurta)
         .tocarCampoEmailESair()
         .verificarErroSenha(msg.campoLogin.senhaMuitoCurta);
     });

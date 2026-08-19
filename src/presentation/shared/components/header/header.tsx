@@ -1,5 +1,4 @@
 'use client';
-
 import {
   ArrowLeft,
   Bell,
@@ -92,7 +91,7 @@ export function Header({
             className="flex items-center gap-2 text-sm text-text-primary hover:text-text-primary cursor-pointer"
           >
             <ArrowLeft size={14} />
-            <span className="hidden sm:inline">Voltar para a home</span>
+            Voltar para a home
           </button>
         )}
       </div>
@@ -103,7 +102,7 @@ export function Header({
         width={120}
         height={36}
         priority
-        className={`h-auto w-[76px] sm:w-[120px] absolute top-1/2 -translate-y-1/2 ${
+        className={`h-auto w-auto absolute top-1/2 -translate-y-1/2 ${
           mostrarBotaoVoltar
             ? 'left-1/2 -translate-x-1/2'
             : 'left-4 lg:left-8 translate-x-0'

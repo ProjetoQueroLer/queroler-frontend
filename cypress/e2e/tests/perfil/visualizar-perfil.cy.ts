@@ -2,28 +2,17 @@
 
 import { HomePage } from '../../../support/pages/HomePage';
 import { PerfilPage } from '../../../support/pages/PerfilPage';
+import { VisualizarPerfil } from '../../../support/types/meu-perfil/testdata';
 
-type TestData = {
-  meuPerfil: {
-    nome: string;
-    email: string;
-    cpf: string;
-    dataDeNascimento: string;
-    cidade: string;
-    estado: string;
-    pais: string;
-  };
-};
-
-let testData: TestData;
+let data: VisualizarPerfil;
 
 const homePage = new HomePage();
 const perfilPage = new PerfilPage();
 
 describe('Visualizar o Perfil', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
-      testData = fixture;
+    cy.fixture('perfil/testdata').then((fixture) => {
+      data = fixture;
     });
   });
 
@@ -39,13 +28,13 @@ describe('Visualizar o Perfil', () => {
 
     homePage.abrirMenuUsuario().fecharToast().clicarEmMeuPerfil();
     perfilPage
-      .verificarNome(testData.meuPerfil.nome)
-      .verificarEmail(testData.meuPerfil.email)
-      .verificarCpf(testData.meuPerfil.cpf)
-      .verificarDataNascimento(testData.meuPerfil.dataDeNascimento)
-      .verificarCidade(testData.meuPerfil.cidade)
-      .verificarEstado(testData.meuPerfil.estado)
-      .verificarPais(testData.meuPerfil.pais)
+      .verificarNome(data.meuPerfil.nome)
+      .verificarEmail(data.meuPerfil.email)
+      .verificarCpf(data.meuPerfil.cpf)
+      .verificarDataNascimento(data.meuPerfil.dataDeNascimento)
+      .verificarCidade(data.meuPerfil.cidade)
+      .verificarEstado(data.meuPerfil.estado)
+      .verificarPais(data.meuPerfil.pais)
       .verificarFotoDePerfilVisivel();
   });
 });

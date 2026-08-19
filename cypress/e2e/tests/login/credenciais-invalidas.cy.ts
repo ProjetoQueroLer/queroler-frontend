@@ -1,18 +1,15 @@
 /// <reference types="cypress" />
 
 import { LoginPage } from '../../../support/pages/LoginPage';
+import { CredenciaisInvalidasData } from '../../../support/types/login/testdata';
 
-type TestData = {
-  credenciaisInvalidas: { email: string; senha: string };
-};
-
-let dados: TestData;
+let dados: CredenciaisInvalidasData;
 
 const loginPage = new LoginPage();
 
 describe('Login', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
+    cy.fixture('login/testdata').then((fixture) => {
       dados = fixture;
     });
   });
