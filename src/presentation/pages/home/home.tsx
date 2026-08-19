@@ -139,9 +139,9 @@ export const Home = () => {
       const lidos: BookCardProps[] = [];
       const abandonados: BookCardProps[] = [];
 
-      response.content.forEach((livro, index) => {
+      response.content.forEach((livro, _index) => {
         const livroMapeado: BookCardProps = {
-          id: String(index),
+          id: livro.id,
           title: livro.titulo,
           cover:
             livro.urlCapa === 'Capa não cadastrada.'

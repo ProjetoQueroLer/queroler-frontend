@@ -1,15 +1,20 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export interface BookCardProps {
   title: string;
   author?: string;
   cover: string;
-  id: string;
+  id: number;
 }
 
-export function BookCard({ title, author, cover }: BookCardProps) {
+export function BookCard({ id, title, author, cover }: BookCardProps) {
+  const router = useRouter();
   return (
-    <div className="w-[150px] lg:w-[215px] bg-card-bg border border-border rounded-xl shadow-xs flex-shrink-0 relative hover:z-10 transition-all duration-200 cursor-pointer hover:shadow-md hover:scale-[1.02] hover:-translate-y-1">
+    <div
+      className="w-[150px] lg:w-[215px] bg-card-bg border border-border rounded-xl shadow-xs flex-shrink-0 relative hover:z-10 transition-all duration-200 cursor-pointer hover:shadow-md hover:scale-[1.02] hover:-translate-y-1"
+      onClick={() => router.push(`/detalhamento-livro/${id}`)}
+    >
       {cover && cover !== 'Capa não cadastrada.' ? (
         <div className="relative w-full h-[120px] lg:h-[170px]">
           <Image

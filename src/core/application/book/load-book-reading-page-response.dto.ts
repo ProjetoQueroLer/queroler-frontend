@@ -1,4 +1,5 @@
 export interface LoadBookReadingPageItemDTO {
+  id: number;
   titulo: string;
   status:
     | 'LIVROS_LIDOS'
