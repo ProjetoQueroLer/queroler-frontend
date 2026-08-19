@@ -37,6 +37,24 @@ export class ApiBookRepository implements BookRepository {
     }
   }
 
+  async buscarPorId(id: number): Promise<AxiosResponse<BookResponseDTO>> {
+    try {
+      const response = await this.api.get(`/livros/${id}`);
+
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          capaUrl: response.data.urlCapaDoLivro,
+        },
+      };
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
   async buscarCapaDoLivro(route: string): Promise<AxiosResponse<ArrayBuffer>> {
     try {
       return await this.api.get(`${route}`, { responseType: 'arraybuffer' });

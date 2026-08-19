@@ -33,14 +33,14 @@ export function Header({
   const { logout } = useAuth();
   const [menuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState<
     LoadUserNotificationsResponseDTO[]
   >([]);
-  const pathname = usePathname();
-
-  const mostrarBotaoVoltar = pathname === '/detalhamento-livro';
+  const mostrarBotaoVoltar =
+    pathname === '/detalhamento-livro' || pathname === '/diario';
 
   useEffect(() => {
     async function loadNotifications() {
@@ -109,12 +109,21 @@ export function Header({
         }`}
       />
 
-      <div className="flex items-center gap-3">
-        <div className="relative group">
-          <NotebookPen size={20} className="text-color-text-primary" />
-          <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Diário de leitura
-          </span>
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => router.push('/diario')}
+            className="relative flex items-center justify-center hover:text-brand cursor-pointer"
+          >
+            <div className="relative">
+              <NotebookPen size={20} className="text-color-text-primary" />
+
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-card-bg border border-border text-text-primary text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                Diário de leitura
+              </span>
+            </div>
+          </button>
         </div>
 
         <div className="relative">
