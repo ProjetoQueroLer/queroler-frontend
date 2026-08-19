@@ -1,11 +1,11 @@
 import { BookRepository } from '@/core/domain/book/book.repository';
 import { AxiosResponse } from 'axios';
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { BookResponseDetailedDTO } from '@/core/application/book/book-response.dto';
 
 export class GetBookDetailsUseCase {
   constructor(private bookRepository: BookRepository) {}
 
-  async execute(isbn: string): Promise<AxiosResponse<BookResponseDTO>> {
-    return await this.bookRepository.buscarPeloIsbn(isbn);
+  async execute(id: number): Promise<AxiosResponse<BookResponseDetailedDTO>> {
+    return await this.bookRepository.buscarDetalhamentoDoLivro(id);
   }
 }

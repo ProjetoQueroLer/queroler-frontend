@@ -3,11 +3,11 @@ import api from '@/infra/http/api';
 import { ApiBookRepository } from '@/infra/repositories/book/book.repository';
 import { GetBookDetailsUseCase } from '@/core/application/book/get-book-details.usecase';
 
-export async function getBookDetailsAction(isbn: string) {
+export async function getBookDetailsAction(id: number) {
   try {
     const repository = new ApiBookRepository(api);
     const useCase = new GetBookDetailsUseCase(repository);
-    const response = await useCase.execute(isbn);
+    const response = await useCase.execute(id);
 
     return {
       success: true,
@@ -19,7 +19,7 @@ export async function getBookDetailsAction(isbn: string) {
       success: false,
       message:
         (error as string) ||
-        'Falha ao buscar livro pelo ISBN. Tente novamente mais tarde.',
+        'Falha ao buscar livro pelo id. Tente novamente mais tarde.',
     };
   }
 }

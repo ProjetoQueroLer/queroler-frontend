@@ -1,6 +1,6 @@
 'use client';
 
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { BookResponseDetailedDTO } from '@/core/application/book/book-response.dto';
 import { LIVRO_IDIOMA_LABEL } from '@/core/domain/book/language.enum';
 import { Profile } from '@/core/domain/user/profile.enum';
 import { BookReview } from '@/presentation/shared/components/bookReview/BookReview';
@@ -25,7 +25,7 @@ import Image from 'next/image';
 export function BookDetails({
   detalhesLivro,
 }: {
-  detalhesLivro: BookResponseDTO | undefined;
+  detalhesLivro: BookResponseDetailedDTO | undefined;
 }) {
   const user = useUserStore((state) => state.user);
   const [menuOpen, setIsMenuOpen] = useState(false);
@@ -44,10 +44,10 @@ export function BookDetails({
           <div className="flex flex-col lg:flex-row gap-3 lg:items-stretch">
             <div className="flex flex-col gap-3 w-full lg:w-[240px] shrink-0">
               <div className="relative w-60 h-90 bg-border flex flex-col items-center justify-center gap-2 rounded-xl overflow-hidden">
-                {detalhesLivro?.capaUrl &&
-                detalhesLivro.capaUrl !== 'Capa não cadastrada.' ? (
+                {detalhesLivro?.urlCapaDoLivro &&
+                detalhesLivro.urlCapaDoLivro !== 'Capa não cadastrada.' ? (
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${detalhesLivro.capaUrl}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${detalhesLivro.urlCapaDoLivro}`}
                     alt={`Capa do livro ${detalhesLivro.titulo}`}
                     fill
                     className="object-cover"

@@ -2,13 +2,13 @@ import { getBookDetailsAction } from '@/app/actions/getBookDetails.actions';
 import { BookDetails } from '@/presentation/pages/bookDetails/BookDetails';
 
 interface RouteParams {
-  params: Promise<{ isbn: string }>;
+  params: Promise<{ id: number }>;
 }
 
 export default async function DetalhamentoLivroPage({ params }: RouteParams) {
-  const { isbn } = await params;
+  const { id } = await params;
 
-  const response = await getBookDetailsAction(isbn);
+  const response = await getBookDetailsAction(id);
 
   if (!response.success) {
     return <div>Erro!</div>;

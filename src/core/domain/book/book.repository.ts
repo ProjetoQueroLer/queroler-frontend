@@ -1,4 +1,7 @@
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import {
+  BookResponseDetailedDTO,
+  BookResponseDTO,
+} from '@/core/application/book/book-response.dto';
 import { FindBooksByAttributeDTO } from '@/core/application/book/find-books-by-attribute.dto';
 import {
   LoadBookReadingPageResponseDTO,
@@ -27,4 +30,7 @@ export interface BookRepository {
   buscarLivrosPeloAtributo(
     data: FindBooksByAttributeDTO
   ): Promise<AxiosResponse<Page<SearchBookResponseDTO>>>;
+  buscarDetalhamentoDoLivro(
+    id: number
+  ): Promise<AxiosResponse<BookResponseDetailedDTO>>;
 }
