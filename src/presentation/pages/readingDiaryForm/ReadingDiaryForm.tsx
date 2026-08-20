@@ -5,9 +5,9 @@ import { Header } from '@/presentation/shared/components/header/header';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
 import { useEffect, useState } from 'react';
 import { loadReadingDiaryAction } from '@/app/actions/loadReadingDiary.actions';
-import { loadBookByIdAction } from '@/app/actions/loadBookById.actions';
+import { getBookDetailsAction } from '@/app/actions/getBookDetails.actions';
 import { LoadReadingDiaryResponseDTO } from '@/core/application/diary/load-reading-diary-response.dto';
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { BookResponseDetailedDTO } from '@/core/application/book/book-response.dto';
 import { ReadingDiaryBookCard } from '@/presentation/shared/components/readingDiaryBookCard/ReadingDiaryBookCard';
 import { ReadingDiaryTracking } from '@/presentation/shared/components/readingDiary/ReadingDiaryTracking/ReadingDiaryTracking';
 import { ReadingDiaryReview } from '@/presentation/shared/components/readingDiary/ReadingDiaryReview/ReadingDiaryReview';
@@ -31,7 +31,7 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
     null
   );
 
-  const [livro, setLivro] = useState<BookResponseDTO | null>(null);
+  const [livro, setLivro] = useState<BookResponseDetailedDTO | null>(null);
 
   const user = useUserStore((state) => state.user);
 
@@ -49,7 +49,7 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
         setDiario(null);
       }
 
-      const resultadoLivro = await loadBookByIdAction(idLivro);
+      const resultadoLivro = await getBookDetailsAction(idLivro);
 
       if (!resultadoLivro.success || !resultadoLivro.response) {
         return;
@@ -82,10 +82,10 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
           {livro && (
             <ReadingDiaryBookCard
-              id={String(livro.id)}
+              id={String(livroId)}
               title={livro.titulo}
               author={livro.autores?.[0]?.nome}
-              cover={livro.capaUrl}
+              cover={livro.urlCapaDoLivro}
               editora={livro.editora}
               numeroPaginas={livro.numeroDePaginas}
               mostrarBotaoEditar={false}
