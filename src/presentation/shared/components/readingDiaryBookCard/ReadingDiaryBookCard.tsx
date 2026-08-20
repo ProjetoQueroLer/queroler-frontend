@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { IdiomaEnum } from '@/core/domain/book/language.enum';
 import { useRouter } from 'next/navigation';
 
 export interface ReadingDiaryBookCardProps {
@@ -9,6 +10,8 @@ export interface ReadingDiaryBookCardProps {
   author?: string;
   cover: string;
   editora?: string;
+  idioma?: IdiomaEnum;
+  isbn?: string;
   numeroPaginas?: number | string;
   mostrarBotaoEditar?: boolean;
 }
@@ -19,6 +22,8 @@ export function ReadingDiaryBookCard({
   author,
   cover,
   editora,
+  idioma,
+  isbn,
   numeroPaginas,
   mostrarBotaoEditar = true,
 }: ReadingDiaryBookCardProps) {
@@ -86,6 +91,31 @@ export function ReadingDiaryBookCard({
                         {numeroPaginas}
                       </strong>{' '}
                       páginas
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {idioma && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate">
+                      <strong className="font-normal text-text-primary">
+                        {idioma}
+                      </strong>{' '}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {isbn && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate">
+                      ISBN{' '}
+                      <strong className="font-normal text-text-primary">
+                        {isbn}
+                      </strong>{' '}
                     </span>
                   </div>
                 )}

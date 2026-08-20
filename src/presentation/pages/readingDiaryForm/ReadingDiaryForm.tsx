@@ -87,6 +87,8 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
               author={livro.autores?.[0]?.nome}
               cover={livro.urlCapaDoLivro}
               editora={livro.editora}
+              idioma={livro.idioma}
+              isbn={livro.isbn}
               numeroPaginas={livro.numeroDePaginas}
               mostrarBotaoEditar={false}
             />
