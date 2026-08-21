@@ -15,4 +15,6 @@ export class PerfilElements {
   static readonly excluirContaButton = '[data-testid="btn-excluir-perfil"]';
   static readonly voltarButton = '[data-testid="btn-voltar"]';
   static readonly salvarButton = '[data-testid="btn-salvar"]';
+  static readonly mensagemCampoObrigatorio =
+    '[class="mt-1 text-xs text-red-400"]';
 }

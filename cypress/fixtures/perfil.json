@@ -1,12 +1,12 @@
 {
   "perfilAdministrador": {
     "email": "administrador@queroler.com",
-    "senha": "Pa55word@"
+    "senha": "Pa55word@?"
   },
 
   "perfilModerador": {
     "email": "moderador@queroler.com",
-    "senha": "Pa55word@"
+    "senha": "Pa55word@?"
   },
 
   "perfilLeitor": {
@@ -27,5 +27,15 @@
   "perfilLeitor2": {
     "email": "leitor@queroler.com",
     "senha": "Pa55word?"
+  },
+
+  "perfilAdministradorEditado": {
+    "email": "administrador_teste@queroler.com",
+    "senha": "Pa55word@?"
+  },
+
+  "perfilModeradorEditado": {
+    "email": "moderador_teste@queroler.com",
+    "senha": "Pa55word@?"
   }
 }
