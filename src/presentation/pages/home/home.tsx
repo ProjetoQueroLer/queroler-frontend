@@ -111,7 +111,6 @@ export const Home = () => {
   useEffect(() => {
     async function carregarLivrosPopulares() {
       const response = await loadPopularBooksAction();
-
       if (!response.success) {
         toast.error(response.message);
         return;
@@ -122,7 +121,6 @@ export const Home = () => {
 
     async function carregarTelaDeLeitura() {
       const result = await loadBookReadingPageAction();
-
       if (!result.success) {
         toast.error(result.message);
         return;
@@ -139,14 +137,11 @@ export const Home = () => {
       const lidos: BookCardProps[] = [];
       const abandonados: BookCardProps[] = [];
 
-      response.content.forEach((livro, index) => {
+      response.content.forEach((livro, _index) => {
         const livroMapeado: BookCardProps = {
-          id: String(index),
+          id: livro.id,
           title: livro.titulo,
-          cover:
-            livro.urlCapa === 'Capa não cadastrada.'
-              ? ''
-              : `${process.env.NEXT_PUBLIC_API_URL}${livro.urlCapa}`,
+          cover: livro.urlCapa,
         };
 
         switch (livro.status) {

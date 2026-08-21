@@ -32,7 +32,7 @@ export class LoginPage {
   }
 
   clicarEmEntrar(): this {
-    cy.get(LoginElements.entrarButton).click();
+    cy.get(LoginElements.entrarButton).should('be.visible').click();
     return this;
   }
 

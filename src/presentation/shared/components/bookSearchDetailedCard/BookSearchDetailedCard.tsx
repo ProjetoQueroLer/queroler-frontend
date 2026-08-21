@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { Calendar, FileText, BookMarked } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export interface BookSearchDetailedCardProps {
   id: string;
@@ -14,6 +15,7 @@ export interface BookSearchDetailedCardProps {
 }
 
 export function BookSearchDetailedCard({
+  id,
   title,
   author,
   cover,
@@ -21,6 +23,7 @@ export function BookSearchDetailedCard({
   numeroPaginas,
   anoPublicacao,
 }: BookSearchDetailedCardProps) {
+  const router = useRouter();
   const temCapa =
     cover && cover !== 'Capa não cadastrada.' && cover.trim() !== '';
 
@@ -31,7 +34,10 @@ export function BookSearchDetailedCard({
     : '';
 
   return (
-    <div className="flex gap-4 p-4 rounded-xl bg-darker-gray/30 border border-border-default/60 hover:bg-search-border/20 transition-all duration-200 cursor-pointer w-full group shadow-xs">
+    <div
+      className="flex gap-4 p-4 rounded-xl bg-darker-gray/30 border border-border-default/60 hover:bg-search-border/20 transition-all duration-200 cursor-pointer w-full group shadow-xs"
+      onClick={() => router.push(`/detalhamento-livro/${id}`)}
+    >
       <div className="w-[80px] h-[116px] bg-darker-gray border border-border rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center shadow-md">
         {temCapa ? (
           <Image

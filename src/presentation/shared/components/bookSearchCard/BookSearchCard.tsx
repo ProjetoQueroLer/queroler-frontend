@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export interface BookSearchCardProps {
   id: string;
@@ -9,7 +10,13 @@ export interface BookSearchCardProps {
   cover: string;
 }
 
-export function BookSearchCard({ title, author, cover }: BookSearchCardProps) {
+export function BookSearchCard({
+  id,
+  title,
+  author,
+  cover,
+}: BookSearchCardProps) {
+  const router = useRouter();
   const temCapa =
     cover && cover !== 'Capa não cadastrada.' && cover.trim() !== '';
 
@@ -20,7 +27,10 @@ export function BookSearchCard({ title, author, cover }: BookSearchCardProps) {
     : '';
 
   return (
-    <div className="flex gap-4 items-center p-3 rounded-lg hover:bg-search-border/30 transition-colors cursor-pointer w-full group">
+    <div
+      className="flex gap-4 items-center p-3 rounded-lg hover:bg-search-border/30 transition-colors cursor-pointer w-full group"
+      onClick={() => router.push(`/detalhamento-livro/${id}`)}
+    >
       <div className="w-[76px] h-[110px] bg-darker-gray border border-border rounded-md relative overflow-hidden flex-shrink-0 flex items-center justify-center shadow-sm">
         {temCapa ? (
           <Image

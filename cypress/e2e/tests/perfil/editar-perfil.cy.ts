@@ -2,36 +2,7 @@
 
 import { HomePage } from '../../../support/pages/HomePage';
 import { PerfilPage } from '../../../support/pages/PerfilPage';
-
-type TestData = {
-  perfilAdministradorEditado: {
-    nome: string;
-    email: string;
-    cpf: string;
-    dataDeNascimento: string;
-    cidade: string;
-    estado: string;
-    pais: string;
-  };
-  perfilModeradorEditado: {
-    nome: string;
-    email: string;
-    cpf: string;
-    dataDeNascimento: string;
-    cidade: string;
-    estado: string;
-    pais: string;
-  };
-  perfilLeitor2: {
-    nome: string;
-    email: string;
-    cpf: string;
-    dataDeNascimento: string;
-    cidade: string;
-    estado: string;
-    pais: string;
-  };
-};
+import { PerfilEditadoData } from '../../../support/types/meu-perfil/testdata';
 
 type Credenciais = {
   email: string;
@@ -44,7 +15,7 @@ type Perfil = {
   perfilLeitor2: Credenciais;
 };
 
-let testData: TestData;
+let editarUsuario: PerfilEditadoData;
 let dadosPerfil: Perfil;
 
 const homePage = new HomePage();
@@ -52,8 +23,8 @@ const perfilPage = new PerfilPage();
 
 describe('Editar o Perfil', () => {
   before(() => {
-    cy.fixture('testData').then((fixture) => {
-      testData = fixture;
+    cy.fixture('perfil/testdata').then((fixture) => {
+      editarUsuario = fixture;
     });
 
     cy.fixture('perfil').then((fixture) => {
@@ -72,17 +43,17 @@ describe('Editar o Perfil', () => {
     {
       nome: 'Administrador',
       credenciais: () => dadosPerfil.perfilAdministradorEditado,
-      dados: () => testData.perfilAdministradorEditado,
+      dados: () => editarUsuario.perfilAdministradorEditado,
     },
     {
       nome: 'Moderador',
       credenciais: () => dadosPerfil.perfilModeradorEditado,
-      dados: () => testData.perfilModeradorEditado,
+      dados: () => editarUsuario.perfilModeradorEditado,
     },
     {
       nome: 'Leitor',
       credenciais: () => dadosPerfil.perfilLeitor2,
-      dados: () => testData.perfilLeitor2,
+      dados: () => editarUsuario.perfilLeitor2,
     },
   ];
 

@@ -14,7 +14,13 @@
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
     "test:e2e:all": "cypress run --spec 'cypress/e2e/tests/**/*.cy.ts'",
-    "allure:open": "allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report"
+    "allure:open": "allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report",
+    "test:e2e:busca": "cypress run --spec 'cypress/e2e/tests/busca/*.cy.ts'",
+    "test:e2e:cadastrar:leitor": "cypress run --spec 'cypress/e2e/tests/cadastrar/leitor/*.cy.ts'",
+    "test:e2e:cadastrar:livro": "cypress run --spec 'cypress/e2e/tests/cadastrar/livro/*.cy.ts'",
+    "test:e2e:home": "cypress run --spec 'cypress/e2e/tests/home/*.cy.ts'",
+    "test:e2e:login": "cypress run --spec 'cypress/e2e/tests/login/*.cy.ts'",
+    "test:e2e:perfil": "cypress run --spec 'cypress/e2e/tests/perfil/*.cy.ts'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

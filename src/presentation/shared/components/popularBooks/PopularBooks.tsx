@@ -29,7 +29,7 @@ export function PopularBooks({
         {livros?.map((livro) => (
           <BookCard
             key={livro.id}
-            id={String(livro.id)}
+            id={livro.id}
             title={livro.titulo}
             author={livro.autores?.[0]?.nome || ''}
             cover={livro.capaUrl}

@@ -1,4 +1,7 @@
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import {
+  BookResponseDetailedDTO,
+  BookResponseDTO,
+} from '@/core/application/book/book-response.dto';
 import { FindBooksByAttributeDTO } from '@/core/application/book/find-books-by-attribute.dto';
 import {
   LoadBookReadingPageResponseDTO,
@@ -27,6 +30,24 @@ export class ApiBookRepository implements BookRepository {
   async buscarPeloIsbn(isbn: string): Promise<AxiosResponse<BookResponseDTO>> {
     try {
       return await this.api.get(`/livros/buscar/${isbn}`);
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
+  async buscarPorId(id: number): Promise<AxiosResponse<BookResponseDTO>> {
+    try {
+      const response = await this.api.get(`/livros/${id}`);
+
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          capaUrl: response.data.urlCapaDoLivro,
+        },
+      };
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error
@@ -80,6 +101,18 @@ export class ApiBookRepository implements BookRepository {
           sort: 'dataDeCadastro,desc',
         },
       });
+    } catch (error: unknown) {
+      throw (
+        (error as { response?: { data?: unknown } }).response?.data || error
+      );
+    }
+  }
+
+  async buscarDetalhamentoDoLivro(
+    id: number
+  ): Promise<AxiosResponse<BookResponseDetailedDTO>> {
+    try {
+      return await this.api.get(`/livros/${id}`);
     } catch (error: unknown) {
       throw (
         (error as { response?: { data?: unknown } }).response?.data || error
