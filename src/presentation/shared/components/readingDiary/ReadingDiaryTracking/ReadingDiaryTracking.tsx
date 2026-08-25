@@ -1,13 +1,16 @@
 'use client';
 
 import { NotebookPen, Plus } from 'lucide-react';
+import { LoadReadingDiaryTrackingResponseDTO } from '@/core/application/diary/load-reading-diary-response.dto';
 
 export interface ReadingDiaryTrackingProps {
   numeroDePaginas: number;
+  acompanhamentos: LoadReadingDiaryTrackingResponseDTO[];
 }
 
 export function ReadingDiaryTracking({
   numeroDePaginas,
+  acompanhamentos,
 }: ReadingDiaryTrackingProps) {
   return (
     <div className="bg-secondary-bg border border-border rounded-md p-3">
@@ -67,17 +70,25 @@ export function ReadingDiaryTracking({
       <div>
         <h1 className="text-text-primary text-xs py-4">Histórico</h1>
 
-        <div className="bg-secondary-bg border border-border rounded-md p-3">
-          <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-2">
-            <NotebookPen size={16} /> páginas lidas
-          </h2>
+        {acompanhamentos.map((acompanhamento) => (
+          <div
+            key={acompanhamento.id}
+            className="bg-secondary-bg border border-border rounded-md p-3 mb-3"
+          >
+            <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-2">
+              <NotebookPen size={16} />
+              {acompanhamento.paginaFinal} páginas lidas
+            </h2>
 
-          <div className="pt-3 pb-8">
-            <div className="bg-black border border-border rounded-md p-3">
-              <p className="flex items-center gap-2 text-text-primary/50 text-sm lg:text-md font-thin"></p>
+            <div className="pt-3 pb-8">
+              <div className="bg-black border border-border rounded-md p-3">
+                <p className="flex items-center gap-2 text-text-primary/50 text-sm lg:text-md font-thin">
+                  {acompanhamento.comentario}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

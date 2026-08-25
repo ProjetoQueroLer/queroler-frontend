@@ -1,6 +1,7 @@
 'use client';
 
 import { Input } from '@/presentation/shared/components';
+import { useRouter } from 'next/navigation';
 
 interface ReadingDiaryTimelineProps {
   inicioDaLeitura?: string | null;
@@ -27,6 +28,8 @@ export function ReadingDiaryTimeline({
 
   const dataInicio = formatarDataParaInput(inicioDaLeitura);
   const dataTermino = formatarDataParaInput(terminoDaLeitura);
+
+  const router = useRouter();
 
   return (
     <div className="py-5 lg:py-8">
@@ -73,7 +76,8 @@ export function ReadingDiaryTimeline({
           <button
             type="button"
             data-testid="btn-cancelar"
-            className="px-10 py-3 text-xs text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
+            onClick={() => router.back()}
+            className="px-10 py-3 text-xs text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold cursor-pointer"
           >
             Cancelar
           </button>
@@ -82,7 +86,7 @@ export function ReadingDiaryTimeline({
             data-testid="btn-salvar"
             type="submit"
             disabled
-            className="px-10 py-3 text-xs text-white rounded-lg bg-brand font-bold hover:opacity-80"
+            className="px-10 py-3 text-xs text-white rounded-lg bg-brand font-bold hover:opacity-80 cursor-pointer"
           >
             Salvar
           </button>

@@ -131,7 +131,7 @@ export function ReadingDiaryBookCard({
             data-testid="btn-editar"
             type="button"
             onClick={() => router.push(`/diario/${id}`)}
-            className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap"
+            className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap cursor-pointer"
           >
             Editar
           </button>

@@ -101,6 +101,7 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
           {diario && (
             <ReadingDiaryTracking
               numeroDePaginas={diario.livro.numeroDePaginas}
+              acompanhamentos={diario.acompanhamentos}
             />
           )}
           {diario?.terminoDaLeitura && (
