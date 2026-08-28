@@ -35,19 +35,23 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
   const user = useUserStore((state) => state.user);
 
+  const carregarDiario = async (idLivro: number) => {
+    const resultadoDiario = await loadReadingDiaryAction(idLivro);
+
+    if (resultadoDiario.success && resultadoDiario.response) {
+      setDiario(resultadoDiario.response);
+    } else {
+      setDiario(null);
+    }
+  };
+
   useEffect(() => {
     async function carregarDados() {
       if (!livroId) return;
 
       const idLivro = Number(livroId);
 
-      const resultadoDiario = await loadReadingDiaryAction(idLivro);
-
-      if (resultadoDiario.success && resultadoDiario.response) {
-        setDiario(resultadoDiario.response);
-      } else {
-        setDiario(null);
-      }
+      await carregarDiario(idLivro);
 
       const resultadoLivro = await getBookDetailsAction(idLivro);
 
@@ -60,6 +64,12 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
     carregarDados();
   }, [livroId]);
+
+  const handleRegistroSalvo = async () => {
+    if (!livroId) return;
+
+    await carregarDiario(Number(livroId));
+  };
 
   return (
     <div>
@@ -100,8 +110,10 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
           {diario && (
             <ReadingDiaryTracking
+              diarioId={diario.id}
               numeroDePaginas={diario.livro.numeroDePaginas}
               acompanhamentos={diario.acompanhamentos}
+              onRegistroSalvo={handleRegistroSalvo}
             />
           )}
           {diario?.terminoDaLeitura && (
