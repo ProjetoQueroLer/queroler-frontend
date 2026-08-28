@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { PerfilElements } from '../elements/PerfilElements';
-import { HomePage } from '@/../cypress/support/pages/HomePage';
+import { HomePage } from '../../support/pages/HomePage';
 import { Fixtures } from '../utils/fixtures';
 
 const TIMEOUT = 30000;
