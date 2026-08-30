@@ -104,8 +104,11 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
             />
           )}
           <ReadingDiaryTimeline
+            diarioId={diario?.id}
+            livroId={Number(livroId)}
             inicioDaLeitura={diario?.inicioDaLeitura ?? ''}
             terminoDaLeitura={diario?.terminoDaLeitura ?? ''}
+            onDiarioSalvo={handleRegistroSalvo}
           />
 
           {diario && (
