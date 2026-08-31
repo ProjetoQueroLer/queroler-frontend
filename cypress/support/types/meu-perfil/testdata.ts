@@ -28,3 +28,33 @@ export type ExcluirPerfilData = {
     senha: string;
   };
 };
+
+export type PerfilEditadoData = {
+  perfilAdministradorEditado: {
+    nome: string;
+    email: string;
+    cpf: string;
+    dataDeNascimento: string;
+    cidade: string;
+    estado: string;
+    pais: string;
+  };
+  perfilModeradorEditado: {
+    nome: string;
+    email: string;
+    cpf: string;
+    dataDeNascimento: string;
+    cidade: string;
+    estado: string;
+    pais: string;
+  };
+  perfilLeitor2: {
+    nome: string;
+    email: string;
+    cpf: string;
+    dataDeNascimento: string;
+    cidade: string;
+    estado: string;
+    pais: string;
+  };
+};

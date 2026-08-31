@@ -25,4 +25,6 @@ export class PerfilElements {
     '.flex-1.py-2.text-sm.text-white.bg-brand.rounded-lg';
   static readonly imagemPerfilInput = 'input[type="file"]';
   static readonly avancarButton = '[data-testid="add-submit-button"]';
+  static readonly mensagemCampoObrigatorio =
+    '[class="mt-1 text-xs text-red-400"]';
 }

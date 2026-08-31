@@ -155,4 +155,8 @@ export class HomePage {
     this.verificarOrdemDecrescenteDosLivros(titulo);
     return this;
   }
+
+  abrirPerfil() {
+    this.abrirMenuUsuario().fecharToast().clicarEmMeuPerfil();
+  }
 }
