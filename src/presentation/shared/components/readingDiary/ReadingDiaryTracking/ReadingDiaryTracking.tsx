@@ -30,7 +30,8 @@ export function ReadingDiaryTracking({
 
   const handleSalvarRegistro = async (data: CreateReadingTrackingFormDTO) => {
     const result = await createReadingTrackingAction(diarioId, {
-      paginaInicial: data.pagina,
+      //Necessário alterar após ajustes serem feitos no backend referente a forma como recebe as paginas lidas
+      paginaInicial: data.pagina - 1,
       paginaFinal: data.pagina,
       comentario: data.comentario,
     });
