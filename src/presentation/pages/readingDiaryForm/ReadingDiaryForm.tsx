@@ -104,8 +104,11 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
             />
           )}
           <ReadingDiaryTimeline
+            diarioId={diario?.id}
+            livroId={Number(livroId)}
             inicioDaLeitura={diario?.inicioDaLeitura ?? ''}
             terminoDaLeitura={diario?.terminoDaLeitura ?? ''}
+            onDiarioSalvo={handleRegistroSalvo}
           />
 
           {diario && (
@@ -118,10 +121,12 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
           )}
           {diario?.terminoDaLeitura && (
             <ReadingDiaryReview
+              diarioId={diario.id}
               nota={diario.nota}
               tituloDaResenha={diario.tituloDaResenha}
               resenha={diario.resenha}
               spoilers={diario.spoilers}
+              onAvaliacaoSalva={handleRegistroSalvo}
             />
           )}
         </main>
