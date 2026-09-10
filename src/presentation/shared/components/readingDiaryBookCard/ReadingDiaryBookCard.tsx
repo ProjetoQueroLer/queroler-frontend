@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { IdiomaEnum } from '@/core/domain/book/language.enum';
 import { useRouter } from 'next/navigation';
 
 export interface ReadingDiaryBookCardProps {
@@ -9,6 +10,8 @@ export interface ReadingDiaryBookCardProps {
   author?: string;
   cover: string;
   editora?: string;
+  idioma?: IdiomaEnum;
+  isbn?: string;
   numeroPaginas?: number | string;
   mostrarBotaoEditar?: boolean;
 }
@@ -19,6 +22,8 @@ export function ReadingDiaryBookCard({
   author,
   cover,
   editora,
+  idioma,
+  isbn,
   numeroPaginas,
   mostrarBotaoEditar = true,
 }: ReadingDiaryBookCardProps) {
@@ -90,6 +95,31 @@ export function ReadingDiaryBookCard({
                   </div>
                 )}
               </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {idioma && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate">
+                      <strong className="font-normal text-text-primary">
+                        {idioma}
+                      </strong>{' '}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {isbn && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate">
+                      ISBN{' '}
+                      <strong className="font-normal text-text-primary">
+                        {isbn}
+                      </strong>{' '}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -101,7 +131,7 @@ export function ReadingDiaryBookCard({
             data-testid="btn-editar"
             type="button"
             onClick={() => router.push(`/diario/${id}`)}
-            className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap"
+            className="px-3 sm:px-7 py-2 text-[10px] text-white rounded-sm bg-brand font-bold hover:opacity-80 whitespace-nowrap cursor-pointer"
           >
             Editar
           </button>

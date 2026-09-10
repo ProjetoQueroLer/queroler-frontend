@@ -1,33 +1,104 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BookHeart, Check, ChevronDown, Star } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { FieldError } from '@/presentation/shared/components/fieldError/FieldError';
+import { updateReadingDiaryAction } from '@/app/actions/updateReadingDiary.actions';
+import { useReadingDiaryReviewForm } from '@/presentation/shared/components/readingDiary/ReadingDiaryReview/useReadingDiaryReviewForm';
+import { ReadingDiaryReviewFormDTO } from '@/core/application/diary/reading-diary-review.schema';
 
 export interface ReadingDiaryReviewProps {
+  diarioId: number;
   nota: number;
   tituloDaResenha: string | null;
   resenha: string | null;
   spoilers: boolean;
+  onAvaliacaoSalva: () => Promise<void>;
 }
 
 export function ReadingDiaryReview({
+  diarioId,
   nota,
   tituloDaResenha,
   resenha,
   spoilers,
+  onAvaliacaoSalva,
 }: ReadingDiaryReviewProps) {
-  const [tituloResenha, setTituloResenha] = useState(tituloDaResenha ?? '');
   const [spoiler, setSpoiler] = useState(spoilers);
   const [menuOpen, setIsMenuOpen] = useState(false);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('Selecione');
+  //const [avaliacao, setAvaliacao] = useState(nota ?? 0);
 
-  const safeRating = nota ?? 0;
-  const fullStars = Math.floor(safeRating);
-  const hasHalfStar = safeRating % 1 >= 0.5;
+  const handleStarClick = (
+    index: number,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+
+    const valor = clickX <= rect.width / 2 ? index + 0.5 : index + 1;
+
+    setValue('nota', valor, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isSubmitting, isValid },
+  } = useReadingDiaryReviewForm({
+    nota: nota ?? 0,
+    tituloDaResenha: tituloDaResenha ?? '',
+    resenha: resenha ?? '',
+  });
+
+  const avaliacao = watch('nota');
+  const tituloResenha = watch('tituloDaResenha');
+
+  useEffect(() => {
+    reset({
+      nota: nota ?? 0,
+      tituloDaResenha: tituloDaResenha ?? '',
+      resenha: resenha ?? '',
+    });
+  }, [nota, tituloDaResenha, resenha, reset]);
+
+  const handleSalvarAvaliacao = async (data: ReadingDiaryReviewFormDTO) => {
+    const temResenha =
+      data.tituloDaResenha.trim().length > 0 && data.resenha.trim().length > 0;
+
+    const result = await updateReadingDiaryAction(diarioId, {
+      nota: data.nota,
+
+      ...(temResenha && {
+        tituloDaResenha: data.tituloDaResenha.trim(),
+        resenha: data.resenha.trim(),
+      }),
+    });
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    toast.success(result.message);
+
+    await onAvaliacaoSalva();
+  };
 
   return (
     <div className="py-5 lg:py-8">
-      <div className="bg-secondary-bg border border-border rounded-md p-3">
+      <form
+        onSubmit={handleSubmit(handleSalvarAvaliacao)}
+        noValidate
+        className="bg-secondary-bg border border-border rounded-md p-3"
+      >
         <h2 className="flex items-center gap-2 text-text-primary text-sm lg:text-md font-semibold pb-2">
           <BookHeart size={16} /> Avalie o Livro
         </h2>
@@ -38,21 +109,37 @@ export function ReadingDiaryReview({
 
         <div className="flex flex-col gap-2 lg:gap-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {Array.from({ length: fullStars }).map((_, index) => (
-                <Star
-                  key={`full-${index}`}
-                  className="w-6 h-6 text-active fill-active"
-                />
-              ))}
+            <div className="flex items-center gap-2">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const valorInteiro = index + 1;
+                const valorMetade = index + 0.5;
 
-              {hasHalfStar && (
-                <div className="relative inline-block w-6 h-6">
-                  <div className="absolute top-0 left-0 w-1/2 h-full overflow-hidden text-active">
-                    <Star className="w-6 h-6 fill-active" />
-                  </div>
-                </div>
-              )}
+                const estrelaCompleta = avaliacao >= valorInteiro;
+                const meiaEstrela =
+                  avaliacao >= valorMetade && avaliacao < valorInteiro;
+
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={(event) => handleStarClick(index, event)}
+                    className="relative w-7 h-7 cursor-pointer"
+                    aria-label={`Avaliação ${valorMetade} a ${valorInteiro}`}
+                  >
+                    <Star className="absolute inset-0 w-7 h-7 text-active" />
+
+                    {estrelaCompleta && (
+                      <Star className="absolute inset-0 w-7 h-7 text-active fill-active" />
+                    )}
+
+                    {meiaEstrela && (
+                      <div className="absolute inset-0 w-1/2 overflow-hidden">
+                        <Star className="w-7 h-7 text-active fill-active" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -70,10 +157,12 @@ export function ReadingDiaryReview({
               type="text"
               maxLength={250}
               placeholder="Dê um título à sua resenha"
-              value={tituloResenha}
-              onChange={(e) => setTituloResenha(e.target.value)}
+              {...register('tituloDaResenha')}
+              aria-invalid={!!errors.tituloDaResenha}
               className="w-full bg-secondary-bg border border-border rounded px-3 py-2 text-text-primary text-xs outline-none"
             />
+
+            <FieldError message={errors.tituloDaResenha?.message} />
 
             <span className="text-text-primary/50 text-[10px] self-start">
               {tituloResenha.length}/250
@@ -105,20 +194,23 @@ export function ReadingDiaryReview({
               data-testid="input-resenha"
               placeholder="Escreva sua resenha aqui"
               rows={6}
-              defaultValue={resenha ?? ''}
+              {...register('resenha')}
+              aria-invalid={!!errors.resenha}
               className="w-full bg-secondary-bg border border-border rounded px-2 py-1 lg:px-3 lg:py-2 text-text-primary text-xs outline-none resize-none"
               id="resenha"
             />
 
+            <FieldError message={errors.resenha?.message} />
+
             <h1 className="text-text-primary text-xs pt-4">Compartilhamento</h1>
 
-            <div className="flex flex-col lg:flex-row lg:flex-wrap justify-start gap-2">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 py-2">
               <div className="relative w-full lg:w-auto">
                 <button
                   type="button"
                   data-testid="btn-add-lista"
                   onClick={() => setIsMenuOpen(!menuOpen)}
-                  className="w-full lg:w-70 flex items-center justify-between lg:mr-6 px-4 py-3 text-xs rounded-xs transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer bg-border"
+                  className="w-full lg:w-70 flex items-center justify-between px-4 py-3 text-xs rounded-xs transition-opacity duration-200 text-white hover:brightness-110 cursor-pointer bg-border"
                 >
                   {opcaoSelecionada}
 
@@ -155,10 +247,25 @@ export function ReadingDiaryReview({
                   </div>
                 )}
               </div>
+
+              <button
+                data-testid="btn-salvar-avaliacao"
+                type="submit"
+                disabled={isSubmitting || !isValid}
+                className={`w-full lg:w-auto px-10 py-3 text-xs text-white rounded-lg bg-brand font-bold
+                  ${
+                    isSubmitting || !isValid
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:opacity-80 cursor-pointer'
+                  }
+              `}
+              >
+                {isSubmitting ? 'Salvando...' : 'Salvar avaliação'}
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

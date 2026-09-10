@@ -16,17 +16,22 @@ export function ReadingDiary() {
   const user = useUserStore((state) => state.user);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [loading, setLoading] = useState(true);
   const [diarios, setDiarios] = useState<LoadReadingTrackerResponseDTO[]>([]);
 
   useEffect(() => {
     async function carregarDiarios() {
+      setLoading(true);
+
       const result = await loadReadingTrackerPageAction();
 
       if (!result.success || !result.response) {
+        setLoading(false);
         return;
       }
 
       setDiarios(result.response);
+      setLoading(false);
     }
 
     carregarDiarios();
@@ -39,7 +44,7 @@ export function ReadingDiary() {
 
   const diariosDaPagina = diarios.slice(inicio, fim);
 
-  const nenhumDiario = diarios.length === 0;
+  const nenhumDiario = !loading && diarios.length === 0;
 
   return (
     <div>
@@ -52,7 +57,7 @@ export function ReadingDiary() {
 
       <div className="min-h-screen lg:mx-50 flex flex-col">
         <main className="flex-1 px-4 py-6 lg:px-8">
-          {nenhumDiario ? (
+          {loading ? null : nenhumDiario ? (
             <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
                 <BookOpen

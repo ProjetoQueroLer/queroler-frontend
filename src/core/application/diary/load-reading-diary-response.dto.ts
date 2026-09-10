@@ -7,9 +7,16 @@ export interface LoadReadingDiaryResponseDTO {
   };
   inicioDaLeitura: string;
   terminoDaLeitura: string | null;
-  acompanhamentos: unknown[];
+  acompanhamentos: LoadReadingDiaryTrackingResponseDTO[];
   nota: number;
   tituloDaResenha: string | null;
   resenha: string | null;
   spoilers: boolean;
+}
+
+export interface LoadReadingDiaryTrackingResponseDTO {
+  id: number;
+  paginaInicial: number;
+  paginaFinal: number;
+  comentario: string;
 }

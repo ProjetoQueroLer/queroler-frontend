@@ -5,9 +5,9 @@ import { Header } from '@/presentation/shared/components/header/header';
 import { useUserStore } from '@/presentation/shared/lib/user-store';
 import { useEffect, useState } from 'react';
 import { loadReadingDiaryAction } from '@/app/actions/loadReadingDiary.actions';
-import { loadBookByIdAction } from '@/app/actions/loadBookById.actions';
+import { getBookDetailsAction } from '@/app/actions/getBookDetails.actions';
 import { LoadReadingDiaryResponseDTO } from '@/core/application/diary/load-reading-diary-response.dto';
-import { BookResponseDTO } from '@/core/application/book/book-response.dto';
+import { BookResponseDetailedDTO } from '@/core/application/book/book-response.dto';
 import { ReadingDiaryBookCard } from '@/presentation/shared/components/readingDiaryBookCard/ReadingDiaryBookCard';
 import { ReadingDiaryTracking } from '@/presentation/shared/components/readingDiary/ReadingDiaryTracking/ReadingDiaryTracking';
 import { ReadingDiaryReview } from '@/presentation/shared/components/readingDiary/ReadingDiaryReview/ReadingDiaryReview';
@@ -31,9 +31,19 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
     null
   );
 
-  const [livro, setLivro] = useState<BookResponseDTO | null>(null);
+  const [livro, setLivro] = useState<BookResponseDetailedDTO | null>(null);
 
   const user = useUserStore((state) => state.user);
+
+  const carregarDiario = async (idLivro: number) => {
+    const resultadoDiario = await loadReadingDiaryAction(idLivro);
+
+    if (resultadoDiario.success && resultadoDiario.response) {
+      setDiario(resultadoDiario.response);
+    } else {
+      setDiario(null);
+    }
+  };
 
   useEffect(() => {
     async function carregarDados() {
@@ -41,15 +51,9 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
       const idLivro = Number(livroId);
 
-      const resultadoDiario = await loadReadingDiaryAction(idLivro);
+      await carregarDiario(idLivro);
 
-      if (resultadoDiario.success && resultadoDiario.response) {
-        setDiario(resultadoDiario.response);
-      } else {
-        setDiario(null);
-      }
-
-      const resultadoLivro = await loadBookByIdAction(idLivro);
+      const resultadoLivro = await getBookDetailsAction(idLivro);
 
       if (!resultadoLivro.success || !resultadoLivro.response) {
         return;
@@ -60,6 +64,12 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
     carregarDados();
   }, [livroId]);
+
+  const handleRegistroSalvo = async () => {
+    if (!livroId) return;
+
+    await carregarDiario(Number(livroId));
+  };
 
   return (
     <div>
@@ -82,31 +92,41 @@ export function ReadingDiaryForm({ livroId }: ReadingDiaryFormProps) {
 
           {livro && (
             <ReadingDiaryBookCard
-              id={String(livro.id)}
+              id={String(livroId)}
               title={livro.titulo}
               author={livro.autores?.[0]?.nome}
-              cover={livro.capaUrl}
+              cover={livro.urlCapaDoLivro}
               editora={livro.editora}
+              idioma={livro.idioma}
+              isbn={livro.isbn}
               numeroPaginas={livro.numeroDePaginas}
               mostrarBotaoEditar={false}
             />
           )}
           <ReadingDiaryTimeline
+            diarioId={diario?.id}
+            livroId={Number(livroId)}
             inicioDaLeitura={diario?.inicioDaLeitura ?? ''}
             terminoDaLeitura={diario?.terminoDaLeitura ?? ''}
+            onDiarioSalvo={handleRegistroSalvo}
           />
 
           {diario && (
             <ReadingDiaryTracking
+              diarioId={diario.id}
               numeroDePaginas={diario.livro.numeroDePaginas}
+              acompanhamentos={diario.acompanhamentos}
+              onRegistroSalvo={handleRegistroSalvo}
             />
           )}
           {diario?.terminoDaLeitura && (
             <ReadingDiaryReview
+              diarioId={diario.id}
               nota={diario.nota}
               tituloDaResenha={diario.tituloDaResenha}
               resenha={diario.resenha}
               spoilers={diario.spoilers}
+              onAvaliacaoSalva={handleRegistroSalvo}
             />
           )}
         </main>

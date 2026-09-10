@@ -324,7 +324,7 @@ export function UserProfile() {
                   type="button"
                   data-testid="btn-voltar"
                   onClick={() => router.back()}
-                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold"
+                  className="px-9 py-3 text-sm text-white rounded-lg hover:opacity-80 transition-opacity duration-200 bg-dark-purple font-bold cursor-pointer"
                 >
                   Voltar
                 </button>
@@ -332,7 +332,7 @@ export function UserProfile() {
                   data-testid="btn-salvar"
                   type="submit"
                   disabled={isSubmitting || !isValid || !isDirty}
-                  className={`px-9 py-3 text-sm text-white rounded-lg bg-brand font-bold
+                  className={`px-9 py-3 text-sm text-white rounded-lg bg-brand font-bold cursor-pointer
                   ${
                     isSubmitting || !isValid || !isDirty
                       ? 'opacity-50 cursor-not-allowed'
