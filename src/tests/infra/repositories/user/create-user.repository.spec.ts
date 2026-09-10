@@ -44,12 +44,24 @@ describe('ApiUserRepository', () => {
   });
 
   it('deve chamar api.post com os dados corretos e retornar o usuário', async () => {
-    api.post.mockResolvedValue({ data: userResponse });
+    api.post.mockResolvedValue({
+      data: userResponse,
+      headers: {
+        'set-cookie': [
+          'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+        ],
+      },
+    });
     const result = await repository.create(userPayload.toString());
     const formdata = new FormData();
     formdata.append('dados', userPayload.toString());
     expect(api.post).toHaveBeenCalledWith('/usuarios', formdata);
-    expect(result).toEqual(userResponse);
+    expect(result).toEqual({
+      user: userResponse,
+      setCookie: [
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+      ],
+    });
   });
 
   it('deve lançar o erro do backend se api.post falhar', async () => {

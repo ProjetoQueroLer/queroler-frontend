@@ -5,10 +5,11 @@ import {
 } from '@/core/application/user/create-user.dto';
 import { ApiUserRepository } from '@/infra/repositories/user/create-user.repository';
 import api from '@/infra/http/api';
-import { revalidatePath } from 'next/cache';
 import z from 'zod';
 import { CreateUserUseCase } from '@/core/application/user/create-user.usecase';
 import { CreateUserData } from '@/core/domain/user/user.repository';
+import { extractJwtCookieValue } from '@/app/actions/auth/login.actions';
+import { cookies } from 'next/headers';
 
 export async function createUserAction(data: CreateUserDTO) {
   const validated = createUserSchema.safeParse(data);
@@ -39,8 +40,18 @@ export async function createUserAction(data: CreateUserDTO) {
       dataDeNascimento,
       checkTermo: validated.data.checkTermo,
     };
-    await useCase.execute(JSON.stringify(payload));
-    revalidatePath('/', 'layout');
+    const result = await useCase.execute(JSON.stringify(payload));
+
+    const jwt = await extractJwtCookieValue(result.setCookie ?? []);
+    if (jwt) {
+      const cookieStore = await cookies();
+      cookieStore.set('jwt', jwt, {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+      });
+    }
   } catch (error) {
     let errorMessage = '';
 

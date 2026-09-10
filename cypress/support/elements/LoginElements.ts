@@ -1,6 +1,5 @@
 export class LoginElements {
-  static readonly formularioContainerLogin =
-    '[data-testid="login-form-container"]';
+  static readonly tituloBemVindoText = '[data-testid="login-header"]';
   static readonly formularioLogin = '[data-testid="login-form"]';
   static readonly cabecalhoLogin = '[data-testid="login-header"]';
 
@@ -12,8 +11,11 @@ export class LoginElements {
   static readonly cadastreSeLink = '[data-testid="register-link"]';
   static readonly cadastreSeSecao = '[data-testid="register-section"]';
 
-  static readonly erroMensagem = '[role="alert"]';
+  static readonly erroMensagem = '.mt-1.text-xs.text-red-400';
 
   static readonly mostrarSenhaButton = '[aria-label="Mostrar senha"]';
   static readonly ocultarSenhaButton = '[aria-label="Ocultar senha"]';
+
+  static readonly toastErrorLabel = '.Toastify__toast--error';
+  static readonly toast = '.Toastify__toast';
 }

@@ -59,7 +59,7 @@ export function RegisterForm() {
       return;
     }
     toast.success('Usuário criado com sucesso! Redirecionando para login...');
-    router.push('/');
+    router.push('/dados-adicionais');
   };
 
   return (

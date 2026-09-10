@@ -2,6 +2,7 @@
 
 import { LoginElements } from '../elements/LoginElements';
 
+const TIMEOUT = 30000;
 export class LoginPage {
   visitarPagina(): this {
     cy.visit('/');
@@ -9,8 +10,9 @@ export class LoginPage {
   }
 
   verificarPaginaCarregada(): this {
-    cy.get(LoginElements.formularioContainerLogin).should('be.visible');
-    cy.contains('h1', 'Bem-vindo').should('be.visible');
+    cy.get(LoginElements.tituloBemVindoText, { timeout: 30000 }).should(
+      'be.visible'
+    );
     cy.get(LoginElements.emailInput).should('be.visible');
     cy.get(LoginElements.senhaInput).should('be.visible');
     cy.get(LoginElements.entrarButton).should('be.visible');
@@ -30,7 +32,7 @@ export class LoginPage {
   }
 
   clicarEmEntrar(): this {
-    cy.get(LoginElements.entrarButton).click();
+    cy.get(LoginElements.entrarButton).should('be.visible').click();
     return this;
   }
 
@@ -45,12 +47,14 @@ export class LoginPage {
   }
 
   tocarCampoEmailESair(): this {
-    cy.get(LoginElements.emailInput).focus().blur();
+    cy.get(LoginElements.emailInput).should('be.visible').click();
+    cy.get(LoginElements.senhaInput).should('be.visible').click();
     return this;
   }
 
   tocarCampoSenhaESair(): this {
-    cy.get(LoginElements.senhaInput).focus().blur();
+    cy.get(LoginElements.senhaInput).should('be.visible').click();
+    cy.get(LoginElements.emailInput).should('be.visible').click();
     return this;
   }
 
@@ -91,6 +95,25 @@ export class LoginPage {
 
   verificarSenhaOculta(): this {
     cy.get(LoginElements.senhaInput).should('have.attr', 'type', 'password');
+    return this;
+  }
+
+  verificarToastError(): this {
+    cy.get(LoginElements.toastErrorLabel).should('be.visible', {
+      timeout: TIMEOUT,
+    });
+    return this;
+  }
+
+  clicarEmEntrarDesativa(): this {
+    cy.get(LoginElements.entrarButton).should('be.disabled');
+    return this;
+  }
+
+  verificarToast(mensagem: string): this {
+    cy.get(LoginElements.toast)
+      .should('be.visible')
+      .and('contain.text', mensagem);
     return this;
   }
 }

@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { deleteAuthCookieAction } from '@/app/actions/auth/deleteAuthCookie.actions';
 import { toast } from 'react-toastify';
+import { useUserStore } from '@/presentation/shared/lib/user-store';
 
 type AuthContextValue = {
   isAuthenticated: boolean;
@@ -29,6 +30,7 @@ export function AuthProvider({
     toast.success('Realizando logout...', { autoClose: 2000 });
     startTransition(async () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      useUserStore.setState({ user: null });
       await deleteAuthCookieAction();
       setAuthenticated(false);
     });

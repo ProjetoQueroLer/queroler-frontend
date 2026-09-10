@@ -1,37 +1,41 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export interface BookCardProps {
   title: string;
   author?: string;
   cover: string;
-  id: string;
+  id: number;
 }
 
-export function BookCard({ title, author, cover, id }: BookCardProps) {
+export function BookCard({ id, title, author, cover }: BookCardProps) {
+  const router = useRouter();
   return (
-    <div className="w-full max-w-[215px] bg-card-bg border border-border rounded-xl overflow-hidden shadow-xs transition-all duration-200 cursor-pointer hover:shadow-md hover:scale-[1.02] hover:-translate-y-1">
-      <a href={`/livros/${id}`}>
+    <div
+      className="w-[150px] lg:w-[215px] bg-card-bg border border-border rounded-xl shadow-xs flex-shrink-0 relative hover:z-10 transition-all duration-200 cursor-pointer hover:shadow-md hover:scale-[1.02] hover:-translate-y-1"
+      onClick={() => router.push(`/detalhamento-livro/${id}`)}
+    >
+      {cover && cover !== 'Capa não cadastrada.' ? (
         <div className="relative w-full h-[120px] lg:h-[170px]">
-          {cover ? (
-            <Image
-              src={cover}
-              alt={title}
-              fill
-              sizes="(max-width: 768px) 140px, 200px"
-              className="object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-border flex items-center justify-center">
-              <span className="text-text-secondary text-xs text-center px-4">
-                Capa não cadastrada
-              </span>
-            </div>
-          )}
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_URL}${cover}`}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 150px, 215px"
+            className="object-cover rounded-t-xl"
+            priority={false}
+            loading="eager"
+          />
         </div>
-      </a>
-
-      <div className="p-4 min-h-[88px] flex flex-col">
-        <span className="text-text-primary text-sm lg:text-base font-semibold line-clamp-2">
+      ) : (
+        <div className="w-full h-[120px] lg:h-[170px] bg-border flex flex-col items-center justify-center gap-2 rounded-t-xl">
+          <span className="text-text-secondary text-xs text-center px-4">
+            Capa não cadastrada
+          </span>
+        </div>
+      )}
+      <div className="p-4 text-left">
+        <span className="text-text-primary text-sm lg:text-base font-semibold">
           {title}
         </span>
 

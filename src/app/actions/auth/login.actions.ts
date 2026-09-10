@@ -7,7 +7,9 @@ import { ApiAuthRepository } from '@/infra/repositories/auth/login.repository';
 import { cookies } from 'next/headers';
 import z from 'zod';
 
-function extractJwtCookieValue(setCookies: string[]): string | undefined {
+export async function extractJwtCookieValue(
+  setCookies: string[]
+): Promise<string | undefined> {
   const jwtCookie = setCookies.find((cookie) => cookie.startsWith('jwt='));
   if (!jwtCookie) return undefined;
 
@@ -32,7 +34,7 @@ export async function loginAction(data: LoginDTO) {
     const useCase = new LoginUseCase(repository);
     const result = await useCase.execute(validated.data);
 
-    const jwt = extractJwtCookieValue(result.setCookie ?? []);
+    const jwt = await extractJwtCookieValue(result.setCookie ?? []);
     if (jwt) {
       const cookieStore = await cookies();
       if (result.primeiroLogin) {

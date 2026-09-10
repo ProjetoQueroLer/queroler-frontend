@@ -1,5 +1,7 @@
+import { extractJwtCookieValue } from '@/app/actions/auth/login.actions';
 import { createUserAction } from '@/app/actions/createUser.actions';
 import { createUserPayload } from '@/tests/mocks/data-providers/create-user-action.data-provider';
+import { cookies } from 'next/headers';
 
 const mockExecute = jest.fn();
 
@@ -13,17 +15,51 @@ jest.mock('@/core/application/user/create-user.usecase', () => ({
   })),
 }));
 
+jest.mock('next/headers');
+jest.mock('@/app/actions/auth/login.actions');
+
+const mockedCookies = jest.mocked(cookies);
+const mockedExtractJwtCookieValue = jest.mocked(extractJwtCookieValue);
+
+type CookieStore = Awaited<ReturnType<typeof cookies>>;
+
 describe('Server Actions: createUserAction', () => {
+  const mockSet = jest.fn();
+  const cookieStoreMock: Partial<CookieStore> = {
+    set: mockSet,
+  };
   beforeEach(() => {
     mockExecute.mockReset();
+    mockedCookies.mockResolvedValue(cookieStoreMock as CookieStore);
+
+    mockedExtractJwtCookieValue.mockResolvedValue(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token'
+    );
   });
 
   it('deve criar um usuário com sucesso', async () => {
-    mockExecute.mockResolvedValue(undefined);
+    mockExecute.mockResolvedValue({
+      user: {},
+      setCookie: [
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+      ],
+    });
+
     const data = createUserPayload();
     const result = await createUserAction(data);
     expect(result.success).toBe(true);
     expect(result.message).toBe('Usuário criado com sucesso.');
+    expect(mockedExtractJwtCookieValue).toHaveBeenCalledWith([
+      'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+    ]);
+    expect(mockSet).toHaveBeenCalledWith(
+      'jwt',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token',
+      expect.objectContaining({
+        httpOnly: true,
+        path: '/',
+      })
+    );
   });
 
   it('deve validar os dados e retornar erros para dados inválidos', async () => {

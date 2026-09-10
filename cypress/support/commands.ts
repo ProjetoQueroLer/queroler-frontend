@@ -9,6 +9,7 @@ declare global {
     interface Chainable {
       login(email?: string, password?: string): Chainable<void>;
       logout(): Chainable<void>;
+      pressionarTab(): Chainable<void>;
     }
   }
 }
@@ -38,4 +39,8 @@ Cypress.Commands.add('logout', () => {
     .should('be.visible')
     .click({ force: true });
   cy.get('[data-testid="logout-button"]').should('be.visible').click();
+});
+
+Cypress.Commands.add('pressionarTab', () => {
+  cy.press(Cypress.Keyboard.Keys.TAB);
 });

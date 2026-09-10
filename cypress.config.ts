@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress';
 import allureWriter from '@shelex/cypress-allure-plugin/writer';
+import { fsTasks } from '@/../cypress/tasks/fsTasks';
 
 export default defineConfig({
   e2e: {
@@ -10,6 +11,7 @@ export default defineConfig({
     viewportHeight: 720,
     setupNodeEvents(_on, _config) {
       allureWriter(_on, _config);
+      _on('task', fsTasks);
       return _config;
     },
     env: {

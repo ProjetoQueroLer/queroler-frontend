@@ -1,61 +1,76 @@
 'use client';
 import { Search, ChevronDown, Check } from 'lucide-react';
-import { useState } from 'react';
-import { Modal } from '@/presentation/shared/components/modal/Modal';
-import { useRouter } from 'next/navigation';
-export function SearchBar() {
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@/hooks/useBebounce';
+
+export enum Filtros {
+  titulo = 'Título',
+  autor = 'Autor(a)',
+  editora = 'Editora',
+  isbn = 'ISBN',
+}
+
+interface SearchBarProps {
+  onSearch: (filtro: keyof typeof Filtros, termo: string) => void;
+}
+
+export function SearchBar({ onSearch }: SearchBarProps) {
   const [filtroOpen, setFiltroOpen] = useState(false);
-  const [filtroSelecionado, setFiltroSelecionado] = useState('Título');
+  const [filtroSelecionado, setFiltroSelecionado] = useState<
+    'titulo' | 'autor' | 'editora' | 'isbn'
+  >('titulo');
   const [query, setQuery] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const opcoesFiltro = ['Título', 'Autor(a)', 'Editora', 'ISBN'];
-  const router = useRouter();
+
+  const debouncedQuery = useDebounce(query, 400);
+
+  useEffect(() => {
+    onSearch(filtroSelecionado, debouncedQuery);
+  }, [debouncedQuery, filtroSelecionado, onSearch]);
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2 bg-search-border border border-border-default rounded-md m-1 mb-6 px-2 py-2 lg:px-3 lg:py-3">
+      <div className="flex items-center gap-2 m-1 mb-4 px-2 py-2 lg:px-3 lg:py-3">
         <div className="flex-1 flex items-center gap-2 bg-card-bg border border-border-default rounded-sm px-1 py-1 lg:px-4 lg:py-3">
           <Search size={16} className="text-text-secondary" />
           <input
             data-testid="search-input"
             type="text"
-            placeholder="Pesquisar na sua biblioteca..."
-            className="flex-1 bg-transparent text-text-primary text-sm outline-none placeholder:text-text-secondary"
+            placeholder="Pesquisar na sua biblioteca"
+            className="flex-1 bg-transparent text-text-primary text-xs outline-none placeholder:text-text-secondary"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
-              setIsModalOpen(true);
             }}
           />
         </div>
         <div className="relative w-[20px] lg:w-[110px]">
           <div
             onClick={() => setFiltroOpen(!filtroOpen)}
-            className="w-full flex items-center justify-between bg-darker-gray rounded-sm px-1 py-1 lg:px-4 lg:py-3 cursor-pointer"
+            className="w-full flex items-center justify-between bg-darker-gray rounded px-1 py-2 lg:px-4 lg:py-4 cursor-pointer"
           >
             <span className="text-text-primary text-sm hidden lg:block">
-              {filtroSelecionado}
+              {Filtros[filtroSelecionado]}
             </span>
             <ChevronDown size={14} className="text-text-secondary" />
           </div>
           {filtroOpen && (
             <div className="absolute right-0 mt-2 w-[110px] bg-card-bg border border-border rounded-lg shadow-lg z-50 flex flex-col p-1 flex flex-col p-1">
-              {opcoesFiltro.map((opcao) => (
+              {Object.entries(Filtros).map(([key, value]) => (
                 <button
-                  key={opcao}
+                  key={key}
                   onClick={() => {
-                    setFiltroSelecionado(opcao);
+                    setFiltroSelecionado(key as keyof typeof Filtros);
                     setFiltroOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm rounded-lg flex items-center justify-between
+                  className={`w-full text-left px-4 py-2 text-xs rounded-lg flex items-center justify-between
                   ${
-                    filtroSelecionado === opcao
+                    filtroSelecionado === key
                       ? 'text-text-primary bg-search-border'
                       : 'text-text-primary hover:opacity-80'
                   }`}
                 >
-                  {opcao}
-                  {filtroSelecionado === opcao && (
+                  {value}
+                  {filtroSelecionado === key && (
                     <Check size={14} className="text-text-primary" />
                   )}
                 </button>
@@ -64,13 +79,6 @@ export function SearchBar() {
           )}
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={() => {
-          router.push('/cadastro-livro');
-        }}
-      />
     </div>
   );
 }

@@ -11,30 +11,36 @@ export function createUserPayload(
     confirmarEmail: 'usuario@teste.com',
     senha: '123456K&t#',
     confirmarSenha: '123456K&t#',
-    cpf: '12345678901',
+    cpf: '123.456.789-01',
     dataDeNascimento: '2005-12-26',
     checkTermo: true,
     ...overrides,
   };
 }
-export function createUserResponse(
-  overrides: Partial<UserEntity> = {}
-): UserEntity {
+export function createUserResponse(overrides: Partial<UserEntity> = {}): {
+  user: UserEntity;
+  setCookie: string[];
+} {
   return {
-    id: 19,
-    nome: 'Usuário Teste',
-    email: 'usuario@teste.com',
-    cpf: '12345678901',
-    profile: Profile.LEITOR,
-    dataDeNascimento: null,
-    aceitarTermos: true,
-    cidade: null,
-    estado: null,
-    pais: null,
-    foto: null,
-    user: undefined,
-    notificacoes: undefined,
-    livros: undefined,
-    ...overrides,
+    user: {
+      id: 19,
+      nome: 'Usuário Teste',
+      email: 'usuario@teste.com',
+      cpf: '12345678901',
+      profile: Profile.LEITOR,
+      dataDeNascimento: null,
+      aceitarTermos: true,
+      cidade: null,
+      estado: null,
+      pais: null,
+      foto: null,
+      user: undefined,
+      notificacoes: undefined,
+      livros: undefined,
+      ...overrides,
+    },
+    setCookie: [
+      'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fake.token; Path=/; HttpOnly; SameSite=Lax',
+    ],
   };
 }

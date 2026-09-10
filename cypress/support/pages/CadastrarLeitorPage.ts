@@ -3,14 +3,16 @@
 import { CadastrarLeitorElements } from '../elements/CadastrarLeitorElements';
 
 type DadosLeitor = {
-  nome: string;
-  email: string;
-  confirmarEmail: string;
-  senha: string;
-  confirmarSenha: string;
-  cpf: string;
-  dataNascimento: string;
+  nome?: string;
+  email?: string;
+  confirmarEmail?: string;
+  senha?: string;
+  confirmarSenha?: string;
+  cpf?: string;
+  dataNascimento?: string;
 };
+
+const TIMEOUT = 30000;
 
 export class CadastrarLeitorPage {
   visitarPaginaCadastrarDeLeitor(): this {
@@ -30,7 +32,7 @@ export class CadastrarLeitorPage {
       CadastrarLeitorElements.cpfUsuarioInput,
       CadastrarLeitorElements.dataDeNascimentoInput,
       CadastrarLeitorElements.aceitoOsTermosCheckbox,
-      CadastrarLeitorElements.aceitoOsTermosLabel,
+      CadastrarLeitorElements.osTermosEPoliticaLabel,
       CadastrarLeitorElements.cadastrarButton,
     ];
 
@@ -49,32 +51,56 @@ export class CadastrarLeitorPage {
   }
 
   preencherFormulario(dados: DadosLeitor): this {
-    cy.get(CadastrarLeitorElements.nomeInput)
-      .should('be.visible')
-      .type(dados.nome);
-    cy.get(CadastrarLeitorElements.emailInput)
-      .should('be.visible')
-      .type(dados.email);
-    cy.get(CadastrarLeitorElements.confirmaEmailInput)
-      .should('be.visible')
-      .type(dados.confirmarEmail);
-    cy.get(CadastrarLeitorElements.senhaInput)
-      .should('be.visible')
-      .type(dados.senha);
-    cy.get(CadastrarLeitorElements.confirmaSenhaInput)
-      .should('be.visible')
-      .type(dados.confirmarSenha);
-    cy.get(CadastrarLeitorElements.cpfUsuarioInput)
-      .should('be.visible')
-      .type(dados.cpf);
-    cy.get(CadastrarLeitorElements.dataDeNascimentoInput)
-      .should('be.visible')
-      .type(dados.dataNascimento);
+    if (dados.nome) {
+      cy.get(CadastrarLeitorElements.nomeInput)
+        .should('be.visible')
+        .type(dados.nome);
+    }
+    if (dados.email) {
+      cy.get(CadastrarLeitorElements.emailInput)
+        .should('be.visible')
+        .type(dados.email);
+    }
+    if (dados.confirmarEmail) {
+      cy.get(CadastrarLeitorElements.confirmaEmailInput)
+        .should('be.visible')
+        .type(dados.confirmarEmail);
+    }
+    if (dados.senha) {
+      cy.get(CadastrarLeitorElements.senhaInput)
+        .should('be.visible')
+        .type(dados.senha);
+    }
+    if (dados.confirmarSenha) {
+      cy.get(CadastrarLeitorElements.confirmaSenhaInput)
+        .should('be.visible')
+        .type(dados.confirmarSenha);
+    }
+    if (dados.cpf) {
+      cy.get(CadastrarLeitorElements.cpfUsuarioInput)
+        .should('be.visible')
+        .type(dados.cpf);
+    }
+    if (dados.dataNascimento) {
+      cy.get(CadastrarLeitorElements.dataDeNascimentoInput)
+        .should('be.visible')
+        .type(dados.dataNascimento);
+    }
+    return this;
+  }
+
+  verificarOsTermosDeServico(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLeitorElements.osTermosEPoliticaLabel).should(
+        'contain.text',
+        txt
+      );
+    });
+
     return this;
   }
 
   clicarEmAceitarTermosDeUso(): this {
-    cy.get(CadastrarLeitorElements.aceitoOsTermosLabel).should('be.visible');
     cy.get(CadastrarLeitorElements.aceitoOsTermosCheckbox)
       .should('be.visible')
       .click();
@@ -90,14 +116,14 @@ export class CadastrarLeitorPage {
 
   verificarMensagemJaCadastrado(msg: string): this {
     cy.get(CadastrarLeitorElements.erroMensagemToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }
 
   verificarMensagemCadastroSucesso(msg: string): this {
     cy.get(CadastrarLeitorElements.sucessoMensagemToastLabel)
-      .should('be.visible')
+      .should('be.visible', { timeout: TIMEOUT })
       .and('contain.text', msg);
     return this;
   }
@@ -129,6 +155,75 @@ export class CadastrarLeitorPage {
         .should('be.visible')
         .and('contain.text', msg);
     });
+    return this;
+  }
+
+  verificarOBotaoCadastrarInativo(): this {
+    cy.get(CadastrarLeitorElements.cadastrarButton).should('be.disabled');
+    return this;
+  }
+
+  verificaAcessaOModalOsTermosEPolitica(txt: string): this {
+    cy.contains('button', new RegExp(`^${txt}$`))
+      .should('be.visible')
+      .click();
+    cy.get(CadastrarLeitorElements.modalTermosEPolitica).should('be.visible');
+    cy.get(CadastrarLeitorElements.tituloModal)
+      .should('be.visible')
+      .and('contain.text', txt);
+
+    this.scrollModalAteOFinal();
+
+    cy.get(CadastrarLeitorElements.fechaModal).should('be.visible').click();
+    return this;
+  }
+
+  private scrollModalAteOFinal(): void {
+    cy.get(CadastrarLeitorElements.textoModal)
+      .should('be.visible')
+      .scrollTo('bottom')
+      .then(($el) => {
+        const scrollTop = $el[0].scrollTop;
+        expect(scrollTop).to.be.greaterThan(0);
+      });
+  }
+
+  verificarLabelsDosCampos(msg: string[]): this {
+    msg.forEach((txt) => {
+      cy.get(CadastrarLeitorElements.campoLabel).should('contain.text', txt);
+    });
+    return this;
+  }
+
+  visibilidadeDaSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .first()
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  visibilidadeConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.mostrarSenhaButton)
+      .eq(1)
+      .should('be.visible')
+      .click();
+    return this;
+  }
+
+  ocultaConfirmarSenha(): this {
+    cy.get(CadastrarLeitorElements.ocultarSenhaButton)
+      .eq(0)
+      .should('be.visible')
+      .click();
     return this;
   }
 }
